@@ -1,1 +1,13 @@
 \section{FIR Digital Filter Design}
+
+\subsection{Windowing Methods}
+\subsubsection{Kaiser Window}
+\begin{align}
+	\alpha = \left\{
+		\begin{array}{l l}
+			0.1102(A-8.7)& \quad \text{if } A \geq 50\\
+			0.5842(A-21)^{0.4}+0.07886(A-21) & \quad \text{if }21 < A < 50\\
+			0 & \quad \text{if } A \leq 21
+		\end{array} \right.
+\end{align}
+
