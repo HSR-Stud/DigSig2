@@ -1,13 +1,52 @@
 \section{Signal Processing Applications\buch{Chapter 8}}
 \subsection{Digital Waveform Generators}
 \subsubsection{Sinusodial Generators}
+\[
+	h(n) = R^n \sin(\omega_0 n)u(n) \qquad
+	H(z) = \frac{R \sin \omega_0 z^{-1}}{1-2R\cos \omega_0 z^{-1} + R^2 z^{-2}}
+\]
+
 \subsubsection{Periodic Waveform Generators}
+In order for $x(n)$ to be periodic in the time index $n$ with some period, say of $D$ samples,
+it is necessary that one whole period of the signal fit within the $D$ samples, that is,
+at $n = D$ the signal must cycle by one whole period.
+
+This requires that $x(D) = x(0)$, which requires
+\[
+	\omega = \frac{2\pi}{D} \qquad f = \frac{f_s}{D} \qquad f_s = D \qquad T_D = DT
+\]
+
+Because of the periodicity, it is enough to specifiy the signal over one period only:
+\[
+	h = [b_0, b_1, \ldots, b_{D-1}, b_0, b_1, \ldots, b_{D-1}, b_0, \ldots]
+\]
+
+With the corespondig z-Transformation:
+\[
+	H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2} + \ldots + b_{D-1} z^{-(D-1)}}{1 - z^{-D}}
+\]
+
 \subsubsection{Wavetable Generators}
 
 \subsection{Digital Audio Effects}
-\subsubsection{Delays, Echoes, and Comb Filters}
-\subsubsection{Flaning, Chorusing, and Phasing}
-\subsubsection{Digital Reverberation}
+\begin{tabular}{|l|l|l|l|}
+\hline 
+\textbf{Filter} & \textbf{Signal} $y(n) = $ & 
+\textbf{Transfer function} & \textbf{Impulse response} $ h(n) = $
+\\ \hline
+echo filter & $x(n) + ax(n-D)$ &
+$H(z) = 1 + az^{-D}$ & $\delta(n) + a \delta(n-D)$
+\\ \hline
+plain reverberator & $a y(n-D) + x(n)$ &
+$H(z) = \frac{1}{1-a z^{-D}}$ & $\delta(n) + a \delta(n-D) + a^2 \delta(n- 2D) + \ldots$
+\\ \hline
+allpass reverberator & $a y(n-D) -ax(n) + x(n-D)$ & $H(z) = \frac{-a + z^{-D}}{1-az^{-D}} $ &
+\\ \hline
+flanging processor & $x(n) + a x(n- d(n))$ & &
+\\ \hline
+\end{tabular}
+
+
 \subsubsection{Multitab Delays}
 \subsubsection{Compressors, Limiters, Expanders, and Gates}
 
