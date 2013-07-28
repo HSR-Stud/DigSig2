@@ -1,5 +1,49 @@
-\section{DFT/FFT Algorithms}
+\section{DFT/FFT Algorithms\buch{Chapter 9}}
 \subsection{Frequency Resolution and Windowing}
+\begin{tabular}{|l|l|l|}
+	\hline
+	symbol & property & formulas
+	\\ \hline
+	$T_L$ & duration of data record & $ = LT$
+	\\ \hline
+	$w(n)$ & Window function &
+	\\ \hline
+	$\Delta \omega_w$ & Window width (rad/sample) & $ = c \frac{2 \pi}{L}$
+	\\ \hline
+	$\Delta f_w$ & Window width (Hz) & $ = c \frac{f_s}{L} = c \frac{1}{T_L} $
+	\\ \hline
+	$\Delta f$ & Frequency resolution & $ \Delta f \geq \Delta f_w$
+	\\ \hline
+	$R$ & relative sidelobe level &
+	\\ \hline
+	$c$ & depends on window, always $\geq 1$ &
+	\\ \hline
+\end{tabular}
+
+
+\begin{tabularx}{\textwidth}{|l|l|l|l|X|}
+	\hline
+	\textbf{Window} & $w(n) = $ & $\Delta\omega_w =$ & $\Delta f_w = $ & $\Delta f$
+	\\ \hline
+	Rectangular &
+	$ \begin{cases}
+			1, & \text{if } 0 \leq n \leq L-1 \\
+			0, & \text{otherwise}
+	  \end{cases}$ &
+	$ \frac{2\pi}{L}$ &
+	$ \frac{f_s}{L} = \frac{1}{LT} = \frac{1}{T_L}$ &
+	$ \Delta f \geq \Delta f_w = \frac{f_s}{L}$
+	\\ \hline
+	Hamming &
+	$ \begin{cases}
+		0.54 - 0.46 \cos(\frac{2\pi n}{L-1}), & \text{if } 0 \leq n \leq L-1 \\
+		0, & \text{otherwise}
+	  \end{cases}$ &
+	$\frac{4\pi}{L}$ &
+	$\frac{2f_s}{L} = \frac{2}{T_L} $ &
+	$\Delta f \geq \Delta f_w $
+	\\ \hline
+\end{tabularx}
 
 \subsection{DTFT Computation}
 \subsubsection{DTFT at a Single Frequency}
