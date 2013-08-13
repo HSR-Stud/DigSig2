@@ -1,0 +1,88 @@
+% FIR filter as block diagram
+\begin{tikzpicture}
+	% Place nodes using a matrix
+	\matrix (m) [row sep=2.5mm, column sep=5mm]
+	{
+		%--------------------------------------------------------------------
+		\node[dspnodeopen,dsp/label=above] (m00) {$x(n)$};    &
+		\node[dspadder]                    (m01) {};          &
+		\node[coordinate]                  (m02) {};     &
+		\node[coordinate]                  (m03) {};          &
+		\node[dspmixer, dsp/label=below]   (m04) {$b_0$};     &
+		\node[dspadder]                    (m05) {};          &
+		\node[dspnodeopen,dsp/label=above] (m06) {$y(n)$};    \\
+	
+		
+		\node[coordinate]                  (m10) {};          &
+		\node[coordinate]                  (m11) {};          &
+		\node[coordinate]                  (m12) {};          &
+		\node[dspsquare]                   (m13) {$\z^{-1}$}; &
+		\node[coordinate]                  (m14) {};          &
+		\node[coordinate]                  (m15) {};          &
+		\node[coordinate]                  (m16) {};          \\
+		
+		\node[coordinate]                  (m20) {};          &
+		\node[coordinate]                  (m21) {};          &
+		\node[dspmixer, dsp/label=below]   (m22) {$-a_1$};     &
+		\node[coordinate]                  (m23) {};          &
+		\node[dspmixer, dsp/label=below]   (m24) {$b_1$};     &
+		\node[coordinate]                  (m25) {};          &
+		\node[coordinate]                  (m26) {};          \\
+		
+		
+		\node[coordinate]                  (m30) {};          &
+		\node[coordinate]                  (m31) {};          &
+		\node[coordinate]                  (m32) {};          &
+		\node[dspsquare]                   (m33) {$\z^{-1}$}; &
+		\node[coordinate]                  (m34) {};          &
+		\node[coordinate]                  (m35) {};          &
+		\node[coordinate]                  (m36) {};          \\
+		
+		\node[coordinate]                  (m40) {};          &
+		\node[coordinate]                  (m41) {};          &
+		\node[dspmixer, dsp/label=below]   (m42) {$-a_2$};     &
+		\node[coordinate]                  (m43) {};          &
+		\node[dspmixer, dsp/label=below]   (m44) {$b_2$};     &
+		\node[coordinate]                  (m45) {};          &
+		\node[coordinate]                  (m46) {};          \\
+		};
+		
+	% Draw connections
+	\begin{scope}[start chain]
+		\chainin (m00);
+		\chainin (m01) [join=by dspconn];
+		\chainin (m04) [join=by dspconn];
+		\chainin (m05) [join=by dspconn];
+		\chainin (m06) [join=by dspconn];
+	\end{scope}
+	
+	\begin{scope}[start chain]
+		\chainin (m03);
+		\chainin (m13) [join=by dspconn];
+		\chainin (m23) [join=by dspline];
+		\chainin (m33) [join=by dspconn];
+		\chainin (m43) [join=by dspline];
+	\end{scope}
+	
+	\foreach \i in {2,4}
+	{
+		\begin{scope}[start chain]
+			\chainin (m\i3);
+			\chainin (m\i2) [join=by dspconn];
+			\chainin (m01) [join=by dspconn];
+		\end{scope}
+	}
+	
+	\foreach \i in {2,4}
+	{
+		\begin{scope}[start chain]
+			\chainin (m\i3);
+			\chainin (m\i4) [join=by dspconn];
+			\chainin (m05) [join=by dspconn];
+		\end{scope}
+	}
+		
+	\draw[] (m01) -- node[midway,above] {$w_0$} (m04);
+	\draw[] (m23) -- node[midway,above] {$w_1$} (m24);
+	\draw[] (m43) -- node[midway,above] {$w_2$} (m44);
+\end{tikzpicture}
