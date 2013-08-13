@@ -51,14 +51,24 @@ flanging processor & $x(n) + a x(n- d(n))$ & &
 \subsubsection{Compressors, Limiters, Expanders, and Gates}
 
 \subsection{Noise Reduction and Signal Enhancement}
+
 \subsubsection{Noise Reduction Filters}
-\begin{align}
-& \text{noise reduction ration} && NRR =
-\frac{\sigma_y^2}{\sigma_x^2}
-=\int\limits_{-\pi}^{\pi}|H(\omega)|^2 \frac{d\omega}{2\pi} =\sum_n h_n^2 \notag
-\end{align}
+\begin{flalign}
+&\text{noise measured Signal}&& x(n)=s(n)+\nu(n)&&\notag\\
+&\text{desired signal}&& s(n)&&\notag\\ 
+&\text{noise}&& \nu(n)&&\notag\\
+& \text{noise reduction ration} && 
+NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
+=\int\limits_{-\pi}^{\pi}|H(\omega)|^2 \frac{d\omega}{2\pi} =\sum_n h_n^2 &&\notag\\
+& \text{Ideal Lowpass filter} && NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
+=\int\limits_{-\omega_c}^{\omega_c}1\frac{\omega}{2\pi}=\frac{2\omega_c}{2\pi}=\frac{\omega_c}{\pi} &&\notag\\
+&\text{input mean-square noise}&&\sigma_{\nu}^2 &&\notag\\
+&\text{output mean-square noise}&& \sigma_{y_{\nu}}^2 &&\notag\\
+& && \frac{SNR_{out}}{SNR_{in}}=\frac{1}{NRR}&&\notag
+\end{flalign}
 
 \subsubsection{Notch and Comb Filters}
+
 \subsubsection{Line and Frame Combs for Digital TV}
 \subsubsection{Signal Averaging}
 \subsubsection{Savitzky-Golay Smoothing Filters}
