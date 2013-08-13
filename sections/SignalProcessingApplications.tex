@@ -52,7 +52,7 @@ flanging processor & $x(n) + a x(n- d(n))$ & &
 
 \subsection{Noise Reduction and Signal Enhancement}
 
-\subsubsection{Noise Reduction Filters}
+\subsubsection{Noise Reduction Filters\buchSeite{382-385}}
 \begin{flalign}
 &\text{noise measured Signal}&& x(n)=s(n)+\nu(n)&&&&\notag\\
 &\text{desired signal}&& s(n)&&&&\notag\\ 
@@ -67,7 +67,7 @@ NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
 & \text{SNR and NRR ratio}&& \frac{SNR_{out}}{SNR_{in}}=\frac{1}{NRR}&&&&\notag
 \end{flalign}
 
-\subsubsection{Notch and Comb Filters}
+\subsubsection{Notch and Comb Filters\buchSeite{398-406}}
 Two special cases of the signal enhancement/noise reduction problem arise when:
 \begin{enumerate}
 
@@ -82,8 +82,7 @@ The ideal notch and comb filters are complementary filters,
 in the sense that one is zero where the other is one, so that their frequency responses
 add up to unity:
 
-normalized to unity half-way between
-the notches:
+normalized to unity half-way between the notches:
 \begin{flalign}
 & H_{notch}(z)=\frac{bN(z)}{N(\rho z)}=b \frac{1-z^{-D}}{1-az{-D}}&& b=\frac{1+a}{2}&& a=\rho^D &&
 \omega k = \frac{(2k + 1)\pi}{D} &&\notag\\
@@ -96,7 +95,7 @@ the notches:
 \end{flalign}
 
 
-narrow lowpass filter:
+\emph{narrow lowpass filter:}
 \begin{flalign}
 & \text{normalized} && H_{comp}(z)=b \frac{1+z^{-D}}{1-az{-D}}&& b=\frac{1-a}{2}&& a=\rho^D &&&&\notag\\
 &\text{peaks at} && \omega k = \frac{2k\pi}{D} && \text{zeros at}&&
@@ -114,7 +113,7 @@ narrow lowpass filter:
 
 
 
-\subsubsection{Signal Averaging}
+\subsubsection{Signal Averaging\buchSeite{421-425}}
 The transfer function can be derived by taking a length N FIR averaging filter and applying the replication transform $z \rightarrow z^D$
 \begin{flalign}
 & H(z)=\frac{1}{N}\left( 1+ z{-D}+z{-2D}+\ldots + z{-(N-1)D} \right)=\frac{1}{N}\frac{z{-ND}}{1-z{-D}}&&\notag
@@ -129,6 +128,6 @@ In general, that is there are N periods
 &\sigma_{\hat{\nu}}^2=\frac{1}{N^2}(\sigma_{\nu}^2+\sigma_{\nu}^2+\ldots+\sigma_{\nu}^2)=\frac{1}{N^2}(N\sigma_{\nu}^2)=\frac{1}{N}\sigma_{\nu}^2 &&&&\notag
 \end{flalign}
 
-\subsubsection{Savitzky-Golay Smoothing Filters}
+\subsubsection{Savitzky-Golay Smoothing Filters\buchSeite{427-451}}
 
-
+Lin-Alg matrices see book
