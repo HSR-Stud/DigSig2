@@ -115,6 +115,20 @@ narrow lowpass filter:
 
 
 \subsubsection{Signal Averaging}
+The transfer function can be derived by taking a length N FIR averaging filter and applying the replication transform $z \rightarrow z^D$
+\begin{flalign}
+& H(z)=\frac{1}{N}\left( 1+ z{-D}+z{-2D}+\ldots + z{-(N-1)D} \right)=\frac{1}{N}\frac{z{-ND}}{1-z{-D}}&&\notag
+\end{flalign}
+In the time domain, the signal averaging comb filter is given by the following I/O difference equation
+\begin{flalign}
+& y(n)=\frac{1}{N}\left[x(n)+x(n-D)+x(n-2D)+\ldots+x(n-(N-1)D)\right] &&\notag
+\end{flalign}
+In general, that is there are N periods
+\begin{flalign}
+& \hat{y}(n)=\frac{1}{N}\sum_{i=0}^{N-1}x_i(n) && \hat{y}(n)=\frac{1}{N}\sum_{i=0}^{N-1}(s(n)+\nu_i(n))=s(n)+ \frac{1}{N}\sum_{i=0}^{N-1}\nu_i(n)=s(n)+\hat{\nu}(n)&&\notag\\
+&\sigma_{\hat{\nu}}^2=\frac{1}{N^2}(\sigma_{\nu}^2+\sigma_{\nu}^2+\ldots+\sigma_{\nu}^2)=\frac{1}{N^2}(N\sigma_{\nu}^2)=\frac{1}{N}\sigma_{\nu}^2 &&&&\notag
+\end{flalign}
+
 \subsubsection{Savitzky-Golay Smoothing Filters}
 
 
