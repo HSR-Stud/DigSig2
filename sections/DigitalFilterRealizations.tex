@@ -1,22 +1,46 @@
 \section{Digital Filter Realizations\buch{Chapter 7}}
-\subsection{Direct Form}
-Also known as "direct form I" realization.
+\subsection{Direct Form \buchSeite{265}}
+\label{sec:directform}
+Auch \emph{direct form I} realization genannt.
 
 Consider a second-order filter with transfer function
-\[
+\begin{flalign*}
 	H(z) = \frac{N(z)}{D(z)} 
-		 = \frac{b_0 + b_1z^{-1} + b_2z^{-2}}{1 + a_1z^{-1} + a_2z^{-2}}
-\]
+		 = \frac{b_0 + b_1z^{-1} + b_2z^{-2}}{1 + a_1z^{-1} + a_2z^{-2}}&&
+\end{flalign*}
 
 \input{tikz/DirectForm}
 
 
-\subsection{Canonical Form}
+\subsection{Canonical Form\buchSeite{271}}
+\label{sec:canonicalform}
+Auch \emph{direct form II} genannt.
 
+It can be obtained from the \nameref{sec:directform} by splitting it up and reversing it.
+\begin{flalign*}
+H(z) = \frac{1}{D(z)} \cdot N(z)&&
+\end{flalign*}
 \input{tikz/CanonicalForm}
-\subsection{Cascade Form}
-\subsection{Cascade to Canonical}
-\subsection{Hardware Realizations and Circular Buffers}
+
+
+\subsection{Cascade Form\buchSeite{277}}
+\label{sec:cascadeform}
+Die Kaskadenform verwendet nur Transferfunktionen 2. Ordnung.
+
+\begin{flalign*}
+H(z) = \prod_{i=0}^{K-1}H_i(z) = \prod_{i=0}^{K-1}\frac
+{b_{i0}+b_{i1}z^{-1}+b_{i2}z^{-2}}
+{1+a_{i1}z^{-1}+a_{i2}z^{-2}} &&
+\end{flalign*}
+
+Dies ist von Vorteil, da sich Transferfunktionen 2. Ordung effizient implementieren lassen.
+
+\subsection{Cascade to Canonical\buchSeite{284}}
+Um die \nameref{sec:directform} oder \nameref{sec:canonicalform} in die \nameref{sec:cascadeform} umzuwandeln, müssen $D(z)$ und $N(z)$ in Faktoren 2. Ordnung faktorisiert werden.
+\begin{flalign*}
+D(z) &= 1 + a_1 z^{-1} + a_2 z^{-2} + \dots + a_M z^{-M} &\\
+&=(1-p_1z^{-1})(1-p_2z^{-1}) \dots (1-p_Mz^{-1})&
+\end{flalign*}
+
+\subsection{Hardware Realizations and Circular Buffers\buchSeite{293}}
 % Brauchts diese Section?
-
-
