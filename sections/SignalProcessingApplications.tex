@@ -1,33 +1,74 @@
 \section{Signal Processing Applications\buch{Chapter 8}}
 \subsection{Digital Waveform Generators}
-\subsubsection{Sinusodial Generators}
-\[
+\subsubsection{Sinusodial Generators\buchSeite{316-320}}
+\begin{align*}
 	h(n) = R^n \sin(\omega_0 n)u(n) \qquad
-	H(z) = \frac{R \sin \omega_0 z^{-1}}{1-2R\cos \omega_0 z^{-1} + R^2 z^{-2}}
-\]
+	&& H(z) = \frac{R \sin \omega_0 z^{-1}}{1-2R\cos \omega_0 z^{-1} + R^2 z^{-2}}
+\end{align*}
 
-\subsubsection{Periodic Waveform Generators}
+\subsubsection{Periodic Waveform Generators\buchSeite{31-329}}
 In order for $x(n)$ to be periodic in the time index $n$ with some period, say of $D$ samples,
 it is necessary that one whole period of the signal fit within the $D$ samples, that is,
 at $n = D$ the signal must cycle by one whole period.
 
 This requires that $x(D) = x(0)$, which requires
-\[
-	\omega = \frac{2\pi}{D} \qquad f = \frac{f_s}{D} \qquad f_s = D \qquad T_D = DT
-\]
+\begin{align*}
+	\omega = \frac{2\pi}{D} && f = \frac{f_s}{D} && f_s = D && T_D = DT
+\end{align*}
+
 
 Because of the periodicity, it is enough to specifiy the signal over one period only:
-\[
+\begin{align*}
 	h = [b_0, b_1, \ldots, b_{D-1}, b_0, b_1, \ldots, b_{D-1}, b_0, \ldots]
-\]
+\end{align*}
 
 With the corespondig z-Transformation:
-\[
+\begin{align*}
 	H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2} + \ldots + b_{D-1} z^{-(D-1)}}{1 - z^{-D}}
-\]
+\end{align*}
 
-\subsubsection{Wavetable Generators}
+\subsubsection{Wavetable Generators\buchSeite{330-349}}
+Often, it is desired to generate a delayed version of the periodic waveform. Instead of
+loading a delayed period into a new wavetable, we can use the same wavetable, but start
+cycling over it at a shifted position. For a delay ofmtime units such that $0 \leq m \leq D-1$,
+the starting pointer p and corresponding offset index q
+\begin{flalign*}
+p=w+m && q=m && y(n)=b(n-m) && y(0)=b(-m)=b(D-m)
+\end{flalign*}
+\begin{flalign*}
+m=0 && [b_0,b_1,b_2,b_3,b_0,b_1,b_2,b_3,b_0,b_1,b_2,b_3,\ldots]&&&&\\
+m=1 && [b_3,b_0,b_1,b_2,b_3,b_0,b_1,b_2,b_3,b_0,b_1,b_2,\ldots]&&&&\\
+m=2 && [b_2,b_3,b_0,b_1,b_2,b_3,b_0,b_1,b_2,b_3,b_0,b_1,\ldots]&&&&\\
+m=3 && [b_1,b_2,b_3,b_0,b_1,b_2,b_3,b_0,b_1,b_2,b_3,b_0,\ldots]&&&&
+\end{flalign*}
+wavetable of length D, fundamental frequency is by
+\begin{flalign*}
+& f=\frac{f_s}{D}&&
+\end{flalign*}
 
+\begin{flalign*}
+& c &&\text{real-valued shift} && D && \text{dimension of the circular buffer} && d &&\text{number of times the sub-period}\\
+& c=\frac{D}{d}&& f=\frac{f_s}{d}=c\frac{f_s}{D}
+\end{flalign*}
+to keep f within the symmetric Nyquist interval 
+\begin{flalign*}
+|f|\leq \frac{f_s}{2} && |\frac{cf_s}{D}|\leq \frac{f_s}{2} && |c|\leq \frac{D}{2} && -\frac{D}{2}\leq c\leq\frac{D}{2}
+\end{flalign*}
+the circular wavetable
+is loaded with the waveform in forward order. Cycling over the wavetable at frequency
+$f = cfs/D$ is accomplished by incrementing the offset index q according to the iteration:
+\begin{align*}
+& q_{n+1}=(q_n+c)mod(D)&& &&\\
+& i=\lfloor q\rfloor && \text{(truncating down)} && y=w[i]&&\\
+& j=\lfloor q+1\rfloor mod(D) && \text{truncatin up} && y=w[j]&&\\
+& k=\lfloor q+0.5\rfloor mod(D) && \text{rounding} && y=w[k]&&
+\end{align*}
+a more accurate output can
+be obtained by linearly interpolating between the wavetable values w[i] and w[j], that
+is, returning the output:
+\begin{align*}
+y=w[i]+(q-i)(w[j]-w[i])
+\end{align*}
 \subsection{Digital Audio Effects\buchSeite{349-373}}
 \begin{tabular}{|l|l|l|l|}
 \hline 
@@ -49,48 +90,48 @@ flanging processor & $x(n) + a x(n- d(n))$ & &
 
 \subsubsection{Multitab Delays\buchSeite{374}}
 Simple low-order FIR or IIR filters by seplacing each sinle unit-delay $z^{-1}$ by the progressively more general substituions:
-\begin{flalign}
-& z^{-1} && \longrightarrow && z^{-D}&\longleftrightarrow && \frac{z^{-D}}{1-az^{-D}}&& \longleftrightarrow && \frac{z^{-D}}{1-z^{-D}G(z)} &\notag
-\end{flalign}
-\begin{flalign}
-&\frac{z^{-D}}{1-az^{-D}} && \text{Expanding in powers of }z^{-D} \text{ we have} && H(z)= z^{-D} + az^{-2D}+a^2 z^{-3D}&&\notag
-\end{flalign}
+\begin{flalign*}
+& z^{-1} && \longrightarrow && z^{-D}&\longleftrightarrow && \frac{z^{-D}}{1-az^{-D}}&& \longleftrightarrow && \frac{z^{-D}}{1-z^{-D}G(z)} &
+\end{flalign*}
+\begin{flalign*}
+&\frac{z^{-D}}{1-az^{-D}} && \text{Expanding in powers of }z^{-D} \text{ we have} && H(z)= z^{-D} + az^{-2D}+a^2 z^{-3D}&&
+\end{flalign*}
 The corresponding impulse response will consist of the first delayed impulse $\delta(n-
 D)$, followed by its successive echoes of exponentially diminishing strength:
-\begin{align}
-h(n)=\delta(n-D)+a\delta(n-2D)+a^2\delta(n-3D)+\ldots\notag
-\end{align}
+\begin{align*}
+h(n)=\delta(n-D)+a\delta(n-2D)+a^2\delta(n-3D)+\ldots
+\end{align*}
 
 \subsubsection{Compressors, Limiters, Expanders, and Gates\buchSeite{378-380}}
 Expanders are used for increasing the dynamic range of signals, for noise reduction,
 and for various special effects
-\begin{flalign}
-& y=y_0\left(\frac{x}{x_0}\right)^{\rho} && \Rightarrow && 20log_{10}\left(\frac{y}{y_0}\right)=\rho20log_{10}\left(\frac{x}{x_0}\right)&&\notag
-\end{flalign}
-\begin{flalign}
-& x: && \text{constant input} && x_0: \text{desire threshold} && \rho: && \text{compression or expansion ratio}\notag\\
-\end{flalign}
-\begin{flalign}
-&\text{compressor:} && x\geq x_0 && \text{and}&& \rho < 1&&\notag\\
-&\text{expander} && x\leq x_0 && \text{and}&& \rho > 1&& \notag
-\end{flalign}
+\begin{flalign*}
+& y=y_0\left(\frac{x}{x_0}\right)^{\rho} && \Rightarrow && 20log_{10}\left(\frac{y}{y_0}\right)=\rho20log_{10}\left(\frac{x}{x_0}\right)&&
+\end{flalign*}
+\begin{flalign*}
+& x: && \text{constant input} && x_0: \text{desire threshold} && \rho: && \text{compression or expansion ratio}\\
+\end{flalign*}
+\begin{flalign*}
+&\text{compressor:} && x\geq x_0 && \text{and}&& \rho < 1&&\\
+&\text{expander} && x\leq x_0 && \text{and}&& \rho > 1&& 
+\end{flalign*}
 
 \subsection{Noise Reduction and Signal Enhancement}
 
 \subsubsection{Noise Reduction Filters\buchSeite{382-385}}
-\begin{flalign}
-&\text{noise measured Signal}&& x(n)=s(n)+\nu(n)&&&&\notag\\
-&\text{desired signal}&& s(n)&&&&\notag\\ 
-&\text{noise}&& \nu(n)&&&&\notag\\
+\begin{flalign*}
+&\text{noise measured Signal}&& x(n)=s(n)+\nu(n)&&&&\\
+&\text{desired signal}&& s(n)&&&&\\ 
+&\text{noise}&& \nu(n)&&&&\\
 & \text{noise reduction ration} && 
 NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
-=\int\limits_{-\pi}^{\pi}|H(\omega)|^2 \frac{d\omega}{2\pi} =\sum_n h_n^2 &&&&\notag\\
+=\int\limits_{-\pi}^{\pi}|H(\omega)|^2 \frac{d\omega}{2\pi} =\sum_n h_n^2 &&&&\\
 & \text{Ideal Lowpass filter} && NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
-=\int\limits_{-\omega_c}^{\omega_c}1\frac{\omega}{2\pi}=\frac{2\omega_c}{2\pi}=\frac{\omega_c}{\pi} &&&&\notag\\
-&\text{input mean-square noise}&&\sigma_{\nu}^2 &&&&\notag\\
-&\text{output mean-square noise}&& \sigma_{y_{\nu}}^2 &&&&\notag\\
-& \text{SNR and NRR ratio}&& \frac{SNR_{out}}{SNR_{in}}=\frac{1}{NRR}&&&&\notag
-\end{flalign}
+=\int\limits_{-\omega_c}^{\omega_c}1\frac{\omega}{2\pi}=\frac{2\omega_c}{2\pi}=\frac{\omega_c}{\pi} &&&&\\
+&\text{input mean-square noise}&&\sigma_{\nu}^2 &&&&\\
+&\text{output mean-square noise}&& \sigma_{y_{\nu}}^2 &&&&\\
+& \text{SNR and NRR ratio}&& \frac{SNR_{out}}{SNR_{in}}=\frac{1}{NRR}&&&&
+\end{flalign*}
 
 \subsubsection{Notch and Comb Filters\buchSeite{398-406}}
 Two special cases of the signal enhancement/noise reduction problem arise when:
@@ -108,74 +149,74 @@ in the sense that one is zero where the other is one, so that their frequency re
 add up to unity:
 
 normalized to unity half-way between the notches:
-\begin{flalign}
+\begin{flalign*}
 & H_{notch}(z)=\frac{bN(z)}{N(\rho z)}=b \frac{1-z^{-D}}{1-az{-D}}&& b=\frac{1+a}{2}&& a=\rho^D &&
-\omega k = \frac{(2k + 1)\pi}{D} &&\notag\\
-&&&&&&&\notag\\
-& \text{paramter a on the desired 3-dB width:}&& \Delta\omega=\frac{2\pi\Delta f}{f_s}&&\text{on the notch dips}  &&\notag\\
-&&&&&&&\notag\\
-& &&\beta=\tan \frac{D\Delta\omega}{4} && a=\frac{1-\beta}{1+\beta} && b=\frac{1}{1+\beta}&&\notag\\
-& \text{restriction and maximum value}&& 0<\beta<1 && \Delta\omega\leqslant\frac{\pi}{D}&& \Delta\leqslant\frac{f_s}{2D}&&\notag\\
-&\text{squared magnitude response}&&\left|H_{notch}(\omega)\right|^2&&=\frac{\tan^2(\omega D /2)}{\tan^2(\omega D/2)+\beta^2}&&\notag
-\end{flalign}
+\omega k = \frac{(2k + 1)\pi}{D} &&\\
+&&&&&&&\\
+& \text{paramter a on the desired 3-dB width:}&& \Delta\omega=\frac{2\pi\Delta f}{f_s}&&\text{on the notch dips}  &&\\
+&&&&&&&\\
+& &&\beta=\tan \frac{D\Delta\omega}{4} && a=\frac{1-\beta}{1+\beta} && b=\frac{1}{1+\beta}&&\\
+& \text{restriction and maximum value}&& 0<\beta<1 && \Delta\omega\leqslant\frac{\pi}{D}&& \Delta\leqslant\frac{f_s}{2D}&&\\
+&\text{squared magnitude response}&&\left|H_{notch}(\omega)\right|^2&&=\frac{\tan^2(\omega D /2)}{\tan^2(\omega D/2)+\beta^2}&&
+\end{flalign*}
 
 
 \emph{narrow lowpass filter:}
-\begin{flalign}
-& \text{normalized} && H_{comp}(z)=b \frac{1+z^{-D}}{1-az{-D}}&& b=\frac{1-a}{2}&& a=\rho^D &&&&\notag\\
+\begin{flalign*}
+& \text{normalized} && H_{comp}(z)=b \frac{1+z^{-D}}{1-az{-D}}&& b=\frac{1-a}{2}&& a=\rho^D &&&&\\
 &\text{peaks at} && \omega k = \frac{2k\pi}{D} && \text{zeros at}&&
-\omega k = \frac{(2k + 1)\pi}{D} &&\notag\\
-&&&&&&&\notag\\
-& \text{paramter a on the desired 3-dB width:}&& \Delta\omega=\frac{2\pi\Delta f}{f_s}&&  &&\notag\\
-&&&&&&&\notag\\
-& &&\beta=\tan \frac{D\Delta\omega}{4} && a=\frac{1-\beta}{1+\beta} && b=\frac{\beta}{1+\beta}&&\notag\\
-&\text{squared magnitude response}&&\left|H_{comb}(\omega)\right|^2&&=\frac{\beta^2}{\tan^2(\omega D/2)+\beta^2}&&\notag
-\end{flalign}
-\begin{flalign}
-& H_{notch}(\omega)+H_{comb}(\omega)=\frac{1-a}{2}\frac{1+z^{-D}}{1-az^{-D}}+\frac{1+a}{2}\frac{1-z^{-D}}{1-az^{-D}}=1&&\notag
-\end{flalign}
+\omega k = \frac{(2k + 1)\pi}{D} &&\\
+&&&&&&&\\
+& \text{paramter a on the desired 3-dB width:}&& \Delta\omega=\frac{2\pi\Delta f}{f_s}&&  &&\\
+&&&&&&&\\
+& &&\beta=\tan \frac{D\Delta\omega}{4} && a=\frac{1-\beta}{1+\beta} && b=\frac{\beta}{1+\beta}&&\\
+&\text{squared magnitude response}&&\left|H_{comb}(\omega)\right|^2&&=\frac{\beta^2}{\tan^2(\omega D/2)+\beta^2}&&
+\end{flalign*}
+\begin{flalign*}
+& H_{notch}(\omega)+H_{comb}(\omega)=\frac{1-a}{2}\frac{1+z^{-D}}{1-az^{-D}}+\frac{1+a}{2}\frac{1-z^{-D}}{1-az^{-D}}=1&&
+\end{flalign*}
 
 
 \subsubsection{Line and Frame Combs for Digital TV\buchSeite{409-421}}
-\begin{flalign}
-& T_H && \text{line delay} &&&& f_H && \text{horizontal velocities} \notag\\
-& T_F && \text{frame delays} &&&& f_F && \text{vertical velocities} \notag\\
-& T_F=NT_H &&&&&& N && \text{N lines}\notag\\
-& f_H=Nf_F&& f_=\frac{1}{t_H}&& f_F\frac{1}{T_F}&& f_H=\frac{\nu_x}{a} && f_F=\frac{\nu_y}{b}&&\notag
-\end{flalign}
+\begin{flalign*}
+& T_H && \text{line delay} &&&& f_H && \text{horizontal velocities} \\
+& T_F && \text{frame delays} &&&& f_F && \text{vertical velocities} \\
+& T_F=NT_H &&&&&& N && \text{N lines}\\
+& f_H=Nf_F&& f_=\frac{1}{t_H}&& f_F\frac{1}{T_F}&& f_H=\frac{\nu_x}{a} && f_F=\frac{\nu_y}{b}&&
+\end{flalign*}
 
 The video signal $V(t)$ will have spectrum with sharp spectral lines at $f_{km}$
 
-\begin{align}
-f_{km}=kf_H+mf_f=(kN+m)f_F=(k+\frac{m}{N})f_H\notag
-\end{align}
+\begin{align*}
+f_{km}=kf_H+mf_f=(kN+m)f_F=(k+\frac{m}{N})f_H
+\end{align*}
 
 By choosing the subcarrier frequency $f_{sc}$ to be a half-multiple of the line frequency $f_H$, the chrominance peaks will fall exactly half-way between the luminance peaks.
 
-\begin{flalign}
-&&& f_{sc}=(d_H+\frac{1}{2})f_H=\frac{1}{2}(2d_H+1)f_H &&&& \notag\\
-&&& f_{sc}=(d_F+\frac{1}{2})f_F=\frac{1}{2}(2d_F+1)f_F &&&& \notag\\
-&\text{by NTSC system} && d_H=227 && d_F=Nd_H + \frac{N-1}{2}=119437&&\notag
-\end{flalign}
+\begin{flalign*}
+&&& f_{sc}=(d_H+\frac{1}{2})f_H=\frac{1}{2}(2d_H+1)f_H &&&& \\
+&&& f_{sc}=(d_F+\frac{1}{2})f_F=\frac{1}{2}(2d_F+1)f_F &&&& \\
+&\text{by NTSC system} && d_H=227 && d_F=Nd_H + \frac{N-1}{2}=119437&&
+\end{flalign*}
 A common samplling rate for digital video systems is four times the color subcarrier frequency:
-\begin{flalign}
-& f_s=4f_{sc} && f_s=D_Hf_H=D_Ff_F && \omega_{sc}=\frac{2\pi f_{sc}}{f_s}=\frac{\pi}{2}&&&&&&\notag
-\end{flalign}
+\begin{flalign*}
+& f_s=4f_{sc} && f_s=D_Hf_H=D_Ff_F && \omega_{sc}=\frac{2\pi f_{sc}}{f_s}=\frac{\pi}{2}&&&&&&
+\end{flalign*}
 
 \subsubsection{Signal Averaging\buchSeite{421-425}}
 The transfer function can be derived by taking a length N FIR averaging filter and applying the replication transform $z \rightarrow z^D$
-\begin{flalign}
-& H(z)=\frac{1}{N}\left( 1+ z{-D}+z{-2D}+\ldots + z{-(N-1)D} \right)=\frac{1}{N}\frac{z{-ND}}{1-z{-D}}&&\notag
-\end{flalign}
+\begin{flalign*}
+& H(z)=\frac{1}{N}\left( 1+ z{-D}+z{-2D}+\ldots + z{-(N-1)D} \right)=\frac{1}{N}\frac{z{-ND}}{1-z{-D}}&&
+\end{flalign*}
 In the time domain, the signal averaging comb filter is given by the following I/O difference equation
-\begin{flalign}
-& y(n)=\frac{1}{N}\left[x(n)+x(n-D)+x(n-2D)+\ldots+x(n-(N-1)D)\right] &&\notag
-\end{flalign}
+\begin{flalign*}
+& y(n)=\frac{1}{N}\left[x(n)+x(n-D)+x(n-2D)+\ldots+x(n-(N-1)D)\right] &&
+\end{flalign*}
 In general, that is there are N periods
-\begin{flalign}
-& \hat{y}(n)=\frac{1}{N}\sum_{i=0}^{N-1}x_i(n) && \hat{y}(n)=\frac{1}{N}\sum_{i=0}^{N-1}(s(n)+\nu_i(n))=s(n)+ \frac{1}{N}\sum_{i=0}^{N-1}\nu_i(n)=s(n)+\hat{\nu}(n)&&\notag\\
-&\sigma_{\hat{\nu}}^2=\frac{1}{N^2}(\sigma_{\nu}^2+\sigma_{\nu}^2+\ldots+\sigma_{\nu}^2)=\frac{1}{N^2}(N\sigma_{\nu}^2)=\frac{1}{N}\sigma_{\nu}^2 &&&&\notag
-\end{flalign}
+\begin{flalign*}
+& \hat{y}(n)=\frac{1}{N}\sum_{i=0}^{N-1}x_i(n) && \hat{y}(n)=\frac{1}{N}\sum_{i=0}^{N-1}(s(n)+\nu_i(n))=s(n)+ \frac{1}{N}\sum_{i=0}^{N-1}\nu_i(n)=s(n)+\hat{\nu}(n)&&\\
+&\sigma_{\hat{\nu}}^2=\frac{1}{N^2}(\sigma_{\nu}^2+\sigma_{\nu}^2+\ldots+\sigma_{\nu}^2)=\frac{1}{N^2}(N\sigma_{\nu}^2)=\frac{1}{N}\sigma_{\nu}^2 &&&&
+\end{flalign*}
 
 \subsubsection{Savitzky-Golay Smoothing Filters\buchSeite{427-451}}
 
