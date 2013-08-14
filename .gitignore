@@ -31,5 +31,6 @@
 *.xdy
 *.tdo
 *.fls
+*.tex.preview*
 revision.tex
 DigSig2.pdf

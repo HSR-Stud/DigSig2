@@ -1,0 +1,22 @@
+\begin{tikzpicture}[
+	node distance=3cm,
+	block/.style={text width=2.5cm,text centered
+	}]
+\node[draw, block] (dfs) {digital filter specifications};
+\node[draw, block, right=of dfs] (afs) {analog filter specifications};
+\node[draw, block, below=1cm of dfs] (df) {digital filter \\ $H(z)$};
+\node[draw, block, below=1cm of afs] (af) {analog filter \\ $H_a(s)$};
+\node[draw, block, below=0cm of afs, xshift=3cm, rounded corners] (afdm) {analog filter design method};
+
+\draw[-stealth, thick] (dfs) -- (afs) 
+	node[block, midway, above] {bilinear \\ transformation}
+	node[block, midway, below] {$\Omega = g(\omega)$};
+\draw[-stealth, thick] (dfs) -- (df);
+
+\draw[-stealth, thick] (af) -- (df) 
+	node[block, midway, above] {bilinear \\ transformation}
+	node[block, midway, below] {$s = f(z)$};
+\draw[-stealth, thick] (afs) -- (af);
+
+\draw[-stealth, thick] (afdm) -- +(-3,0);
+\end{tikzpicture}
