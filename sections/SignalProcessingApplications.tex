@@ -70,7 +70,7 @@ is, returning the output:
 y=w[i]+(q-i)(w[j]-w[i])
 \end{align*}
 \subsection{Digital Audio Effects\buchSeite{349-373}}
-\begin{tabular}{|l|l|l|l|}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
 \hline 
 \textbf{Filter} & \textbf{Signal} $y(n) = $ & 
 \textbf{Transfer function} & \textbf{Impulse response} $ h(n) = $
@@ -85,16 +85,16 @@ allpass reverberator & $a y(n-D) -ax(n) + x(n-D)$ & $H(z) = \frac{-a + z^{-D}}{1
 \\ \hline
 flanging processor & $x(n) + a x(n- d(n))$ & &
 \\ \hline
-\end{tabular}
+\end{tabularx}
 
 
 \subsubsection{Multitab Delays\buchSeite{374}}
-Simple low-order FIR or IIR filters by seplacing each sinle unit-delay $z^{-1}$ by the progressively more general substituions:
+Simple low-order FIR or IIR filters by replacing each single unit-delay $z^{-1}$ by the progressively more general substitutions:
 \begin{flalign*}
-& z^{-1} && \longrightarrow && z^{-D}&\longleftrightarrow && \frac{z^{-D}}{1-az^{-D}}&& \longleftrightarrow && \frac{z^{-D}}{1-z^{-D}G(z)} &
+& z^{-1} && \longrightarrow && z^{-D}&\longrightarrow && \frac{z^{-D}}{1-az^{-D}}&& \longrightarrow && \frac{z^{-D}}{1-z^{-D}G(z)} &
 \end{flalign*}
 \begin{flalign*}
-&\frac{z^{-D}}{1-az^{-D}} && \text{Expanding in powers of }z^{-D} \text{ we have} && H(z)= z^{-D} + az^{-2D}+a^2 z^{-3D}&&
+&\frac{z^{-D}}{1-az^{-D}} && \text{Expanding in powers of }z^{-D} \text{ we have} && H(z)= z^{-D} + az^{-2D}+a^2 z^{-3D} \dots&&
 \end{flalign*}
 The corresponding impulse response will consist of the first delayed impulse $\delta(n-
 D)$, followed by its successive echoes of exponentially diminishing strength:
