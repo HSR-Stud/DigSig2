@@ -112,7 +112,30 @@ normalized to unity half-way between the notches:
 
 
 \subsubsection{Line and Frame Combs for Digital TV\buchSeite{409-421}}
+\begin{flalign}
+& T_H && \text{line delay} &&&& f_H && \text{horizontal velocities} \notag\\
+& T_F && \text{frame delays} &&&& f_F && \text{vertical velocities} \notag\\
+& T_F=NT_H &&&&&& N && \text{N lines}\notag\\
+& f_H=Nf_F&& f_=\frac{1}{t_H}&& f_F\frac{1}{T_F}&& f_H=\frac{\nu_x}{a} && f_F=\frac{\nu_y}{b}&&\notag
+\end{flalign}
 
+The video signal $V(t)$ will have spectrum with sharp spectral lines at $f_{km}$
+
+\begin{align}
+f_{km}=kf_H+mf_f=(kN+m)f_F=(k+\frac{m}{N})f_H\notag
+\end{align}
+
+By choosing the subcarrier frequency $f_{sc}$ to be a half-multiple of the line frequency $f_H$, the chrominance peaks will fall exactly half-way between the luminance peaks.
+
+\begin{flalign}
+&&& f_{sc}=(d_H+\frac{1}{2})f_H=\frac{1}{2}(2d_H+1)f_H &&&& \notag\\
+&&& f_{sc}=(d_F+\frac{1}{2})f_F=\frac{1}{2}(2d_F+1)f_F &&&& \notag\\
+&\text{by NTSC system} && d_H=227 && d_F=Nd_H + \frac{N-1}{2}=119437&&\notag
+\end{flalign}
+A common samplling rate for digital video systems is four times the color subcarrier frequency:
+\begin{flalign}
+& f_s=4f_{sc} && f_s=D_Hf_H=D_Ff_F && \omega_{sc}=\frac{2\pi f_{sc}}{f_s}=\frac{\pi}{2}&&&&&&\notag
+\end{flalign}
 
 \subsubsection{Signal Averaging\buchSeite{421-425}}
 The transfer function can be derived by taking a length N FIR averaging filter and applying the replication transform $z \rightarrow z^D$
