@@ -28,7 +28,7 @@ With the corespondig z-Transformation:
 
 \subsubsection{Wavetable Generators}
 
-\subsection{Digital Audio Effects}
+\subsection{Digital Audio Effects\buchSeite{349-373}}
 \begin{tabular}{|l|l|l|l|}
 \hline 
 \textbf{Filter} & \textbf{Signal} $y(n) = $ & 
@@ -47,8 +47,33 @@ flanging processor & $x(n) + a x(n- d(n))$ & &
 \end{tabular}
 
 
-\subsubsection{Multitab Delays}
-\subsubsection{Compressors, Limiters, Expanders, and Gates}
+\subsubsection{Multitab Delays\buchSeite{374}}
+Simple low-order FIR or IIR filters by seplacing each sinle unit-delay $z^{-1}$ by the progressively more general substituions:
+\begin{flalign}
+& z^{-1} && \longrightarrow && z^{-D}&\longleftrightarrow && \frac{z^{-D}}{1-az^{-D}}&& \longleftrightarrow && \frac{z^{-D}}{1-z^{-D}G(z)} &\notag
+\end{flalign}
+\begin{flalign}
+&\frac{z^{-D}}{1-az^{-D}} && \text{Expanding in powers of }z^{-D} \text{ we have} && H(z)= z^{-D} + az^{-2D}+a^2 z^{-3D}&&\notag
+\end{flalign}
+The corresponding impulse response will consist of the first delayed impulse $\delta(n-
+D)$, followed by its successive echoes of exponentially diminishing strength:
+\begin{align}
+h(n)=\delta(n-D)+a\delta(n-2D)+a^2\delta(n-3D)+\ldots\notag
+\end{align}
+
+\subsubsection{Compressors, Limiters, Expanders, and Gates\buchSeite{378-380}}
+Expanders are used for increasing the dynamic range of signals, for noise reduction,
+and for various special effects
+\begin{flalign}
+& y=y_0\left(\frac{x}{x_0}\right)^{\rho} && \Rightarrow && 20log_{10}\left(\frac{y}{y_0}\right)=\rho20log_{10}\left(\frac{x}{x_0}\right)&&\notag
+\end{flalign}
+\begin{flalign}
+& x: && \text{constant input} && x_0: \text{desire threshold} && \rho: && \text{compression or expansion ratio}\notag\\
+\end{flalign}
+\begin{flalign}
+&\text{compressor:} && x\geq x_0 && \text{and}&& \rho < 1&&\notag\\
+&\text{expander} && x\leq x_0 && \text{and}&& \rho > 1&& \notag
+\end{flalign}
 
 \subsection{Noise Reduction and Signal Enhancement}
 
