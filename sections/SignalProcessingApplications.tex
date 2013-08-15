@@ -150,8 +150,8 @@ add up to unity:
 
 normalized to unity half-way between the notches:
 \begin{flalign*}
-& H_{notch}(z)=\frac{bN(z)}{N(\rho z)}=b \frac{1-z^{-D}}{1-az{-D}}&& b=\frac{1+a}{2}&& a=\rho^D &&
-\omega k = \frac{(2k + 1)\pi}{D} &&\\
+& H_{notch}(z)=\frac{bN(z)}{N(\rho z)}=b \frac{1-z^{-D}}{1-az^{-D}}&& b=\frac{1+a}{2}&& a=\rho^D &&
+\omega_k = \frac{(2k + 1)\pi}{D} &&\\
 &&&&&&&\\
 & \text{paramter a on the desired 3-dB width:}&& \Delta\omega=\frac{2\pi\Delta f}{f_s}&&\text{on the notch dips}  &&\\
 &&&&&&&\\
@@ -163,9 +163,9 @@ normalized to unity half-way between the notches:
 
 \emph{narrow lowpass filter:}
 \begin{flalign*}
-& \text{normalized} && H_{comp}(z)=b \frac{1+z^{-D}}{1-az{-D}}&& b=\frac{1-a}{2}&& a=\rho^D &&&&\\
-&\text{peaks at} && \omega k = \frac{2k\pi}{D} && \text{zeros at}&&
-\omega k = \frac{(2k + 1)\pi}{D} &&\\
+& \text{normalized} && H_{comp}(z)=b \frac{1+z^{-D}}{1-az^{-D}}&& b=\frac{1-a}{2}&& a=\rho^D &&&&\\
+&\text{peaks at} && \omega_k = \frac{2k\pi}{D} && \text{zeros at}&&
+\omega_k = \frac{(2k + 1)\pi}{D} &&\\
 &&&&&&&\\
 & \text{paramter a on the desired 3-dB width:}&& \Delta\omega=\frac{2\pi\Delta f}{f_s}&&  &&\\
 &&&&&&&\\
@@ -206,7 +206,7 @@ A common samplling rate for digital video systems is four times the color subcar
 \subsubsection{Signal Averaging\buchSeite{421-425}}
 The transfer function can be derived by taking a length N FIR averaging filter and applying the replication transform $z \rightarrow z^D$
 \begin{flalign*}
-& H(z)=\frac{1}{N}\left( 1+ z{-D}+z{-2D}+\ldots + z{-(N-1)D} \right)=\frac{1}{N}\frac{z{-ND}}{1-z{-D}}&&
+& H(z)=\frac{1}{N}\left( 1+ z^{-D}+z^{-2D}+\ldots + z^{-(N-1)D} \right)=\frac{1}{N}\frac{z^{-ND}}{1-z^{-D}}&&
 \end{flalign*}
 In the time domain, the signal averaging comb filter is given by the following I/O difference equation
 \begin{flalign*}
