@@ -1,4 +1,20 @@
 \section{DFT/FFT Algorithms\buch{Chapter 9}}
+\subsection{Begriffe}
+
+\begin{tabularx}{\textwidth}{l p{3cm}XX}
+Abkürzung & Name  & Eigenschaft & Anwendung \\\hline
+DTFT & discrete-time Fourier transform & bildet ein endliches, zeitdiskretes Signal auf ein kontinuierliches, periodisches Frequenzspektrum ab & Im Spektrum lassen sich unter umständen  abschnittsweise ein geschlossener mathematischer Ausdruck angeben\\
+DFT & discrete Fourier transform & bildet ein zeitdiskretes, endliches Signal, welches periodisch fortgesetzt wird, auf ein diskretes, periodisches Frequenzspektrum ab & DFT besitzt zur Signalanalyse große Bedeutung\\
+FFT & fast Fourier transform & ein Algorithmus zur effizienten Berechnung der Werte einer diskreten Fourier-Transformation (DFT) &
+\vspace{-19pt}
+\begin{itemize}
+\item Zur Reduzierung des Berechnungsaufwandes bei der zirkularen Faltung
+\item im Zeitbereich von FIR-Filtern
+\item Ersatz durch die schnelle Fouriertransformation und einfache Multiplikationen im Frequenzbereich
+\item Synthese von Audiosignalen aus einzelnen Frequenzen über die inverse FFT
+\end{itemize}\\
+\end{tabularx}
+
 \subsection{Frequency Resolution and Windowing}
 \begin{tabular}{|l|l|l|}
 	\hline
