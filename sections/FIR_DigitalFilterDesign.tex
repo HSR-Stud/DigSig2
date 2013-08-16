@@ -2,6 +2,64 @@
 
 \subsection{Windowing Methods}
 \subsubsection{Ideal Filters}
+Ideal frequency responses (Fig. \ref{fig:freqresp}) are transformed into infinite impulse responses $d(k)$ (eq: \ref{eq:impresp}), which are then made finite using a particular window.
+
+\begin{figure}[htp]
+\begin{subfigure}{0.49\textwidth}
+\centering
+\newcommand{\coordinates}{coordinates {
+(-3.14,1) (-1.569,1) (-1.571,0)
+( 1.571,0) (1.569,1) ( 3.14,1)
+};}
+\input{tikz/hplp.tex}
+\caption{Highpass}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\centering
+\newcommand{\coordinates}{coordinates {(-3.14,0) (-1.569,0) (-1.571,1) (1.571,1) (1.569,0) (3.14,0)};}
+\input{tikz/hplp.tex}
+\caption{Lowpass}
+\end{subfigure}
+
+\begin{subfigure}{0.49\textwidth}
+\centering
+\newcommand{\coordinates}{coordinates {
+(-3.14,1) (-2.001,1) (-1.999,0) (-1.001,0) (-0.999,1)
+(0.999,1) ( 1.001,0) ( 1.999,0) ( 2.001,1) ( 3.14,1)};}
+\input{tikz/bpbs.tex}
+\caption{Bandpass}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\centering
+\newcommand{\coordinates}{coordinates {
+(-3.14,0) (-2.001,0) (-1.999,1) (-1.001,1) (-0.999,0)
+(0.999,0) (1.001,1) (1.999,1) (2.001,0) ( 3.14,0)};}
+\input{tikz/bpbs.tex}
+\caption{Bandstop}
+\end{subfigure}
+
+\begin{subfigure}{0.49\textwidth}
+\centering
+\newcommand{\coordinates}{coordinates {(-3.14,-1) (3.14,1)};}
+\input{tikz/diffhilb.tex}
+\caption{Differentiator}
+\end{subfigure}
+\begin{subfigure}{0.49\textwidth}
+\centering
+\newcommand{\coordinates}{coordinates {(-3.14,1) (-0.001,1) (0.001,-1) (3.14,-1) };}
+\input{tikz/diffhilb.tex}
+\caption{Hilbert transformer}
+\end{subfigure}
+
+\caption{Ideal frequency responses}
+\label{fig:freqresp}
+\end{figure}
+
+
+\begin{equation}
+d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:impresp}
+\end{equation}
+
 \subsubsection{Rectangular Window}
 \subsubsection{Hamming Window}
 

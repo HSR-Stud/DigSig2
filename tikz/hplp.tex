@@ -1,0 +1,18 @@
+\begin{tikzpicture}[
+trim axis left,
+trim axis right
+]
+\begin{axis}[
+	every axis plot post/.append style={mark=none},
+	width=0.5\textwidth, height=0.25\textwidth,
+	scale only axis,
+	xmin=-3.14, xmax=3.14,
+	ymin=0, ymax=1.2,
+	xlabel=$\omega$,
+	ylabel=$D(\omega)$,
+	axis x line=bottom, axis y line=middle, enlargelimits=upper,
+	xtick={-3.14,-1.57,0,1.57, 3.14}, xticklabels={$-\pi$, $-\omega_c$, 0, $\omega_c$, $\pi$}
+	]
+	\expandafter\addplot\coordinates
+\end{axis}
+\end{tikzpicture}
