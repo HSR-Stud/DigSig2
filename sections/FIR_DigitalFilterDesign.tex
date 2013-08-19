@@ -60,10 +60,27 @@ Ideal frequency responses (Fig. \ref{fig:freqresp}) are transformed into infinit
 d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:impresp}
 \end{equation}
 
+\begin{align*}
+&\text{lowpass filter} && d(k) = \frac{sin(\omega_ck)}{\pi k} \\
+&\text{highpass filter} && d(k) = \delta(k) - \frac{sin(\omega_ck)}{\pi k} \\
+&\text{bandpass filter} && d(k) = \frac{sin(\omega_bk) -sin(\omega_ak)}{\pi k} \\
+&\text{bandstop filter} && d(k) = \delta(k) - \frac{sin(\omega_bk) -sin(\omega_ak)}{\pi k} \\
+\end{align*}
+
 \subsubsection{Rectangular Window}
+\begin{itemize}
+	\item Simplest window
+	\item truncate the infinite impulse response: $-M < k < M$
+	\item $\rightarrow d = [d_{-M}, ..., d_{-1}, d_0, d_1, ..., d_M]$
+	\item The resulting FIR Filter must be delayed by M samples \newline
+	$\rightarrow h = d = [h_0, h_{M-1}, h_M, h_{M+1}, ..., h_{2M}]$
+\end{itemize}
+
+
 \subsubsection{Hamming Window}
 
-\subsection{Kaiser Window}
+
+\subsubsection{Kaiser Window}
 \begin{align*}
 	\alpha = \left\{
 		\begin{array}{l l}
@@ -75,17 +92,18 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 \subsubsection{Kaiser Window for Filter Design}
 
 
-\textbf{Regeln:}\\
+\paragraph{Regeln:}~\\
 pass und stopp Band sind identisch, sind sie unterschiedlich vorgegeben muss die härtere Bedingung verwendet werden \\
 \begin{align*}
 \delta=min(\delta_{pass},\delta_{stop})
 \end{align*}
 schlussendlich wird der Filter in beiden Bändern die gleiche Überschreitung haben
 \begin{align*}
-A=-20log_{¶10}\delta && \delta=10^{-A/20}
+A=-20log_{10}\delta && \delta=10^{-A/20}
 \end{align*}
 Das Stopp band hat meistens die strengeren Anforderungen
 \subsubsection{Kaiser Window for Spectral Analysis}
+
 \subsection{Frequency Sampling Method}
 
 \subsection{Other FIR Design Methods}
