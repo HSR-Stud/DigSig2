@@ -68,9 +68,28 @@
 \subsection{DTFT Computation}
 \subsubsection{DTFT at a Single Frequency\buchSeite{475-477}}
 \begin{align*}
-	X(\omega) = \sum_{n=0}^{L-1}x(n)e^{-j \omega n} \qquad \text{DTFT of length-L signal}
+X(\omega)=\sum_{n=0}^{L-1}x(n)e^{-j\omega n}=\sum_{n=0}^{L-1}x(n)z^{-n}\biggr|_{z=e^{j\omega}}=X(z)\biggr|_{z=e^{j\omega}}
 \end{align*}
+
+For example let L
+\begin{flalign*}
+& X && = && x_3+z^{-1}X && = && x_3\\
+& X && = && x_2+z^{-1}X && = && x_2+z^{-1}x^3\\
+& X && = && x_1+z^{-1}X && = && x_1+z^{-1}x_2+z^{-2}x_3\\
+& X && = &&  x_0+z^{-1}X && = && x_0+z^{-1}x_1+z^{-2}x_2+z^{-3}x_3 && = && X(z)&&\\
+\end{flalign*}
+
 \subsubsection{DTFT over a Frequency Range\buchSeite{478}}
+\begin{align*}
+\omega_k=\frac{2\pi k}{N}&& f_k=\frac{kf_s}{N} && z_k=e^{j\omega_k}=e^{2\pi jk/N} && k=0,1,\ldots , N-1 
+\end{align*}
+\begin{align*}
+X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} && \text{mit} && z_k=e^{j\omega_k} = z_k=e^{n\pi j k /N}
+\end{align*}
+\begin{align*}
+\omega_k=\omega_a+k\frac{\omega_b-\omega_a}{N}=\omega_a+k\Delta\omega_{bin} && \omega_{bin}=\frac{\omega_b-\omega_a}{N} && \text{or in Hz} && \Delta f_{bin}=\frac{f_b-f_a}{N} && \omega_{k+N}=\omega_k+2\pi
+\end{align*}
+
 \subsubsection{DFT\buchSeite{479-481}}
 \subsubsection{Zero Padding\buchSeite{482}}
 
