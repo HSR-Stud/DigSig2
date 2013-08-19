@@ -17,12 +17,12 @@ This requires that $x(D) = x(0)$, which requires
 \end{align*}
 
 
-Because of the periodicity, it is enough to specifiy the signal over one period only:
+Because of the periodicity, it is enough to specify the signal over one period only:
 \begin{align*}
 	h = [b_0, b_1, \ldots, b_{D-1}, b_0, b_1, \ldots, b_{D-1}, b_0, \ldots]
 \end{align*}
 
-With the corespondig z-Transformation:
+With the coresponding z-Transformation:
 \begin{align*}
 	H(z) = \frac{b_0 + b_1 z^{-1} + b_2 z^{-2} + \ldots + b_{D-1} z^{-(D-1)}}{1 - z^{-D}}
 \end{align*}
@@ -30,7 +30,7 @@ With the corespondig z-Transformation:
 \subsubsection{Wavetable Generators\buchSeite{330-349}}
 Often, it is desired to generate a delayed version of the periodic waveform. Instead of
 loading a delayed period into a new wavetable, we can use the same wavetable, but start
-cycling over it at a shifted position. For a delay ofmtime units such that $0 \leq m \leq D-1$,
+cycling over it at a shifted position. For a delay of m time units such that $0 \leq m \leq D-1$,
 the starting pointer p and corresponding offset index q
 \begin{flalign*}
 p=w+m && q=m && y(n)=b(n-m) && y(0)=b(-m)=b(D-m)
@@ -58,10 +58,10 @@ the circular wavetable
 is loaded with the waveform in forward order. Cycling over the wavetable at frequency
 $f = cfs/D$ is accomplished by incrementing the offset index q according to the iteration:
 \begin{align*}
-& q_{n+1}=(q_n+c)mod(D)&& &&\\
-& i=\lfloor q\rfloor && \text{(truncating down)} && y=w[i]&&\\
-& j=\lfloor q+1\rfloor mod(D) && \text{truncatin up} && y=w[j]&&\\
-& k=\lfloor q+0.5\rfloor mod(D) && \text{rounding} && y=w[k]&&
+& q_{n+1}=(q_n+c)\%(D)&& &&\\
+& i=\lfloor q\rfloor && \text{truncating down} && y=w[i]&&\\
+& j=\lfloor q+1\rfloor \%(D) && \text{truncating up} && y=w[j]&&\\
+& k=\lfloor q+0.5\rfloor \%(D) && \text{rounding} && y=w[k]&&
 \end{align*}
 a more accurate output can
 be obtained by linearly interpolating between the wavetable values w[i] and w[j], that
