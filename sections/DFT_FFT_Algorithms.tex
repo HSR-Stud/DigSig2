@@ -123,8 +123,8 @@ f_0 = f_{k_0}=\frac{k_0f_s}{N} && k_0=N\frac{f_0}{k_s} && k=N\frac{f}{f_s} && 0 
 \begin{align*}
 X=DFT(x)=Ax && X_k=\sum_{n=0}^{L-1}A_{kn}x_n && k=0,1,\ldots,N-1
 \end{align*}
-\begin{align*}
-\text{2-point} && W_2=e^{-2\pi j/2}=-1 &&
+\begin{flalign*}
+& \text{2-point} && W_2=e^{-2\pi j/2}=-1 &&
  A=
 \begin{bmatrix}
 1 & 1  \\
@@ -135,7 +135,7 @@ X=DFT(x)=Ax && X_k=\sum_{n=0}^{L-1}A_{kn}x_n && k=0,1,\ldots,N-1
 1 & 1  \\
 1 & -1 
 \end{bmatrix}\\
-\text{4-point}&& W_4=e^{-2\pi j/4}=-j &&
+& \text{4-point}&& W_4=e^{-2\pi j/4}=-j &&
 A=
 \begin{bmatrix}
 1 & 1 & 1 & 1  \\
@@ -150,13 +150,13 @@ A=
 1 & -1 & 1 & -1 \\
 1 & j & -1 & -j
 \end{bmatrix}\\
-\text{8-point} && W_8=e^{-2\pi j/8}=\frac{1-j}{\sqrt{2}} &&
- A=\begin{bmatrix}
+&\text{8-point} && W_8=e^{-2\pi j/8}=\frac{1-j}{\sqrt{2}} &&
+A=\begin{bmatrix}
  \ldots\\
- \ldots\\
+ \ddots\\
  \ldots
  \end{bmatrix}
-\end{align*}
+\end{flalign*}
 
 \subsection{Module-N reduction\buchSeite{489-496}}
 \begin{itemize}
@@ -167,13 +167,13 @@ A=
 \end{flalign*}
 \begin{flalign*}
 & X=Ax=[\tilde{A},\tilde{A},\ldots,\tilde{A}]\begin{bmatrix}
-x_0\\x_1\\ \ldots\\x_n
+x_0\\x_1\\ \vdots\\ x_n
 \end{bmatrix}=\tilde{A}(x_0+x_1+\ldots + x_n)=\tilde{A}\tilde{x}=\tilde{X} &&
 \end{flalign*}
 \begin{flalign*}
 & x=[\underbrace{a_1,a_2,a_3}_{x_0},\underbrace{a_4,a_5,a_6}_{x_1},\underbrace{a_7,a_8,a_9}_{x_2},\underbrace{a_{10},a_{11} , \text{fehlende Stelle} }_{x_3}]&&\\
 & \tilde{x}=x_0^T+x_1^T+x_2^T+x_3^T=
-\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix}+\begin{bmatrix}a_4\\a_5\\a_6\end{bmatrix}\begin{bmatrix}a_7\\a_8\\a_9\end{bmatrix}+\begin{bmatrix}a_{10}\\a_{11}\\0\end{bmatrix}&&\\ 
+\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix}+\begin{bmatrix}a_4\\a_5\\a_6\end{bmatrix}+\begin{bmatrix}a_7\\a_8\\a_9\end{bmatrix}+\begin{bmatrix}a_{10}\\a_{11}\\0\end{bmatrix}&&\\ 
 & \text{fehlende Stelle mit '0' auffüllen}&&
 \end{flalign*}
 
@@ -186,8 +186,8 @@ x_0\\x_1\\ \ldots\\x_n
 
 \subsection{Sampling of Periodic Signals and the DFT\buchSeite{499-501}}
 \begin{flalign*}
-x(n)=\frac{1}{N}\sum_{k=0}^{N-1}X(\omega_k)e^{j\omega_k n} && \text{(DFS)} \\
-X(\omega_k)=\sum_{k=0}^{N-1}x(n)e^{-j\omega_k n} && \text{(DFS coefficients)}
+& x(n)=\frac{1}{N}\sum_{k=0}^{N-1}X(\omega_k)e^{j\omega_k n} && \text{(DFS)} &&\\
+& X(\omega_k)=\sum_{k=0}^{N-1}x(n)e^{-j\omega_k n} && \text{(DFS coefficients)}&&
 \end{flalign*}
 \subsection{FFT\buchSeite{504-511}}
 Decimation-in-time radix-2 FFT
@@ -200,19 +200,19 @@ Decimation-in-time radix-2 FFT
 \end{flalign*}
 \begin{align*}
 \begin{bmatrix}
-X_0\\X_1\\ .\\.\\.\\X_{\frac{N}{2}-1}
+X_0\\X_1\\ \vdots\\ X_{\frac{N}{2}-1}
 \end{bmatrix}
 =
 \begin{bmatrix}
-G_0\\G_1\\ .\\.\\.\\G_{\frac{N}{2}-1}
+G_0\\G_1\\ \vdots\\ G_{\frac{N}{2}-1}
 \end{bmatrix}
 +
 \begin{bmatrix}
-H_0\\H_1\\ .\\.\\.\\H_{\frac{N}{2}-1}
+H_0\\H_1\\ \vdots\\ H_{\frac{N}{2}-1}
 \end{bmatrix}
 \times
 \begin{bmatrix}
-W_N^0\\W_N^1\\ .\\.\\.\\X_N^{\frac{N}{2}-1}
+W_N^0\\W_N^1\\ \vdots\\ X_N^{\frac{N}{2}-1}
 \end{bmatrix}
 \end{align*}
 % Todo Tikz
