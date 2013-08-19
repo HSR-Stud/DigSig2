@@ -120,17 +120,18 @@ and for various special effects
 
 \subsubsection{Noise Reduction Filters\buchSeite{382-385}}
 \begin{flalign*}
-&\text{noise measured Signal}&& x(n)=s(n)+\nu(n)&&&&\\
-&\text{desired signal}&& s(n)&&&&\\ 
-&\text{noise}&& \nu(n)&&&&\\
-& \text{noise reduction ration} && 
+&\text{Noise measured Signal}&& x(n)=s(n)+\nu(n)&&&&\\
+&\text{Desired signal}&& s(n)&&&&\\ 
+&\text{Noise}&& \nu(n)&&&&\\
+& \text{Noise reduction ratio \tiny{Small NNR means large noise reduction}} && 
 NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
 =\int\limits_{-\pi}^{\pi}|H(\omega)|^2 \frac{d\omega}{2\pi} =\sum_n h_n^2 &&&&\\
 & \text{Ideal Lowpass filter} && NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
 =\int\limits_{-\omega_c}^{\omega_c}1\frac{\omega}{2\pi}=\frac{2\omega_c}{2\pi}=\frac{\omega_c}{\pi} &&&&\\
-&\text{input mean-square noise}&&\sigma_{\nu}^2 &&&&\\
-&\text{output mean-square noise}&& \sigma_{y_{\nu}}^2 &&&&\\
-& \text{SNR and NRR ratio}&& \frac{SNR_{out}}{SNR_{in}}=\frac{1}{NRR}&&&&
+&\text{Input mean-square noise}&&\sigma_{\nu}^2 &&&&\\
+&\text{Output mean-square noise}&& \sigma_{y_{\nu}}^2 &&&&\\
+& \text{SNR and NRR ratio}&& \frac{SNR_{out}}{SNR_{in}}=\frac{1}{NRR} \cdot \frac{E[y_s(n)^2]}{E[s(n)^2]}&&&&\\
+& \text{If signal is not distorted } (y_s=s)&& \frac{SNR_{out}}{SNR_{in}}=\frac{1}{NRR} &&&&
 \end{flalign*}
 
 \subsubsection{Notch and Comb Filters\buchSeite{398-406}}
@@ -163,7 +164,7 @@ normalized to unity half-way between the notches:
 
 \emph{narrow lowpass filter:}
 \begin{flalign*}
-& \text{normalized} && H_{comp}(z)=b \frac{1+z^{-D}}{1-az^{-D}}&& b=\frac{1-a}{2}&& a=\rho^D &&&&\\
+& \text{normalized} && H_{comb}(z)=b \frac{1+z^{-D}}{1-az^{-D}}&& b=\frac{1-a}{2}&& a=\rho^D &&&&\\
 &\text{peaks at} && \omega_k = \frac{2k\pi}{D} && \text{zeros at}&&
 \omega_k = \frac{(2k + 1)\pi}{D} &&\\
 &&&&&&&\\
