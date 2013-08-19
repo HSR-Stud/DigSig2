@@ -28,8 +28,10 @@ FFT & fast Fourier transform & ein Algorithmus zur effizienten Berechnung der We
 	\\ \hline
 	$\Delta f_w$ & Window width (Hz) & $ = c \frac{f_s}{L} = c \frac{1}{T_L} $
 	\\ \hline
-	$\Delta f$ & Frequency resolution & $ \Delta f \geq \Delta f_w$
+	$\Delta f$ & Frequency resolution & $ \Delta f \geq \Delta f_w=c\frac{f_s}{L}=c\frac{1}{T_L}$
 	\\ \hline
+	$\Delta\omega$ & Resolvability condition & $=\Delta\omega \geq \Delta\omega_w = c\frac{2\pi}{L}$ 
+	\\\hline
 	$R$ & relative sidelobe level &
 	\\ \hline
 	$c$ & depends on window, always $\geq 1$ &
@@ -37,29 +39,23 @@ FFT & fast Fourier transform & ein Algorithmus zur effizienten Berechnung der We
 \end{tabular}
 
 
-\begin{tabularx}{\textwidth}{|l|l|l|l|X|}
-	\hline
-	\textbf{Window} & $w(n) = $ & $\Delta\omega_w =$ & $\Delta f_w = $ & $\Delta f$
-	\\ \hline
-	Rectangular &
-	$ \begin{cases}
+\begin{flalign*}
+& \text{Window/Funktion} && \text{Rectangular} && \text{Hamming}\\
+& w(n) &&  \begin{cases}
 			1, & \text{if } 0 \leq n \leq L-1 \\
 			0, & \text{otherwise}
-	  \end{cases}$ &
-	$ \frac{2\pi}{L}$ &
-	$ \frac{f_s}{L} = \frac{1}{LT} = \frac{1}{T_L}$ &
-	$ \Delta f \geq \Delta f_w = \frac{f_s}{L}$
-	\\ \hline
-	Hamming &
-	$ \begin{cases}
-		0.54 - 0.46 \cos(\frac{2\pi n}{L-1}), & \text{if } 0 \leq n \leq L-1 \\
-		0, & \text{otherwise}
-	  \end{cases}$ &
-	$\frac{4\pi}{L}$ &
-	$\frac{2f_s}{L} = \frac{2}{T_L} $ &
-	$\Delta f \geq \Delta f_w $
-	\\ \hline
-\end{tabularx}
+ \end{cases} &&
+\begin{cases}
+	0.54 - 0.46 \cos(\frac{2\pi n}{L-1}), & \text{if } 0 \leq n \leq L-1 \\
+	0, & \text{otherwise}
+\end{cases} \\
+& \text{window tradeoff } c && c=1 && c=2\\
+& R && -13.46 dB && -40 dB\\
+& x_{_L}(n) && x(n)w(n) && \\
+& X_{_L}(\omega) && \int_{-\pi}^{\pi}X(\omega')W(\omega-\omega')\frac{d\omega'}{2\pi} && \\
+\end{flalign*}
+
+
 
 \subsection{DTFT Computation}
 \subsubsection{DTFT at a Single Frequency\buchSeite{475-477}}
