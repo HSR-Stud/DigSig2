@@ -9,7 +9,7 @@ Consider a second-order filter with transfer function
 		 = \frac{b_0 + b_1z^{-1} + b_2z^{-2}}{1 + a_1z^{-1} + a_2z^{-2}}&&
 \end{flalign*}
 \begin{flalign*}
-&\text{I/O differenzen Gleichung} && y_n=-a_1y_{n-1}-a_2y_{n-2}-\ldots+b_0x_n+b_1x_{n-1}+\ldots
+&\text{I/O differenzen Gleichung} && y_n=-a_1y_{n-1}-a_2y_{n-2}-\ldots-a_My_{n-M}+b_0x_n+b_1x_{n-1}+\ldots+b_Mx_{n-M}
 \end{flalign*}\\
 
 \input{tikz/DirectForm}
@@ -23,6 +23,10 @@ It can be obtained from the \nameref{sec:directform} by splitting it up and reve
 \begin{flalign*}
 H(z) = \frac{1}{D(z)} \cdot N(z)&&
 \end{flalign*}
+
+\begin{flalign*}
+&\text{I/O differenzen Gleichung} && w(n)=x(n)-a_1w(n-1)-\ldots-a_Mw(n-M)&&\\&&& y(n)=b_0w(n)+b_1w(n-1)+\ldots+b_Lw(n-L)&&
+\end{flalign*}\\
 \input{tikz/CanonicalForm}
 
 
