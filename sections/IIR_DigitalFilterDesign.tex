@@ -1,5 +1,5 @@
 \section{IIR Digital filter Design\buch{Chapter 11}}
-\subsection{Bilinear Transformation}
+\subsection{Bilinear Transformation\buchSeite{563-565}}
 Designflow:
 \begin{center}
 \input{tikz/BilinearTransformation}
@@ -29,7 +29,52 @@ frequency)
 	\\ \hline
 \end{tabularx}
 
-\subsection{First-Order Lowpass and Highpass Filters}
+Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" benötigt. 
+
+\subsection{First-Order Lowpass and Highpass Filters\buchSeite{566-573}}
+\begin{tabular}{|l|l|l|}
+	\hline
+	cutoff frequency & $f_c$ &
+	\\ \hline
+	sampling rate & $f_s$ &
+	\\ \hline
+	digital cutoff frequency & $\omega_c$ & $ = \frac{2\pi f_c}{f_s}$ \qquad (usually at 3dB-point)
+	\\ \hline
+	drop in dB at $f_c$ & $A_c$ & $= -10\log_{10}(G_c^2) = -20\log_{10}(G_c)$ \qquad (usually 3dB)
+	\\ \hline
+	drop factor & $G_c$ & $=10^{A_c/20} \qquad \longrightarrow $ If $A_c = 3$dB $\rightarrow G_c^2 = 1/2$
+	\\ \hline
+\end{tabular}
+
+\begin{tabular}{|l|l|l|l|l|l|}
+	\hline
+	\textbf{filter} & $H(z) = $ & $H_a(s) = $ & $\alpha = $ & $a=$ & $b=$
+	\\ \hline
+	lowpass	&
+	$b\frac{1 + z^{-1}}{1 - a z^{-1}}$ &
+	$\frac{\alpha}{s + \alpha}$	&
+	$\frac{G_c}{\sqrt{1- G_c^2}} \Omega_c = \frac{G_c}{\sqrt{1-g_c^2}}\tan\left(\frac{\omega_c}{2}\right)
+	= \tan\left(\frac{\omega_c}{2}\right)\vert_{G_c^2 = \frac{1}{2}}$&
+	$\frac{1 - \alpha}{1 + \alpha}$ &
+	$\frac{\alpha}{1 + \alpha} = \frac{1 - a}{2}$	
+	\\ \hline
+	highpass &
+	$b\frac{1 - z^{-1}}{1 - a z^{-1}}$ &
+	$\frac{s}{s + \alpha}$ &
+	$\frac{\sqrt{1-G_c^2}}{G_c}\Omega_c = \frac{\sqrt{1-G_c^2}}{G_c}\tan\left(\frac{\omega_c}{2}\right)
+	=\tan\left(\frac{\omega_c}{2}\right)\vert_{G_c^2 = \frac{1}{2}}$&
+	$\frac{1-\alpha}{1+\alpha}$&
+	$\frac{1}{1+\alpha} = \frac{1 + a}{2}$
+	\\ \hline
+\end{tabular}
+\vspace{1em}
+
+Designflow:
+\begin{enumerate}
+	\item Given the cutoff frequency $\omega_c$ and the corresponding gain $A_c$ in dB, compute $G_c$.
+	\item Compute the analog parameter $\alpha$
+	\item Compute the digital filter coefficients $\{a,b\}$.
+\end{enumerate}
 Lowpass:
 \begin{align}
 	H(z) &= \frac{b_0 + b_1 z^{-1}}{1+a_1 z^-1}\\
