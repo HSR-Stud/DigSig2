@@ -196,12 +196,13 @@ X(\omega_k)=\sum_{k=0}^{N-1}x(n)e^{-j\omega_k n} && \text{(DFS coefficients)}
 \begin{flalign*}
 & \text{Grundlage:}&& y=h\ast x && \Leftrightarrow && Y(\omega)=H(\omega)X(\omega)&&
 \end{flalign*}
-\begin{flalign*}
-& \text{mittels DTFT:} && y=IDTFT(DTFT(h)DTFT(x)&&\\
-& \text{mittels DFT:} && \tilde{y}=\widetilde{h\ast x}=IDFT(DFT(h)DFT(x)&&\\
-&\text{Modulo-N-reduzierte Ergebnisse}&& \tilde{y}=\widetilde{h\ast x}=\widetilde{\tilde{h}\ast {x}}=\widetilde{h\ast \tilde{x}}=\widetilde{\tilde{h}\ast \tilde{x}}&&\\ % ToDo irgend ein problem mit der widetilde, geht auch mit anderen buchstaben die nicht hoch sind nicht z.b. a
+\begin{align*}
+& \text{mittels DTFT:} && y=IDTFT(DTFT(h)DTFT(x))&&\\
+& \text{mittels DFT:} && \tilde{y}=\widetilde{h\ast x}=IDFT(DFT(h)DFT(x))&&\\
+&\text{Modulo-N-reduzierte Ergebnisse}&& \tilde{y}=\widetilde{h\ast x}= \widetilde{ {\widetilde{h}} \ast  x}=\widetilde{h\ast \tilde{x}}=\widetilde{\tilde{h}\ast \tilde{x}}&&\\ 
+% ToDo irgend ein problem mit der widetilde, geht auch mit anderen buchstaben die nicht hoch sind nicht z.b. a
 & \text{Bedingung, zirkuläre Faltung = Lineare Faltung} && \tilde{y}=y \text{ wenn } N\geq L_y=L+M&&
-\end{flalign*}
+\end{align*}
 \subsubsection{Overlap-Add and Overlap-Save Methods\buchSeite{520-522}}
 
 
