@@ -113,23 +113,82 @@ X_D(\omega)=e^{-j\omega D}X(\omega) && X_D(\omega_k)=e^{-j\omega_k D}X(\omega_k)
 \end{align*}
 
 \subsection{Physical versus Computional Resolution\buchSeite{482-485}}
+Eine künstliche Frequenzauflösung mittels Vergrösserung des N kann keine peaks die mit zu kleinem L verpasst wurden wieder rekonstruieren. 
 
-\subsection{Matrix Form of DFT}
+\begin{align*}
+f_0 = f_{k_0}=\frac{k_0f_s}{N} && k_0=N\frac{f_0}{k_s} && k=N\frac{f}{f_s} && 0 \leq f \leq f_s && 0 \leq k \leq N
+\end{align*}
 
-\subsection{Module-N reduction}
+\subsection{Matrix Form of DFT\buchSeite{486-488}}
+\begin{align*}
+X=DFT(x)=Ax && X_k=\sum_{n=0}^{L-1}A_{kn}x_n && k=0,1,\ldots,N-1
+\end{align*}
+\begin{align*}
+\text{2-point} && W_2=e^{-2\pi j/2}=-1 &&
+ A=
+\begin{bmatrix}
+1 & 1  \\
+1 & W_2 
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 1  \\
+1 & -1 
+\end{bmatrix}\\
+\text{4-point}&& W_4=e^{-2\pi j/4}=-j &&
+A=
+\begin{bmatrix}
+1 & 1 & 1 & 1  \\
+1 & W_4 & W_4^2 & W_4^3 \\
+1 & W_4^2 & W_4^4 & W_4^6 \\
+1 & W_4^3 & W_4^6 & W_4^9
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 1 & 1 & 1  \\
+1 & -j & -1 & j  \\
+1 & -1 & 1 & -1 \\
+1 & j & -1 & -j
+\end{bmatrix}\\
+\text{8-point} && W_8=e^{-2\pi j/8}=\frac{1-j}{\sqrt{2}} &&
+ A=\begin{bmatrix}
+ \ldots\\
+ \ldots\\
+ \ldots
+ \end{bmatrix}
+\end{align*}
+
+\subsection{Module-N reduction\buchSeite{489-496}}
 \begin{itemize}
 	\item Opposite of zero padding
 \end{itemize}
+\begin{flalign*}
+&\tilde{x}=x_0+x_1+\ldots+x_n &&
+\end{flalign*}
+\begin{flalign*}
+& X=Ax=[\tilde{A},\tilde{A},\ldots,\tilde{A}]\begin{bmatrix}
+x_0\\x_1\\ \ldots\\x_n
+\end{bmatrix}=\tilde{A}(x_0+x_1+\ldots + x_n)=\tilde{A}\tilde{x}=\tilde{X} &&
+\end{flalign*}
+\begin{flalign*}
+& x=[\underbrace{a_1,a_2,a_3}_{x_0},\underbrace{a_4,a_5,a_6}_{x_1},\underbrace{a_7,a_8,a_9}_{x_2},\underbrace{a_{10},a_{11} , \text{fehlende Stelle} }_{x_3}]&&\\
+& \tilde{x}=x_0^T+x_1^T+x_2^T+x_3^T=
+\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix}+\begin{bmatrix}a_4\\a_5\\a_6\end{bmatrix}\begin{bmatrix}a_7\\a_8\\a_9\end{bmatrix}+\begin{bmatrix}a_{10}\\a_{11}\\0\end{bmatrix}&&\\ 
+& \text{fehlende Stelle mit '0' auffüllen}&&
+\end{flalign*}
 
+\subsection{Inverse DFT\buchSeite{496-499}}
+\begin{flalign*}
+&\tilde{x}=IDFT(X)=\tilde{A}^{-1} X && \tilde{x}=IDFT(X)=\frac{1}{N}\tilde{A}^{*} X && IDFT(X) = \frac{1}{N}\left[DFT(X^*)\right]^* \label{eq:IDFT}\\
+&\tilde{x}=x && \text{nur wenn} && N \geq L\notag\\
+&\tilde{x}\neq x && \text{wenn} && N < L\notag
+\end{flalign*}
 
-\subsection{Inverse DFT}
+\subsection{Sampling of Periodic Signals and the DFT\buchSeite{499-501}}
 \begin{align*}
-	IDFT(X) = \frac{1}{N}\left[DFT(X^*)\right]^*
-	\label{eq:IDFT}
+x(n)=\frac{1}{N}\sum_{k=0}^{N-1}X(\omega_k)e^{j\omega_k n} && \text{(DFS)} \\
+X(\omega_k)=\sum_{k=0}^{N-1}x(n)e^{-j\omega_k n} && \text{(DFS coefficients)}
 \end{align*}
-
-\subsection{Sampling of Periodic Signals and the DFT}
-
 \subsection{FFT\buchSeite{504-511}}
 
 \subsection{Fast Convolution}
