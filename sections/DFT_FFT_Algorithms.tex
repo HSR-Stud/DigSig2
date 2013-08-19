@@ -2,17 +2,25 @@
 \subsection{Begriffe}
 
 \begin{tabularx}{\textwidth}{l p{3cm}XX}
-Abkürzung & Name  & Eigenschaft & Anwendung \\\hline
-DTFT & discrete-time Fourier transform & bildet ein endliches, zeitdiskretes Signal auf ein kontinuierliches, periodisches Frequenzspektrum ab & Im Spektrum lassen sich unter umständen  abschnittsweise ein geschlossener mathematischer Ausdruck angeben\\
-DFT & discrete Fourier transform & bildet ein zeitdiskretes, endliches Signal, welches periodisch fortgesetzt wird, auf ein diskretes, periodisches Frequenzspektrum ab & DFT besitzt zur Signalanalyse große Bedeutung\\
-FFT & fast Fourier transform & ein Algorithmus zur effizienten Berechnung der Werte einer diskreten Fourier-Transformation (DFT) &
-\vspace{-19pt}
-\begin{itemize}
-\item Zur Reduzierung des Berechnungsaufwandes bei der zirkularen Faltung
-\item im Zeitbereich von FIR-Filtern
-\item Ersatz durch die schnelle Fouriertransformation und einfache Multiplikationen im Frequenzbereich
-\item Synthese von Audiosignalen aus einzelnen Frequenzen über die inverse FFT
-\end{itemize}\\
+	Abkürzung & Name  & Eigenschaft & Anwendung \\\hline
+	DTFT &
+	discrete-time Fourier transform &
+	bildet ein endliches, zeitdiskretes Signal auf ein kontinuierliches, periodisches Frequenzspektrum ab &
+	Im Spektrum lässt sich unter Umständen  abschnittsweise ein geschlossener mathematischer Ausdruck angeben \\
+	DFT &
+	discrete Fourier transform &
+	bildet ein zeitdiskretes, endliches Signal, welches periodisch fortgesetzt wird, auf ein diskretes, periodisches Frequenzspektrum ab &
+	DFT besitzt zur Signalanalyse große Bedeutung \\
+	FFT &
+	fast Fourier transform &
+	ein Algorithmus zur effizienten Berechnung der Werte einer diskreten Fourier-Transformation (DFT) &
+	\vspace{-19pt}
+	\begin{itemize}
+		\item Zur Reduzierung des Berechnungsaufwandes bei der zirkulären Faltung
+		\item im Zeitbereich von FIR-Filtern
+		\item Ersatz durch die schnelle Fouriertransformation und einfache Multiplikationen im Frequenzbereich
+		\item Synthese von Audiosignalen aus einzelnen Frequenzen über die inverse FFT
+	\end{itemize}\\
 \end{tabularx}
 
 \subsection{Frequency Resolution and Windowing\buchSeite{464-472}}
@@ -59,6 +67,9 @@ FFT & fast Fourier transform & ein Algorithmus zur effizienten Berechnung der We
 
 \subsection{DTFT Computation}
 \subsubsection{DTFT at a Single Frequency\buchSeite{475-477}}
+\begin{align*}
+	X(\omega) = \sum_{n=0}^{L-1}x(n)e^{-j \omega n} \qquad \text{DTFT of length-L signal}
+\end{align*}
 \subsubsection{DTFT over a Frequency Range\buchSeite{478}}
 \subsubsection{DFT\buchSeite{479-481}}
 \subsubsection{Zero Padding\buchSeite{482}}
