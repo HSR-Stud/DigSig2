@@ -7,10 +7,27 @@ Designflow:
 Maps from z-plane to the s-plane (from the analog frequency to the digital
 frequency)
 
-\begin{align*}
-s 		&= f(z) = \frac{1-z^{-1}}{1+z^{-1}}\\
-j\Omega &= f(e^{j\omega}) = j \tan \left( \frac{\omega}{2} \right)
-\end{align*}
+\begin{tabularx}{\textwidth}{|l|X|X|}
+	\hline
+	\textbf{Filter} & \textbf{bilinear transformation} & \textbf{frequency map}
+	\\ \hline
+	lowpass & 
+	$s = f(z) = \frac{1 - z^{-1}}{1 + z^{-1}}$ &
+	$ \Omega = g(\omega) = \tan(\frac{\omega}{2})$
+	\\ \hline
+	highpass & 
+	$s = f(z) = \frac{1 + z^{-1}}{1 - z^{-1}}$ &
+	$ \Omega = g(\omega) = - \cot(\frac{\omega}{2})$
+	\\ \hline
+	bandpass & 
+	$s = f(z) = \frac{1 - 2cz^{-1} z^{-2}}{1 + z^{-2}}$ &
+	$ \Omega = g(\omega) = \frac{c - \cos(\omega)}{\sin(\omega)}$
+	\\ \hline
+	bandstop & 
+	$s = f(z) = \frac{1 + z^{-2}}{1 - 2cz^{-1} z^{-2}}$ &
+	$ \Omega = g(\omega) = \frac{\sin(\omega)}{\cos(\omega) - c}$ 
+	\\ \hline
+\end{tabularx}
 
 \subsection{First-Order Lowpass and Highpass Filters}
 Lowpass:
