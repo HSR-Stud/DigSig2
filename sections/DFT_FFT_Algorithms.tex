@@ -91,7 +91,26 @@ X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} &
 \end{align*}
 
 \subsubsection{DFT\buchSeite{479-481}}
+\begin{align*}
+\omega_k=\frac{2\pi k}{N}&& f_k=\frac{kf_s}{N} && z_k=e^{j\omega_k}=e^{2\pi jk/N} && k=0,1,\ldots , N-1 
+\end{align*}
+\begin{align*}
+X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} && \text{mit} && z_k=e^{j\omega_k} = z_k=e^{n\pi j k /N}
+\end{align*}
+\begin{align*}
+\Delta_{bin}=\frac{2\pi}{N} && \text{or} && \Delta f_{bin}=\frac{f_s}{N} && \omega_{k+N}=\omega_k+2\pi
+\end{align*}
 \subsubsection{Zero Padding\buchSeite{482}}
+Alle an das Signal angehängten '0' ändern die DTFT nicht 
+\begin{align*}
+x= [x_0,x_1,\ldots,x_{L-1}] && x_D=[x_0,x_1,\ldots,x_{L-1},\underbrace{0,0,\ldots,0}_{D zeros}] && X_D(\omega_k)=X(\omega_k)\\
+\end{align*}
+
+Alle vor das Signal angehängten '0' verschieben das Original Signal zurück
+\begin{align*}
+x= [x_0,x_1,\ldots,x_{L-1}] && x_D=[\underbrace{0,0,\ldots,0}_{D zeros},x_0,x_1,\ldots,x_{L-1}] \\
+X_D(\omega)=e^{-j\omega D}X(\omega) && X_D(\omega_k)=e^{-j\omega_k D}X(\omega_k) && k=0,1,\ldots,N-1
+\end{align*}
 
 \subsection{Physical versus Computional Resolution\buchSeite{482-485}}
 
