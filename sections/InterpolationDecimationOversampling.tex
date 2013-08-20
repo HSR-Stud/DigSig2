@@ -31,6 +31,18 @@ $D(f)=\begin{cases} L,\ if\ |f|\leq\frac{f_s}{2}\\
 \end{cases}$
 
 \subsection{Linear and Hold Interpolators\buchSeite{657ff}}
+\subsubsection{Hold Interpolator}
+$d(k')=\begin{cases}
+1\text{, if }0\leq k' \leq L -1\\
+0\text{, otherwise}\end{cases}$\\
+$y_{up}(nL+i)=x(n)$\\
+Frequency response: $D(f)=\frac{\sin(\pi f/f_s)}{\sin(\pi f/Lf_s}e^{-j\pi(L-1)f/Lf_s}$
+\subsubsection{Linear Interpolator}
+$d(k')=\begin{cases}
+1-\frac{|k'|}{L}\text{, if }|k'|\leq L -1\\
+0\text{, otherwise}\end{cases}$\\
+$y_{up}(nL+i)=(1-\frac{i}{L}x(n)+\frac{i}{L}x(n+1)$\\
+Frequency response: $D(f)=\frac{1}{L}\left|\frac{\sin(\pi f/f_s)}{\sin(\pi f/Lf_s}\right|^2$
 \subsection{Design Examples\buchSeite{661ff}}
 \subsection{Decimation and Oversampling\buchSeite{686ff}}
 \subsection{Sampling Rate Converter\buchSeite{691ff}}
