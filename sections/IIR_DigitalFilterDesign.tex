@@ -49,11 +49,11 @@ Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" ben
 	\\ \hline
 \end{tabular}
 
-\begin{tabular}{|l|l|l|l|l|l|}
+\begin{tabularx}{\textwidth}{|X|l|l|l|l|l|}
 	\hline
 	\textbf{filter} & $H(z) = $ & $H_a(s) = $ & $\alpha = $ & $a=$ & $b=$
 	\\ \hline
-	lowpass	&
+	low-pass	&
 	$b\frac{1 + z^{-1}}{1 - a z^{-1}}$ &
 	$\frac{\alpha}{s + \alpha}$	&
 	$ \frac{G_c}{\sqrt{1-G_c^2}}\tan\left(\frac{\omega_c}{2}\right)
@@ -61,7 +61,7 @@ Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" ben
 	$\frac{1 - \alpha}{1 + \alpha}$ &
 	$\frac{\alpha}{1 + \alpha} = \frac{1 - a}{2}$	
 	\\ \hline
-	highpass &
+	high-pass &
 	$b\frac{1 - z^{-1}}{1 - a z^{-1}}$ &
 	$\frac{s}{s + \alpha}$ &
 	$\frac{\sqrt{1-G_c^2}}{G_c}\tan\left(\frac{\omega_c}{2}\right)
@@ -83,7 +83,7 @@ Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" ben
 	--&
 	$\frac{1}{1+\frac{G_B}{\sqrt{1-G_B^2}}\tan\left(\frac{\Delta\omega}{2}\right)}$
 	\\ \hline
-\end{tabular}
+\end{tabularx}
 \vspace{1em}
 
 Designflow:
