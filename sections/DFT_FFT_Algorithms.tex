@@ -84,26 +84,26 @@ For example let L = 4
 \end{flalign*}
 
 \subsubsection{DTFT over a Frequency Range\buchSeite{478}}
-\begin{align*}
-\omega_k=\frac{2\pi k}{N}&& f_k=\frac{kf_s}{N} && z_k=e^{j\omega_k}=e^{2\pi jk/N} && k=0,1,\ldots , N-1 
-\end{align*}
-\begin{align*}
-X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} && \text{mit} && z_k=e^{j\omega_k} = z_k=e^{n\pi j k /N}
-\end{align*}
-\begin{align*}
-\omega_k=\omega_a+k\frac{\omega_b-\omega_a}{N}=\omega_a+k\Delta\omega_{bin} && \omega_{bin}=\frac{\omega_b-\omega_a}{N} && \text{or in Hz} && \Delta f_{bin}=\frac{f_b-f_a}{N} && \omega_{k+N}=\omega_k+2\pi
-\end{align*}
+\begin{flalign*}
+& \omega_k=\frac{2\pi k}{N}&& f_k=\frac{kf_s}{N} && z_k=e^{j\omega_k}=e^{2\pi jk/N} && k=0,1,\ldots , N-1 
+\end{flalign*}
+\begin{flalign*}
+& X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} && && 
+\end{flalign*}
+\begin{flalign*}
+&\omega_k=\omega_a+k\frac{\omega_b-\omega_a}{N}=\omega_a+k\Delta\omega_{bin} && \omega_{bin}=\frac{\omega_b-\omega_a}{N} && \text{or in Hz} && \Delta f_{bin}=\frac{f_b-f_a}{N} && \omega_{k+N}=\omega_k+2\pi
+\end{flalign*}
 
 \subsubsection{DFT\buchSeite{479-481}}
-\begin{align*}
-\omega_k=\frac{2\pi k}{N}&& f_k=\frac{kf_s}{N} && z_k=e^{j\omega_k}=e^{2\pi jk/N} && k=0,1,\ldots , N-1 
-\end{align*}
-\begin{align*}
-X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} && \text{mit} && z_k=e^{j\omega_k} = z_k=e^{n\pi j k /N}
-\end{align*}
-\begin{align*}
-\Delta\omega_{bin}=\frac{2\pi}{N} && \text{or} && \Delta f_{bin}=\frac{f_s}{N} && \omega_{k+N}=\omega_k+2\pi
-\end{align*}
+\begin{flalign*}
+&\omega_k=\frac{2\pi k}{N}&& f_k=\frac{kf_s}{N} && z_k=e^{j\omega_k}=e^{2\pi jk/N} && k=0,1,\ldots , N-1 
+\end{flalign*}
+\begin{flalign*}
+& X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} && &&
+\end{flalign*}
+\begin{flalign*}
+&\Delta\omega_{bin}=\frac{2\pi}{N} && \text{or} && \Delta f_{bin}=\frac{f_s}{N} && \omega_{k+N}=\omega_k+2\pi
+\end{flalign*}
 \subsubsection{Zero Padding\buchSeite{482}}
 Alle an das Signal angehängten '0' ändern die DTFT nicht 
 \begin{align*}
