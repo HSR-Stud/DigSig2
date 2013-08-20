@@ -78,6 +78,22 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 
 
 \subsubsection{Hamming Window}
+\begin{itemize}
+	\item Improved passband and stopband ripple suppression at the cost of a wider transition width.
+	\item Hamming window impulse response:
+	\begin{align*}
+		w(n) = 0.54 -0.46cos\left(\frac{2\pi n}{N-1}\right),&&n= 0,1,\dots,N-1
+	\end{align*}
+	\item Filter impuls response:
+	\begin{align*}
+		h(n) = w(n)d(n-M),&&-\infty < n < \infty
+	\end{align*}
+	\item e.g. lowpass filter
+	\begin{align*}
+		h(n) = \left[0.54 -0.46cos\left(\frac{2\pi n}{N-1}\right)\right]\cdot\frac{sin(\omega_c(n-M))}{\pi (n-M)}
+	\end{align*}
+	
+\end{itemize}
 
 
 \subsubsection{Kaiser Window}
