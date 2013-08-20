@@ -65,6 +65,8 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 &\text{highpass filter} && d(k) = \delta(k) - \frac{sin(\omega_ck)}{\pi k} \\
 &\text{bandpass filter} && d(k) = \frac{sin(\omega_bk) -sin(\omega_ak)}{\pi k} \\
 &\text{bandstop filter} && d(k) = \delta(k) - \frac{sin(\omega_bk) -sin(\omega_ak)}{\pi k} \\
+&\text{differentiator} && d(k) = \frac{cos(\pi k)}{k}-\frac{sin(\pi k)}{\pi k^2}\\
+&\text{Hilber transformer} && d(k) = \frac{1-cos(\pi k)}{\pi k}
 \end{align*}
 
 \subsubsection{Rectangular Window}
