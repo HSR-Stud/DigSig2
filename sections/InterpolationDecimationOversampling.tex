@@ -13,8 +13,16 @@ FIR approximation to the ideal interpolator (non causal): $d(k')=\frac{\sin(\pi 
 By delaying this filter by LM samples, it gets causal: $d(k')=\frac{\sin(\pi (n'-LM)/L)}{\pi (n'-LM)/L}$\\
 Using a Hamming window: $h(n')=w(n')d(n'-LM)$, with $w(n') = 0.54-0.46\cos(\frac{2\pi n'}{N-1})$\\
 The output of the non causal FIR interpolator filter is obtained as the convolution of the upsampled signal with the filter $y_{up}(n') = \sum\limits_{k'=-LM}^{LM}d(k')x_{up}(n'-k')$\\
-\subsubsection{Polyphase Form}
+\subsubsection{Polyphase Form\buchSeite{640ff}}
 Better because less multiplications are needed. But it is bullshit to sommarize, therefore see chapter 12, pages 18 to 28.
+Nevertheless a little help:\\
+The great interpolator $d(k')$ can be splitted up to the polyphase subfilter: $d_i(k) = d(kL+i)$ for $-M\leq k \leq M-1$\\
+So the output can be described as $y_{up}(nL+i)=\sum\limits_{k=-M}^{M-1} d_i(k) x_{up}(nL-kL)$\\
+Now the output $y_{up}(nL+i)$ can be splittet up to $y_i(n)=y_{up}(nL+i)$\\\\
+The nice feature is that this output can be expressed with the original input $x(n)$ so that is:\\ $y_i(n)=\sum\limits_{k=-M}^{M-1} d_i(k) x(n-k)$\\\\
+The computational rate in terms of the total number of multiplications per second is:\\
+ $R=N (L f_s)=N L f_s \quad \text{(direct form)}$\\
+ $R=L (2M f_s)=N f_s \quad \text{(polyphase form)}$\\
 \subsubsection{Frequency domain characteristics}
 %TODO Figure von Seite 34
 A filter $D(f)$ is needed, which removes all the spectral copies inside the high-rate Nyquist band, which were not in the low-rate Nyquist band. Ideal: $X'(f) = D(f)X(f)$.
@@ -23,6 +31,18 @@ $D(f)=\begin{cases} L,\ if\ |f|\leq\frac{f_s}{2}\\
 \end{cases}$
 
 \subsection{Linear and Hold Interpolators\buchSeite{657ff}}
+\subsubsection{Hold Interpolator}
+$d(k')=\begin{cases}
+1\text{, if }0\leq k' \leq L -1\\
+0\text{, otherwise}\end{cases}$\\
+$y_{up}(nL+i)=x(n)$\\
+Frequency response: $D(f)=\frac{\sin(\pi f/f_s)}{\sin(\pi f/Lf_s}e^{-j\pi(L-1)f/Lf_s}$
+\subsubsection{Linear Interpolator}
+$d(k')=\begin{cases}
+1-\frac{|k'|}{L}\text{, if }|k'|\leq L -1\\
+0\text{, otherwise}\end{cases}$\\
+$y_{up}(nL+i)=(1-\frac{i}{L}x(n)+\frac{i}{L}x(n+1)$\\
+Frequency response: $D(f)=\frac{1}{L}\left|\frac{\sin(\pi f/f_s)}{\sin(\pi f/Lf_s}\right|^2$
 \subsection{Design Examples\buchSeite{661ff}}
 \subsection{Decimation and Oversampling\buchSeite{686ff}}
 \subsection{Sampling Rate Converter\buchSeite{691ff}}
