@@ -128,6 +128,7 @@ NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
 =\int\limits_{-\pi}^{\pi}|H(\omega)|^2 \frac{d\omega}{2\pi} =\sum_n h_n^2 &&&&\\
 & \text{Ideal Lowpass filter} && NRR=\frac{\sigma_{y_{\nu}}^2}{\sigma_{\nu}^2}
 =\int\limits_{-\omega_c}^{\omega_c}1\frac{\omega}{2\pi}=\frac{2\omega_c}{2\pi}=\frac{\omega_c}{\pi} &&&&\\
+& \text{The same hold for an ideal bandpass filter} && NRR=\frac{\omega_b-\omega_a}{\pi}&&&&\\
 &\text{Input mean-square noise}&&\sigma_{\nu}^2 &&&&\\
 &\text{Output mean-square noise}&& \sigma_{y_{\nu}}^2 &&&&\\
 & \text{SNR and NRR ratio}&& \frac{SNR_{out}}{SNR_{in}}=\frac{1}{NRR} \cdot \frac{E[y_s(n)^2]}{E[s(n)^2]}&&&&\\
@@ -183,7 +184,7 @@ normalized to unity half-way between the notches:
 & T_H && \text{line delay} &&&& f_H && \text{horizontal velocities} \\
 & T_F && \text{frame delays} &&&& f_F && \text{vertical velocities} \\
 & T_F=NT_H &&&&&& N && \text{N lines}\\
-& f_H=Nf_F&& f_=\frac{1}{t_H}&& f_F\frac{1}{T_F}&& f_H=\frac{\nu_x}{a} && f_F=\frac{\nu_y}{b}&&
+& f_H=Nf_F&& f_=\frac{1}{t_H}&& f_F=\frac{1}{T_F}&& f_H=\frac{\nu_x}{a} && f_F=\frac{\nu_y}{b}&&
 \end{flalign*}
 
 The video signal $V(t)$ will have spectrum with sharp spectral lines at $f_{km}$
