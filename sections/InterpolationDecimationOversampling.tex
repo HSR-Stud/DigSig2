@@ -1,8 +1,8 @@
 \section{Interpolation, Decimation and Oversamlpling\buch{Chapter 12}}
-\subsection{Interpolation and Oversampling}
+\subsection{Interpolation and Oversampling\buchSeite{532ff}}
 Oversampling is increasing the sample rate and requires some form of interpolation. New samples at a higher sampling rate are created. These are calculated using a FIR filter. The spectrum of the low-rate and the high-rate signal are identical, if the frequency axis is not normalized.
 
-\subsection{Interpolation Filter Design}
+\subsection{Interpolation Filter Design\buchSeite{638ff}}
 \subsubsection{Direct form}
 %TODO Fig. 12.2.1
 There are now two discrete times, a fast one $n'$ and a slow one called $n$.\\
@@ -21,11 +21,9 @@ A filter $D(f)$ is needed, which removes all the spectral copies inside the high
 $D(f)=\begin{cases} L,\ if\ |f|\leq\frac{f_s}{2}\\
 0,\ if\ \frac{f_s}{2}\leq |f|\leq\frac{f'_s}{2}
 \end{cases}$
-\subsection{Linear and Hold Interpolators}
-\subsection{Design Examples}
-\subsection{Decimation and Oversampling}
-\subsection{Sampling Rate Converter}
-\subsection{Noise Shaping Quantizer}
 
-
-
+\subsection{Linear and Hold Interpolators\buchSeite{657ff}}
+\subsection{Design Examples\buchSeite{661ff}}
+\subsection{Decimation and Oversampling\buchSeite{686ff}}
+\subsection{Sampling Rate Converter\buchSeite{691ff}}
+\subsection{Noise Shaping Quantizer\buchSeite{598ff}}

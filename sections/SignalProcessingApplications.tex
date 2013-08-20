@@ -6,14 +6,14 @@
 	&& H(z) = \frac{R \sin \omega_0 z^{-1}}{1-2R\cos \omega_0 z^{-1} + R^2 z^{-2}}
 \end{align*}
 
-\subsubsection{Periodic Waveform Generators\buchSeite{31-329}}
+\subsubsection{Periodic Waveform Generators\buchSeite{321-329}}
 In order for $x(n)$ to be periodic in the time index $n$ with some period, say of $D$ samples,
 it is necessary that one whole period of the signal fit within the $D$ samples, that is,
 at $n = D$ the signal must cycle by one whole period.
 
 This requires that $x(D) = x(0)$, which requires
 \begin{align*}
-	\omega = \frac{2\pi}{D} && f = \frac{f_s}{D} && f_s = D && T_D = DT
+	\omega = \frac{2\pi}{D} && f = \frac{f_s}{D} && f_s = Df && T_D = DT
 \end{align*}
 
 
@@ -58,7 +58,7 @@ the circular wavetable
 is loaded with the waveform in forward order. Cycling over the wavetable at frequency
 $f = cfs/D$ is accomplished by incrementing the offset index q according to the iteration:
 \begin{align*}
-& q_{n+1}=(q_n+c)\%(D)&& &&\\
+& q_{n+1}=(q_n-c)\%(D)&& &&\\
 & i=\lfloor q\rfloor && \text{truncating down} && y=w[i]&&\\
 & j=\lfloor q+1\rfloor \%(D) && \text{truncating up} && y=w[j]&&\\
 & k=\lfloor q+0.5\rfloor \%(D) && \text{rounding} && y=w[k]&&
