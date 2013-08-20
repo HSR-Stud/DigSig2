@@ -94,7 +94,37 @@ Designflow:
 \end{enumerate}
 
 \subsection{Parametric Equalizer Filters\buchSeite{581-589}}
+\subsubsection{Lowpass shelving filter}
+\[
+	H_{LP}(z) = 
+	\frac{
+		\left(\frac{G_0 + G\beta}{1+\beta}\right) - 
+		\left(\frac{G_0-G\beta}{1+\beta}\right)z^{-1}
+	}{
+		1 -
+		\left(\frac{1-\beta}{1+\beta}\right)z^{-1}
+	}
+	\qquad
+	\beta =
+		\sqrt{\frac{G_c^2-G_0^2}{G^2-G_c^2}}
+		\tan\left(\frac{\omega_c}{2}\right)
+\]
 
+\subsubsection{Highpass shelving filter}
+\[
+	H_{HP}(z) = 
+	\frac{
+		\left(\frac{G_0 + G\beta}{1+\beta}\right) + 
+		\left(\frac{G_0-G\beta}{1+\beta}\right)z^{-1}
+	}{
+		1 +
+		\left(\frac{1-\beta}{1+\beta}\right)z^{-1}
+	}
+	\qquad
+	\beta =
+		\sqrt{\frac{G_c^2-G_0^2}{G^2-G_c^2}}
+		\cot\left(\frac{\omega_c}{2}\right)
+\]
 
 \subsection{Comb Filters\buchSeite{590ff}}
 
