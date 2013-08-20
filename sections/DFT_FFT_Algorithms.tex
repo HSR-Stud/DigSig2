@@ -111,6 +111,7 @@ For example let L = 4
 \begin{flalign*}
 &\Delta\omega_{bin}=\frac{2\pi}{N} && \text{or} && \Delta f_{bin}=\frac{f_s}{N} && \omega_{k+N}=\omega_k+2\pi
 \end{flalign*}
+
 \subsubsection{Zero Padding\buchSeite{482}}
 Alle an das Signal angehängten '0' ändern die DTFT nicht 
 \begin{align*}
@@ -211,7 +212,7 @@ x_0\\x_1\\ \vdots\\ x_n
 & \text{fehlende Stelle mit '0' auffüllen}&&
 \end{flalign*}
 
-\subsection{Inverse DFT\buchSeite{496-499}}
+\subsection{IDFT\buchSeite{496-499}}
 \begin{flalign*}
 &\tilde{x}=IDFT(X)=\tilde{A}^{-1} X && \tilde{x}=IDFT(X)=\frac{1}{N}\tilde{A}^{*} X && IDFT(X) = \frac{1}{N}\left[DFT(X^*)\right]^* \label{eq:IDFT}\\
 &\tilde{x}=x && \text{nur wenn} && N \geq L\notag\\
@@ -220,7 +221,7 @@ x_0\\x_1\\ \vdots\\ x_n
 
 \subsection{Sampling of Periodic Signals and the DFT\buchSeite{499-501}}
 \begin{flalign*}
-& x(n)=\frac{1}{N}\sum_{k=0}^{N-1}X(\omega_k)e^{j\omega_k n} && \text{(DFS)} &&\\
+& x(n)=\frac{1}{N}\sum_{k=0}^{N-1}X(\omega_k)e^{j\omega_k n} && \text{discrete Fourier series (DFS)} &&\\
 & X(\omega_k)=\sum_{k=0}^{N-1}x(n)e^{-j\omega_k n} && \text{(DFS coefficients)}&&
 \end{flalign*}
 \subsection{FFT\buchSeite{504-511}}
