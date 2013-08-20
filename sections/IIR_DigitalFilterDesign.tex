@@ -28,17 +28,20 @@ frequency)
 	$ \Omega = g(\omega) = \frac{\sin(\omega)}{\cos(\omega) - c}$ 
 	\\ \hline
 \end{tabularx}
+\vspace{1em}
 
 Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" benötigt. 
 
-\subsection{First-Order Lowpass and Highpass Filters\buchSeite{566-573}}
+\subsection{First-Order LP/HP, Second-Order Peaking an Notching Filters\buchSeite{566-581}}
 \begin{tabular}{|l|l|l|}
 	\hline
-	cutoff frequency & $f_c$ &
+	cutoff/center frequency & $f_c$ &
 	\\ \hline
 	sampling rate & $f_s$ &
 	\\ \hline
-	digital cutoff frequency & $\omega_c$ & $ = \frac{2\pi f_c}{f_s}$ \qquad (usually at 3dB-point)
+	bandwith & $\Delta f$ & Peaking/Notching filter only
+	\\ \hline
+	digital cutoff/center frequency & $\omega_c$ & $ = \frac{2\pi f_c}{f_s}$ \qquad (usually at 3dB-point)
 	\\ \hline
 	drop in dB at $f_c$ & $A_c$ & $= -10\log_{10}(G_c^2) = -20\log_{10}(G_c)$ \qquad (usually 3dB)
 	\\ \hline
@@ -53,7 +56,7 @@ Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" ben
 	lowpass	&
 	$b\frac{1 + z^{-1}}{1 - a z^{-1}}$ &
 	$\frac{\alpha}{s + \alpha}$	&
-	$\frac{G_c}{\sqrt{1- G_c^2}} \Omega_c = \frac{G_c}{\sqrt{1-g_c^2}}\tan\left(\frac{\omega_c}{2}\right)
+	$ \frac{G_c}{\sqrt{1-g_c^2}}\tan\left(\frac{\omega_c}{2}\right)
 	= \tan\left(\frac{\omega_c}{2}\right)\vert_{G_c^2 = \frac{1}{2}}$&
 	$\frac{1 - \alpha}{1 + \alpha}$ &
 	$\frac{\alpha}{1 + \alpha} = \frac{1 - a}{2}$	
@@ -61,10 +64,24 @@ Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" ben
 	highpass &
 	$b\frac{1 - z^{-1}}{1 - a z^{-1}}$ &
 	$\frac{s}{s + \alpha}$ &
-	$\frac{\sqrt{1-G_c^2}}{G_c}\Omega_c = \frac{\sqrt{1-G_c^2}}{G_c}\tan\left(\frac{\omega_c}{2}\right)
+	$\frac{\sqrt{1-G_c^2}}{G_c}\tan\left(\frac{\omega_c}{2}\right)
 	=\tan\left(\frac{\omega_c}{2}\right)\vert_{G_c^2 = \frac{1}{2}}$&
 	$\frac{1-\alpha}{1+\alpha}$&
 	$\frac{1}{1+\alpha} = \frac{1 + a}{2}$
+	\\ \hline
+	notch &
+	$b\frac{1-2\cos(\omega_0) z^{-1} + z^{-2}}{1 -2b \cos(\omega_o) z^{-1} + (2b-1)z^{-2}}$&
+	$\frac{s^2 + \Omega_0^2}{s^2+\alpha s + \Omega_0^2}$&
+	$\frac{\sqrt{1-G_B^2}}{G_B}(1+\Omega_0^2)\tan\left(\frac{\Delta\omega}{2}\right)$&
+	--&
+	$\frac{1}{1+\frac{\sqrt{1-G_B^2}}{G_B}\tan\left(\frac{\Delta\omega}{2}\right)}$
+	\\ \hline
+	peak &
+	$(1-b)\frac{1-z^{-2}}{1-2b\cos(\omega_0)z^{-1} + (2b-1)z^{-2}}$&
+	$\frac{\alpha s}{s^2 + \alpha s + \Omega_0^2}$&
+	$\frac{G_B}{\sqrt{1-G_B^2}}(1+\Omega_0^2)\tan\left(\frac{\Delta\omega}{2}\right)$&
+	--&
+	$\frac{1}{1+\frac{G_B}{\sqrt{1-G_B^2}}\tan\left(\frac{\Delta\omega}{2}\right)}$
 	\\ \hline
 \end{tabular}
 \vspace{1em}
@@ -75,14 +92,10 @@ Designflow:
 	\item Compute the analog parameter $\alpha$
 	\item Compute the digital filter coefficients $\{a,b\}$.
 \end{enumerate}
-Lowpass:
-\begin{align}
-	H(z) &= \frac{b_0 + b_1 z^{-1}}{1+a_1 z^-1}\\
-	\omega_c &= \frac{2 \pi f_c}{f_s}\\
-	|H(\omega_c)|^2 &= \frac{1}{2}
-\end{align}
-\subsection{Second-Order Peaking and Notching Filters}
-\subsection{Parametric Equalizer Filters}
+
+\subsection{Parametric Equalizer Filters\buchSeite{581-589}}
+
+
 \subsection{Comb Filters}
 
 \subsection{Higher Order Filters}
