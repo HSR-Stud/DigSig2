@@ -117,11 +117,34 @@ X_D(\omega)=e^{-j\omega D}X(\omega) && X_D(\omega_k)=e^{-j\omega_k D}X(\omega_k)
 \end{align*}
 
 \subsection{Physical versus Computional Resolution\buchSeite{482-485}}
-Eine künstliche Frequenzauflösung mittels Vergrösserung des N kann keine peaks die mit zu kleinem L verpasst wurden wieder rekonstruieren. 
+Eine künstliche Frequenzauflösung mittels Vergrösserung des N kann keine peaks die mit zu kleinem L verpasst wurden wieder rekonstruieren. \\
 
-\begin{align*}
-f_0 = f_{k_0}=\frac{k_0f_s}{N} && k_0=N\frac{f_0}{k_s} && k=N\frac{f}{f_s} && 0 \leq f \leq f_s && 0 \leq k \leq N
-\end{align*}
+at frequency $f_0$, the DTFT will exhibit a mainlobe peak arising
+from the shifted window $W(f - f_0)$. When we evaluate the N-point DFT, we would like
+the peak at $f_0$ to coincide with one of the N DFT frequencies (9.2.7). This will happen if
+there is an integer $0 \leq k_0 \leq N - 1$, such that
+
+\begin{flalign*}
+& f_0 = f_{k_0}=\frac{k_0f_s}{N} && k_0=N\frac{f_0}{k_s} && k=N\frac{f}{f_s} && 0 \leq f \leq f_s && 0 \leq k \leq N
+\end{flalign*}
+
+Similarly, the peak at the negative frequency, $-f_0$, or at the equivalent shifted one,
+$f_s - f_0$, will correspond to the integer, $-k_0$, or to the shifted one $N - k_0$:
+
+\begin{flalign*}
+& -f_0 = -f_{k_0}=-k_0\frac{f_s}{N} && \Rightarrow && f_s-f_0=f_s-k_0\frac{f_s}{N}=(N-k_0)\frac{f_s}{N}
+\end{flalign*}
+In summary, for each sinusoid with peaks at $\pm f_0$, we would like our DFT to show
+these peaks at the integers:
+
+\begin{flalign*}
+& {f_0, -f_0} && \Rightarrow && {f_0, f_s - f_0} && \Rightarrow && {k_0, N - k_0}
+\end{flalign*}
+
+
+
+
+
 
 \subsection{Matrix Form of DFT\buchSeite{486-488}}
 \begin{align*}
