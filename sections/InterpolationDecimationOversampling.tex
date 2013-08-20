@@ -14,7 +14,7 @@ By delaying this filter by LM samples, it gets causal: $d(k')=\frac{\sin(\pi (n'
 Using a Hamming window: $h(n')=w(n')d(n'-LM)$, with $w(n') = 0.54-0.46\cos(\frac{2\pi n'}{N-1})$\\
 The output of the non causal FIR interpolator filter is obtained as the convolution of the upsampled signal with the filter $y_{up}(n') = \sum\limits_{k'=-LM}^{LM}d(k')x_{up}(n'-k')$\\
 \subsubsection{Polyphase Form\buchSeite{640ff}}
-Better because less multiplications are needed. But it is bullshit to sommarize, therefore see chapter 12, pages 18 to 28.
+Better because less multiplications are needed. But it is bullshit to summarize, therefore see chapter 12, pages 18 to 28.
 Nevertheless a little help:\\
 The great interpolator $d(k')$ can be splitted up to the polyphase subfilter: $d_i(k) = d(kL+i)$ for $-M\leq k \leq M-1$\\
 So the output can be described as $y_{up}(nL+i)=\sum\limits_{k=-M}^{M-1} d_i(k) x_{up}(nL-kL)$\\
