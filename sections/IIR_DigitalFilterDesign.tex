@@ -20,11 +20,11 @@ frequency)
 	$ \Omega = g(\omega) = - \cot(\frac{\omega}{2})$
 	\\ \hline
 	bandpass & 
-	$s = f(z) = \frac{1 - 2cz^{-1} z^{-2}}{1 + z^{-2}}$ &
+	$s = f(z) = \frac{1 - 2cz^{-1} +z^{-2}}{1 - z^{-2}}$ &
 	$ \Omega = g(\omega) = \frac{c - \cos(\omega)}{\sin(\omega)}$
 	\\ \hline
 	bandstop & 
-	$s = f(z) = \frac{1 + z^{-2}}{1 - 2cz^{-1} z^{-2}}$ &
+	$s = f(z) = \frac{1 - z^{-2}}{1 - 2cz^{-1} + z^{-2}}$ &
 	$ \Omega = g(\omega) = \frac{\sin(\omega)}{\cos(\omega) - c}$ 
 	\\ \hline
 \end{tabularx}
@@ -45,7 +45,7 @@ Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" ben
 	\\ \hline
 	drop in dB at $f_c$ & $A_c$ & $= -10\log_{10}(G_c^2) = -20\log_{10}(G_c)$ \qquad (usually 3dB)
 	\\ \hline
-	drop factor & $G_c$ & $=10^{A_c/20} \qquad \longrightarrow $ If $A_c = 3$dB $\rightarrow G_c^2 = 1/2$
+	drop factor & $G_c$ & $=10^{-A_c/20} \qquad \longrightarrow $ If $A_c = 3$dB $\rightarrow G_c^2 = 1/2$
 	\\ \hline
 \end{tabular}
 
