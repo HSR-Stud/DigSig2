@@ -69,6 +69,17 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 &\text{Hilber transformer} && d(k) = \frac{1-cos(\pi k)}{\pi k}
 \end{align*}
 
+\subsubsection{Window comparison}
+\begin{tabular}{|l|c|c|c|c|c|c|}
+	\hline
+	Window & $\delta$ & $A_{stop}$ & $A_{pass}$ & $D$ & $R$ & $c$ \\
+	\hline
+	Rectangular & 8.9\% & $-21$ dB & $1.55$ dB & 0.92 & $-13$ dB & 1\\
+	Hamming & 0.2\% & $-54$ dB & $0.03$ dB & 3.21 & $-40$ dB & 2\\
+	Kaiser & variable $\delta$ & $-20log_{10}\delta$ & $17.372\delta$ & $(A-7.95)/14.36$ & variable R & $6(R+12)/55$\\
+	\hline
+\end{tabular}
+
 \subsubsection{Rectangular Window\buchSeite{535ff}}
 \begin{itemize}
 	\item Simplest window
