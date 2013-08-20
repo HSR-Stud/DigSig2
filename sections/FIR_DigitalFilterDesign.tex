@@ -92,11 +92,22 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 	\begin{align*}
 		h(n) = \left[0.54 -0.46cos\left(\frac{2\pi n}{N-1}\right)\right]\cdot\frac{sin(\omega_c(n-M))}{\pi (n-M)}
 	\end{align*}
-	
 \end{itemize}
 
 
 \subsubsection{Kaiser Window}
+\begin{tabular}{|l|l|}
+	\hline
+	cutoff frequency & $f_c=\frac{1}{2}(f_{pass}+f_{stop})$ \\ \hline
+	transition width & $\Delta f = f_{stop}-f_{pass}$\\ \hline
+	passband/stopband frequency & $f_{pass} = f_c - \frac{1}{2}\Delta f,\quad f_{stop}= fc+\frac{1}{2}\Delta f$\\ \hline
+	digital frequencies & $\omega_{pass}=\frac{2\pi f_{pass}}{f_s},\quad \omega_{stop}=\frac{2\pi f_{stop}}{f_s},\quad
+						  \omega_{c}=\frac{2\pi f_c}{f_s},\quad \Delta\omega=\frac{2\pi \Delta f}{f_s}$\\
+
+	\hline						  
+\end{tabular}
+
+
 \begin{align*}
 	\alpha = \left\{
 		\begin{array}{l l}
