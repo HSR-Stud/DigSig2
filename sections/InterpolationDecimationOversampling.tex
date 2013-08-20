@@ -1,7 +1,27 @@
 \section{Interpolation, Decimation and Oversamlpling\buch{Chapter 12}}
 \subsection{Interpolation and Oversampling}
-\subsection{Interpolation Filter Design} % Behandlet?
-\subsection{Linear and Hold Interpolators} % Behandlet?
+Oversampling is increasing the sample rate and requires some form of interpolation. New samples at a higher sampling rate are created. These are calculated using a FIR filter. The spectrum of the low-rate and the high-rate signal are identical, if the frequency axis is not normalized.
+
+\subsection{Interpolation Filter Design}
+\subsubsection{Direct form}
+%TODO Fig. 12.2.1
+There are now two discrete times, a fast one $n'$ and a slow one called $n$.\\
+The ideal L-fold interpolation filter is a lowpass filter operating at the fast sampling rate $f'_s=Lf_s$ and having its cutoff frequency at the low-sampling rates Nyquist frequency $f_s/2$.\\
+$f_c=\frac{f_s}{2}=\frac{f'_s}{2L}$\\
+$\omega'_c=\frac{2\pi f_c}{f'_s}=\frac{\pi}{L}$\\
+FIR approximation to the ideal interpolator (non causal): $d(k')=\frac{\sin(\pi k'/L)}{\pi k'/L}$, with $-LM\leq k'\leq LM$\\
+By delaying this filter by LM samples, it gets causal: $d(k')=\frac{\sin(\pi (n'-LM)/L)}{\pi (n'-LM)/L}$\\
+Using a Hamming window: $h(n')=w(n')d(n'-LM)$, with $w(n') = 0.54-0.46\cos(\frac{2\pi n'}{N-1})$\\
+The output of the non causal FIR interpolator filter is obtained as the convolution of the upsampled signal with the filter $y_{up}(n') = \sum\limits_{k'=-LM}^{LM}d(k')x_{up}(n'-k')$\\
+\subsubsection{Polyphase Form}
+Better because less multiplications are needed. But it is bullshit to sommarize, therefore see chapter 12, pages 18 to 28.
+\subsubsection{Frequency domain characteristics}
+%TODO Figure von Seite 34
+A filter $D(f)$ is needed, which removes all the spectral copies inside the high-rate Nyquist band, which were not in the low-rate Nyquist band. Ideal: $X'(f) = D(f)X(f)$.
+$D(f)=\begin{cases} L,\ if\ |f|\leq\frac{f_s}{2}\\
+0,\ if\ \frac{f_s}{2}\leq |f|\leq\frac{f'_s}{2}
+\end{cases}$
+\subsection{Linear and Hold Interpolators}
 \subsection{Design Examples}
 \subsection{Decimation and Oversampling}
 \subsection{Sampling Rate Converter}
