@@ -69,7 +69,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 &\text{Hilber transformer} && d(k) = \frac{1-cos(\pi k)}{\pi k}
 \end{align*}
 
-\subsubsection{Rectangular Window}
+\subsubsection{Rectangular Window\buchSeite{535ff}}
 \begin{itemize}
 	\item Simplest window
 	\item truncate the infinite impulse response: $-M < k < M$
@@ -79,7 +79,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 \end{itemize}
 
 
-\subsubsection{Hamming Window}
+\subsubsection{Hamming Window\buchSeite{540}}
 \begin{itemize}
 	\item Improved passband and stopband ripple suppression at the cost of a wider transition width.
 	\item Hamming window impulse response:
@@ -97,7 +97,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 \end{itemize}
 
 
-\subsubsection{Kaiser Window}
+\subsubsection{Kaiser Window\buchSeite{541ff}}
 \begin{tabular}{|l|l|}
 	\hline
 	cutoff frequency & $f_c=\frac{1}{2}(f_{pass}+f_{stop})$ \\ \hline
@@ -123,7 +123,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 	& $I_0=\text{modified Bessel function of the first kind and 0th order.}$\\
 	\hline						  
 \end{tabular}
-\subsubsection{Design steps for a lowpass filter with Kaiser Window}
+\subsubsection{Design steps for a lowpass filter with Kaiser Window\buchSeite{545}}
 \begin{enumerate}
 \item Calculate $f_c$, $\Delta f$ and $\omega_c$.
 \item Calculate $\delta_{pass}$ and $\delta_{stop}$.
@@ -141,9 +141,9 @@ The role of $f_{pass}$ and $f_{stop}$ are interchanged, therefore $\Delta f = f_
 \paragraph{Bandpass filter}~\\
 The final filter design will have equal transition widths, therefore $\Delta f = min(\Delta f_a, \Delta f_b)$ with $\Delta f_a=f_{pa}-f_{sa}$ and $\Delta f_b=f_{pb}-f_{sb}$.
 
-\subsubsection{Kaiser Window for Spectral Analysis}
+\subsubsection{Kaiser Window for Spectral Analysis\buchSeite{555ff}}
 
-\subsection{Frequency Sampling Method}
+\subsection{Frequency Sampling Method\buchSeite{558}}
 
 \subsection{Other FIR Design Methods}
 
