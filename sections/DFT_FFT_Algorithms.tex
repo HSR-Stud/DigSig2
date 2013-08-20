@@ -23,6 +23,13 @@
 	\end{itemize}\\
 \end{tabularx}
 
+\subsection{Komplexität}
+\begin{flalign*}
+& \text{DFT direkt} && N^2 &&\\
+& \text{Mittels FFT} && \frac{N log_2(N)}{2} &&\\
+& \text{mod reduktion} && N(M-1) && \text{mit} && M=\frac{L}{N}&&
+\end{flalign*}
+
 \subsection{Frequency Resolution and Windowing\buchSeite{464-472}}
 \begin{tabular}{|l|l|l|}
 	\hline
