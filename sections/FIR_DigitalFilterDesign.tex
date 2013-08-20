@@ -70,14 +70,17 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 \end{align*}
 
 \subsubsection{Window comparison}
-\label{window_comparison}
 \begin{tabular}{|l|c|c|c|c|c|c|}
 	\hline
 	Window & $\delta$ & $A_{stop}$ & $A_{pass}$ & $D$ & $R$ & $c$ \\
 	\hline
 	Rectangular & 8.9\% & $-21$ dB & $1.55$ dB & 0.92 & $-13$ dB & 1\\
 	Hamming & 0.2\% & $-54$ dB & $0.03$ dB & 3.21 & $-40$ dB & 2\\
-	Kaiser & variable $\delta$ & $-20log_{10}\delta$ & $17.372\delta$ & $(A-7.95)/14.36$ & variable R & $6(R+12)/55$\\
+	Kaiser & variable $\delta$ & $-20log_{10}\delta$ & $17.372\delta$ & $D = \left\{
+						\begin{array}{l l}
+							\frac{A-7.95}{14.36}& \quad \text{if } A>21\\
+							0.922 & \quad \text{if } A \leq 21
+						\end{array} \right.$ & variable R & $6(R+12)/55$\\
 	\hline
 \end{tabular}
 
@@ -129,14 +132,13 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 	&	$D = \left\{
 					\begin{array}{l l}
 						\frac{A-7.95}{14.36}& \quad \text{if } A>21\\
-						0922 & \quad \text{if } A \leq 21
+						0.922 & \quad \text{if } A \leq 21
 					\end{array} \right. $\\ \hline
 	window function & $w(n)=\frac{I_0(\alpha\sqrt{1-(n-M)^2/M2})}{I_0(\alpha)}=\frac{I_0(\alpha\sqrt{n(2M-n)}/M)}{I_0(\alpha)},$ \\
 	& $I_0=\text{modified Bessel function of the first kind and 0th order.}$\\
 	\hline						  
 \end{tabular}
 \subsubsection{Design steps for a lowpass filter with Kaiser Window\buchSeite{545}}
-\label{design_steps}
 \begin{enumerate}
 \item Calculate $f_c$, $\Delta f$ and $\omega_c$.
 \item Calculate $\delta_{pass}$ and $\delta_{stop}$.
@@ -155,19 +157,8 @@ The role of $f_{pass}$ and $f_{stop}$ are interchanged, therefore $\Delta f = f_
 The final filter design will have equal transition widths, therefore $\Delta f = min(\Delta f_a, \Delta f_b)$ with $\Delta f_a=f_{pa}-f_{sa}$ and $\Delta f_b=f_{pb}-f_{sb}$.
 
 \subsubsection{Kaiser Window for Spectral Analysis\buchSeite{555ff}}
-If the analog signal includes sinusoid with greatly varying amplitudes, some of them might get lost in the sidelobes of the window. The Kaiser Window allows for a variable sidelobe suppression (\ref{window_comparison}).\newline
-Instead of $A$, $R$ is used to calculate $\alpha$:
-\begin{align*}
-	\alpha = \left\{
-		\begin{array}{l l}
-			0 & \quad \text{if } R < 13.26\\
-			0.76609(R-13.26)^{0.4}+0.09834(R-13.26) & \quad \text{if }13.26 < R < 60 \\
-			0.12438(R+6.3) & \quad \text{if }60 < R < 120 \\
-		\end{array} \right. \\
-\end{align*}
-Calculate $c=\frac{6(R+12)}{155}$ and $L=1+\frac{cf_s}{\Delta f}$ and round L to the next \textbf{odd} number and continue with step 6 (\ref{design_steps}).
 
 \subsection{Frequency Sampling Method\buchSeite{558}}
 
-\subsection{Other FIR Design Methods\buchSeite{558}}
+\subsection{Other FIR Design Methods}
 
