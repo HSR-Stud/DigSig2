@@ -56,7 +56,7 @@ Normalerweise (in allen folgenden Filter) wird nur die Formel für "lowpass" ben
 	lowpass	&
 	$b\frac{1 + z^{-1}}{1 - a z^{-1}}$ &
 	$\frac{\alpha}{s + \alpha}$	&
-	$ \frac{G_c}{\sqrt{1-g_c^2}}\tan\left(\frac{\omega_c}{2}\right)
+	$ \frac{G_c}{\sqrt{1-G_c^2}}\tan\left(\frac{\omega_c}{2}\right)
 	= \tan\left(\frac{\omega_c}{2}\right)\vert_{G_c^2 = \frac{1}{2}}$&
 	$\frac{1 - \alpha}{1 + \alpha}$ &
 	$\frac{\alpha}{1 + \alpha} = \frac{1 - a}{2}$	
@@ -94,14 +94,97 @@ Designflow:
 \end{enumerate}
 
 \subsection{Parametric Equalizer Filters\buchSeite{581-589}}
+\subsubsection{Lowpass shelving filter}
+\[
+	H_{LP}(z) = 
+	\frac{
+		\left(\frac{G_0 + G\beta}{1+\beta}\right) - 
+		\left(\frac{G_0-G\beta}{1+\beta}\right)z^{-1}
+	}{
+		1 -
+		\left(\frac{1-\beta}{1+\beta}\right)z^{-1}
+	}
+	\qquad
+	\beta =
+		\sqrt{\frac{G_c^2-G_0^2}{G^2-G_c^2}}
+		\tan\left(\frac{\omega_c}{2}\right)
+\]
 
+\subsubsection{Highpass shelving filter}
+\[
+	H_{HP}(z) = 
+	\frac{
+		\left(\frac{G_0 + G\beta}{1+\beta}\right) + 
+		\left(\frac{G_0-G\beta}{1+\beta}\right)z^{-1}
+	}{
+		1 +
+		\left(\frac{1-\beta}{1+\beta}\right)z^{-1}
+	}
+	\qquad
+	\beta =
+		\sqrt{\frac{G_c^2-G_0^2}{G^2-G_c^2}}
+		\cot\left(\frac{\omega_c}{2}\right)
+\]
 
-\subsection{Comb Filters}
+\subsection{Comb Filters\buchSeite{590}}
+The lowpass and highpass shelving filters of the previous section can be turned into periodic comb or notch filters.
+This can be accomplished by the replicating transformation: $z \rightarrow ^{D}$ which shrinks the frequency response by a factor of $D$ and replicates it $D$ times such that $D$ copies if it fit into the Nyquist interval.
 
-\subsection{Higher Order Filters}
-\subsubsection{Analog Lowpass Butterworth Filters}
-\subsubsection{Digital Lowpass Filters}
-\subsubsection{Digital Highpass Filters}
-\subsubsection{Digital Bandpass Filters}
-\subsubsection{Digital Bandstop Filters}
-\subsubsection{Chebyshev Filter Design}
+\subsection{Higher Order Filters\buchSeite{592-631}}
+The quantities $\{\epsilon_{pass}, \epsilon_{stop}\}$ control the depths of the passband and stopband.
+They can be written in the equivalent forms:
+\begin{align*}
+	\epsilon_{pass} &= \sqrt{10^{A_{pass}/10} - 1} & \Longleftrightarrow &&
+	A_{pass}&= 10\log_{10}(1 + \epsilon_{pass}^2) \\
+	\epsilon_{stop} &= \sqrt{10^{A_{stop}/10} - 1} & \Longleftrightarrow &&
+	A_{stop}&= 10\log_{10}(1 + \epsilon_{stop}^2)
+\end{align*}
+
+The specifications of the equivalent analog filter are $\{\Omega_{pass}, \Omega_{stop}, A_{pass}, A_{stop} \}$, or, $\{\Omega_{pass}, \Omega_{stop}, \epsilon_{pass}, \epsilon_{stop} \}$, where the analog frequencies are obtained by prewraping the digital frequencies.
+\begin{align*}
+	\Omega_{pass} &= \tan\left(\frac{\omega_{pass}}{2}\right) & 
+	\Omega_{stop} &= \tan\left(\frac{\omega_{stop}}{2}\right) \\
+	\omega_{pass} &= \frac{2\pi f_{pass}}{f_s} &
+	\omega_{stop} &= \frac{2\pi f_{stop}}{f_s} 
+\end{align*}
+
+\subsubsection{Analog Lowpass Butterworth Filters\buchSeite{594-599}}
+Analog lowpass Butterworth filters are characterized by just two parameters:
+filter order $N$ and the 3-dB normalization frequency $\Omega_0$.
+\[
+	\left|H(z)\right|^2 =
+		\frac{1}{1 + \left(\frac{\Omega}{\Omega_0}\right)^{2N}}
+\]
+
+With the given information, we can calculate the two parameters:
+\begin{align*}
+	N_{exact} &= \frac{
+			\ln(\epsilon_{stop} / \epsilon_{pass})
+		}{
+			\ln(\Omega_{stop} / \Omega_{pass})
+		}
+	= \frac{\ln(e)}{\ln(w)} &	
+	e &= \frac{\epsilon_{stop}}{\epsilon_{pass}}
+	   = \sqrt{\frac{10^{A_{stop}/10} -1}{10^{A_{pass}/10} -1}}&
+	w &= \frac{\Omega_{stop}}{\Omega_{pass}}&	
+\end{align*}
+
+$N$ must be an integer, we choose it to be the next integer above $N_{exact}$.
+
+\[
+	\Omega_0 = \frac{
+			\Omega_{pass}
+		}{
+			\left(10^{A_{pass}/10}-1\right)^{1/2N}
+		} = \frac{
+			\Omega_{pass}
+		}{
+			\epsilon_{pass}^{1/N}
+		}
+\]
+
+\subsubsection{Digital Lowpass Filters\buchSeite{599ff}}
+\subsubsection{Digital Highpass Filters\buchSeite{603ff}}
+\subsubsection{Digital Bandpass Filters\buchSeite{606ff}}
+\subsubsection{Digital Bandstop Filters\buchSeite{611ff}}
+\subsubsection{Chebyshev Filter Design\buchSeite{615ff}}
