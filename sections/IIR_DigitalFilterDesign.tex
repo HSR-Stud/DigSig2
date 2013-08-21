@@ -182,8 +182,15 @@ $N$ must be an integer, we choose it to be the next integer above $N_{exact}$.
 			\epsilon_{pass}^{1/N}
 		}
 \]
+\subsubsection{Design steps}
+\begin{enumerate}
+	\item Calculate the digital frequencies ${\omega_{pass}, \omega_{stop}}$ and the corresponding prewarped version ${\Omega_{pass}, \Omega_{stop}}$.
+	\item Calculate the order N and the 3-dB frequency $\Omega_0$ of the equivalent analog Butterworth filter.
+	\item Calculate the coefficients for all second-order sections and the transfer function.
+\end{enumerate}
 
 \subsubsection{Digital Lowpass Filters\buchSeite{599ff}}
+
 \subsubsection{Digital Highpass Filters\buchSeite{603ff}}
 \subsubsection{Digital Bandpass Filters\buchSeite{606ff}}
 \subsubsection{Digital Bandstop Filters\buchSeite{611ff}}
