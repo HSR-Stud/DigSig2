@@ -145,7 +145,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 \item Calculate $\delta=min(\delta_{pass},\delta_{stop})$ and $A=-20log_{10}\delta$ in dB. \newline
 	  The filter will have equal passband and stopband ripples. Therefore the design must be based on the smaller of the two ripples.
 \item Calculate $\alpha$ and $D$.
-\item Calculate the filter length $N=\frac{Df_s}{\Delta f}+1$ and round it up to the next \textbf{odd}. Calculate $M=(N-1)/2)$.
+\item Calculate the filter length $N=\frac{Df_s}{\Delta f}+1$ and round it up to the next \textbf{odd} number. Calculate $M=(N-1)/2$.
 \item Calculate the window function $w(n),\quad n=0,1,\dots,N-1$
 \item Calculate the windowed impuls response $h(n)=w(n)d(n-M)$.
 \end{enumerate}
