@@ -2,6 +2,7 @@
 
 \include{header/zusammenfassung}
 \include{header/hyperref}
+\include{header/listings}
 
 % tikz zeug
 \usepackage{pgfplots}
@@ -9,10 +10,12 @@
 \input{3dparty/tikz-dsp.sty}
 \usetikzlibrary{chains}
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
-\newcommand{\z}{\mathpzc{z}}
+\DeclareMathOperator{\z}{\mathpzc{z}}
+\DeclareMathOperator{\NRR}{\text{NRR}}
+\DeclareMathOperator{\SNR}{\text{SNR}}
 
-\title{DigSig2 Zusammenfassung}
-\author{Jürg Rast, Raphael Nestler, Philipp Riedel, Gian Claudio Köppel, Rico Derrer}
+\title{DigSig2}
+\author{H.Badertscher, J.Rast, R.Nestler, P.Riedel et al.}
 
 \begin{document}
 \selectlanguage{english}
@@ -22,6 +25,8 @@
 
 \tableofcontents
 \newpage
+
+\setArrayStretch{1.2}
 
 \begin{multicols}{2}
 \input{sections/DigitalFilterRealizations}
