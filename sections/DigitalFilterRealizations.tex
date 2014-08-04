@@ -1,53 +1,69 @@
 \section{Digital Filter Realizations\buch{Chapter 7}}
-\subsection{Direct Form \buchSeite{265}}
+
+\subsection{Direct Form\buchSeite{265}}
 \label{sec:directform}
-Auch \emph{direct form I} realization genannt.
-
-Consider a second-order filter with transfer function
-\begin{flalign*}
+Also called \emph{direct form I}. Consider a second-order filter with
+transfer function
+\begin{equation*}
 	H(z) = \frac{N(z)}{D(z)} 
-		 = \frac{b_0 + b_1z^{-1} + b_2z^{-2}}{1 + a_1z^{-1} + a_2z^{-2}}&&
-\end{flalign*}
-\begin{flalign*}
-&\text{I/O differenzen Gleichung} && y_n=-a_1y_{n-1}-a_2y_{n-2}-\ldots-a_My_{n-M}+b_0x_n+b_1x_{n-1}+\ldots+b_Mx_{n-M}
-\end{flalign*}\\
+		 = \frac{b_0 + b_1z^{-1} + b_2z^{-2}}{1 + a_1z^{-1} + a_2z^{-2}}
+\end{equation*}
+with the I/O difference equation
+\begin{equation*}
+	y_n = -a_1 y_{n-1} - a_2 y_{n-2} + b_0 x_n + b_1 x_{n-1} b_2 x_{n-2}
+\end{equation*}\\
 
-\input{tikz/DirectForm}
+This results in the following block diagram: \\
 
+\begin{center}
+	\input{tikz/DirectForm}
+\end{center}
 
 \subsection{Canonical Form\buchSeite{271}}
 \label{sec:canonicalform}
-Auch \emph{direct form II} genannt.
+The most popular form. Also called \emph{direct form II}. It can be obtained from
+the \nameref{sec:directform} by splitting it up, introducing an intermediate signal $w(n)$ and reversing it.
 
-It can be obtained from the \nameref{sec:directform} by splitting it up and reversing it.
-\begin{flalign*}
-H(z) = \frac{1}{D(z)} \cdot N(z)&&
-\end{flalign*}
+\begin{align*}
+	H(z) &= \frac{1}{D(z)} \cdot N(z) \\
+	w(n) &= x(n) - a_1 w(n-1) - a_2 w(n-2) \\
+	y(n) &= b_0 w(n) + b_1 w(n-1) + b_2 w(n-2) \\
+\end{align*}\\
 
-\begin{flalign*}
-&\text{I/O differenzen Gleichung} && w(n)=x(n)-a_1w(n-1)-\ldots-a_Mw(n-M)&&\\&&& y(n)=b_0w(n)+b_1w(n-1)+\ldots+b_Lw(n-L)&&
-\end{flalign*}\\
-\input{tikz/CanonicalForm}
-
+\begin{center}
+	\input{tikz/CanonicalForm}
+\end{center}
 
 \subsection{Cascade Form\buchSeite{277}}
 \label{sec:cascadeform}
-Die Kaskadenform verwendet nur Transferfunktionen maximal 2. Ordnung.
+For filters with real impulse responses (all $a_i$ and $b_i$ are real), the
+transfer function can be written by cascaded 2nd order sections (SOS).
 
-\begin{flalign*}
-H(z) = \prod_{i=0}^{K-1}H_i(z) = \prod_{i=0}^{K-1}\frac
-{b_{i0}+b_{i1}z^{-1}+b_{i2}z^{-2}}
-{1+a_{i1}z^{-1}+a_{i2}z^{-2}} &&
-\end{flalign*}
+\begin{align*}
+	H(z) = \prod_{i=0}^{K-1}H_i(z) = \prod_{i=0}^{K-1}\frac
+	{b_{i0}+b_{i1}z^{-1}+b_{i2}z^{-2}}
+	{1+a_{i1}z^{-1}+a_{i2}z^{-2}} &&
+\end{align*}
 
-Dies ist von Vorteil, da sich Transferfunktionen 2. Ordung effizient implementieren lassen.
+Usually the SOS are implemented in the canonical form. A first order term is
+implemented by setting the $z^{-1}$ term to zero. The advantage of the cascade
+form is the efficient implementation of 2nd order sections in DSPs.
 
-\subsection{Cascade to Canonical\buchSeite{284}}
-Um die \nameref{sec:directform} oder \nameref{sec:canonicalform} in die \nameref{sec:cascadeform} umzuwandeln, müssen $D(z)$ und $N(z)$ in Faktoren 2. Ordnung faktorisiert werden.
-\begin{flalign*}
+\subsection{Cascade $\Leftrightarrow$ Canonical\buchSeite{284}}
+To find the \nameref{sec:cascadeform} of a filter, $D(z)$ and $N(z)$ are
+factored into 2nd order sections. 
+
+\begin{align*}
 D(z) &= 1 + a_1 z^{-1} + a_2 z^{-2} + \dots + a_M z^{-M} &\\
 &=(1-p_1z^{-1})(1-p_2z^{-1}) \dots (1-p_Mz^{-1})&
-\end{flalign*}
+\end{align*}
 
-\subsection{Hardware Realizations and Circular Buffers\buchSeite{293}}
-% Brauchts diese Section?
+For real-valued roots, any two factors can be combined:
+\begin{equation*}
+	(1 - p_1 z^{-1}) (1 - p_2 z^{-1}) = (1 - (p_1 + p_2) z^{-1} + p_1 p_2 z^{-2})
+\end{equation*}
+
+Conjugate complex roots are paired (if the coefficients are real):
+\begin{equation*}
+	(1 - p_1 z^{-1}) (1 - p_1^* z^{-1}) = 1 - 2 \text{Re}(p_1) z^{-1} + |p_1|^2 z^{-2}
+\end{equation*}
