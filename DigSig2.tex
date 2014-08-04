@@ -20,6 +20,8 @@
 \begin{document}
 \selectlanguage{english}
 \setArrayStretch{2}
+\setcounter{tocdepth}{2}
+
 \maketitle
 \newpage
 
@@ -39,7 +41,9 @@
 \input{sections/InterpolationDecimationOversampling}
 
 % Idiotenseite
+\appendix
 \section{Idiotenseite}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 \input{idiotenseite/trigo/subsections/Winkelargumente}
 \input{idiotenseite/trigo/subsections/Quadrantenbeziehungen}
 \input{idiotenseite/trigo/subsections/Periodizitaet}
