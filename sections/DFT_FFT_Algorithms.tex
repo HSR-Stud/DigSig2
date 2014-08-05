@@ -1,268 +1,412 @@
 \section{DFT/FFT Algorithms\buch{Chapter 9}}
-\subsection{Begriffe}
 
-\begin{tabularx}{\textwidth}{l p{3cm}XX}
-	Abkürzung & Name  & Eigenschaft & Anwendung \\\hline
-	DTFT &
-	discrete-time Fourier transform &
-	bildet ein endliches, zeitdiskretes Signal auf ein kontinuierliches, periodisches Frequenzspektrum ab &
-	Im Spektrum lässt sich unter Umständen  abschnittsweise ein geschlossener mathematischer Ausdruck angeben \\
-	DFT &
-	discrete Fourier transform &
-	bildet ein zeitdiskretes, endliches Signal, welches periodisch fortgesetzt wird, auf ein diskretes, periodisches Frequenzspektrum ab &
-	DFT besitzt zur Signalanalyse große Bedeutung \\
-	FFT &
-	fast Fourier transform &
-	ein Algorithmus zur effizienten Berechnung der Werte einer diskreten Fourier-Transformation (DFT) &
-	\vspace{-19pt}
-	\begin{itemize}
-		\item Zur Reduzierung des Berechnungsaufwandes bei der zirkularen Faltung
-		\item im Zeitbereich von FIR-Filtern
-		\item Ersatz durch die schnelle Fouriertransformation und einfache Multiplikationen im Frequenzbereich
-		\item Synthese von Audiosignalen aus einzelnen Frequenzen über die inverse FFT
-	\end{itemize}\\
-\end{tabularx}
+\subsection{Basics}
 
-\subsection{Komplexität}
-\begin{flalign*}
-& \text{DFT direkt} && N^2 &&\\
-& \text{Mittels FFT} && \frac{N log_2(N)}{2} &&\\
-& \text{mod reduktion} && N(M-1) && \text{mit} && M=\frac{L}{N}&&
-\end{flalign*}
+\begin{description}
+	\item[DTFT] Discrete-time Fourier transform \\
+		Discrete time-domain, continuous frequency-domain.
+	\item[DFT] Discrete Fourier transform \\
+		Both time-domain and frequency-domain are discrete.
+	\item[FFT] Fast Fourier transform \\
+		A fast implementation of the DFT.
+\end{description}
 
 \subsection{Frequency Resolution and Windowing\buchSeite{464-472}}
-\begin{tabular}{|l|l|l|}
-	\hline
-	symbol & property & formulas
-	\\ \hline
-	$T_L$ & duration of data record & $ = LT$
-	\\ \hline
-	$w(n)$ & Window function &
-	\\ \hline
-	$\Delta \omega_w$ & Window width (rad/sample) & $ = c \frac{2 \pi}{L}$
-	\\ \hline
-	$\Delta f_w$ & Window width (Hz) & $ = c \frac{f_s}{L} = c \frac{1}{T_L} $
-	\\ \hline
-	$\Delta f$ & Frequency resolution & $ \Delta f \geq \Delta f_w=c\frac{f_s}{L}=c\frac{1}{T_L}$
-	\\ \hline
-	$\Delta\omega$ & Resolvability condition & $=\Delta\omega \geq \Delta\omega_w = c\frac{2\pi}{L}$ 
-	\\\hline
-	$R$ & relative sidelobe level &
-	\\ \hline
-	$c$ & depends on window, always $\geq 1$ &
-	\\ \hline
-	$L$ & Windows länge &
-	\\ \hline
-	$N$ & N-Point DFT, DFT länge &
-	\\ \hline
-\end{tabular}
 
+Given an infinite sampled sequence $x(nT)$, to calculate its spectrum a finite
+number of samples $L$ has to be cut out using a window function $w(n)$. 
+At the sampling time interval $T = 1/f_s$, the duration of the data record 
+is $T_L = LT$. \\
 
-\begin{flalign*}
-& \text{Window/Funktion} && \text{Rectangular} && \text{Hamming}\\
-& w(n) &&  \begin{cases}
-			1, & \text{if } 0 \leq n \leq L-1 \\
+The finite signal $x_L$ is achieved by
+\begin{equation*}
+	x_L(n) = x(n) w(n)
+\end{equation*}
+using one of the below defined window functions. \\
+
+\paragraph{Rectangular Window}
+	\begin{equation*}
+		w(n) = \begin{cases}
+			1, & \text{if} \: 0 \leq n \leq L-1 \\
 			0, & \text{otherwise}
- \end{cases} &&
-\begin{cases}
-	0.54 - 0.46 \cos(\frac{2\pi n}{L-1}), & \text{if } 0 \leq n \leq L-1 \\
-	0, & \text{otherwise}
-\end{cases} \\
-& \text{window tradeoff } c && c=1 && c=2\\
-& R && -13.46 dB && -40 dB\\
-& x_{_L}(n) && x(n)w(n) && \\
-& X_{_L}(\omega) && \int_{-\pi}^{\pi}X(\omega')W(\omega-\omega')\frac{d\omega'}{2\pi} && \\
-\end{flalign*}
+		\end{cases}
+	\end{equation*}	
 
+\paragraph{Hamming Window}
+	\begin{equation*}
+		w(n) = \begin{cases}
+			0.54-0.46 \cos\left(\frac{2 \pi n}{L-1}\right), & \text{if} \: 0 \leq n \leq L-1 \\
+			0, & \text{otherwise}
+		\end{cases}
+	\end{equation*}
 
+The constant $c$, which depends on the window, is introduced. For the
+\emph{rectangular} window, $c=1$, for the \emph{Hamming} window, $c=2$.
+$c$ is always greater than one. \\
+
+The mainlobe width of a given window is defined as
+\begin{equation*}
+	\Delta\omega_w = c \cdot \frac{2 \pi}{L} \qquad \text{or} \qquad \Delta f_w = c \cdot \frac{1}{T_L}
+\end{equation*}
+
+The relative sidelobe level is
+\begin{equation*}
+	R = 20 \log_{10} \left| \frac{W(\omega)}{W(0)} \right|
+\end{equation*}
+at $\omega = $ position of the first sidelobe. ($\omega=3\pi/L$ for the
+rectangular window). This leads to $R = -13.46 dB$ for the rectangular
+and $R = -40 dB$ for the Hamming window. \\
+
+The frequency resolution, i.e. the condition that two sinusoids appear as
+two distinct ones is then
+\begin{equation*}
+	 \Delta\omega \geq \Delta\omega_w = c \cdot \frac{2 \pi}{L}\qquad \text{or} \qquad \Delta f \geq \Delta f_w = c \cdot \frac{f_s}{L}
+\end{equation*}
+
+For a given frequency resolution, the window length is therefore
+\begin{equation*}
+	L \geq c \cdot \frac{f_s}{\Delta f} = c \cdot \frac{2 \pi}{\Delta \omega}
+\end{equation*}
 
 \subsection{DTFT Computation}
+
 \subsubsection{DTFT at a Single Frequency\buchSeite{475-477}}
 \begin{align*}
-X(\omega)=\sum_{n=0}^{L-1}x(n)e^{-j\omega n}=\sum_{n=0}^{L-1}x(n)z^{-n}\biggr|_{z=e^{j\omega}}=X(z)\biggr|_{z=e^{j\omega}}
+X(\omega) & = \sum_{n=0}^{L-1}x(n)e^{-j\omega n}
+ 	  = \left.\sum_{n=0}^{L-1}x(n)z^{-n}\right|_{z=e^{j\omega}} \\
+	& = \left. X(z)\right|_{z=e^{j\omega}}
 \end{align*}
 
-For example let L = 4
-\begin{flalign*}
-& X && = && x_3+z^{-1}X && = && x_3\\
-& X && = && x_2+z^{-1}X && = && x_2+z^{-1}x_3\\
-& X && = && x_1+z^{-1}X && = && x_1+z^{-1}x_2+z^{-2}x_3\\
-& X && = &&  x_0+z^{-1}X && = && x_0+z^{-1}x_1+z^{-2}x_2+z^{-3}x_3 && = && X(z)&&\\
-\end{flalign*}
-
-\subsubsection{DTFT over a Frequency Range\buchSeite{478}}
-\begin{flalign*}
-& \omega_k=\frac{2\pi k}{N}&& f_k=\frac{kf_s}{N} && z_k=e^{j\omega_k}=e^{2\pi jk/N} && k=0,1,\ldots , N-1 
-\end{flalign*}
-\begin{flalign*}
-& X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} && && 
-\end{flalign*}
-\begin{flalign*}
-&\omega_k=\omega_a+k\frac{\omega_b-\omega_a}{N}=\omega_a+k\Delta\omega_{bin} && \omega_{bin}=\frac{\omega_b-\omega_a}{N} && \text{or in Hz} && \Delta f_{bin}=\frac{f_b-f_a}{N} && \omega_{k+N}=\omega_k+2\pi
-\end{flalign*}
+This polynom can be evaluated using \emph{Hörner's rule}:
+\begin{lstlisting}[style=C,frame=none,numbers=none]	
+	X = 0
+	for n=L-1 down to n=0 do:
+	  X = x_n + z^-1 X	
+\end{lstlisting}
+for example, let $L=4$:
+\begin{align*}
+	X &= 0 \\
+	X &= x_3+z^{-1}X = && x_3 \\
+	X &= x_2+z^{-1}X = && x_2+z^{-1}x_3 \\
+	X &= x_1+z^{-1}X = && x_1+z^{-1}x_2+z^{-2}x_3 \\
+	X &= x_0+z^{-1}X = && x_0+z^{-1}x_1+z^{-2}x_2+z^{-3}x_3 = X(z) \\
+\end{align*}
 
 \subsubsection{DFT\buchSeite{479-481}}
-\begin{flalign*}
-&\omega_k=\frac{2\pi k}{N}&& f_k=\frac{kf_s}{N} && z_k=e^{j\omega_k}=e^{2\pi jk/N} && k=0,1,\ldots , N-1 
-\end{flalign*}
-\begin{flalign*}
-& X(\omega_k)=\sum_{n=0}^{L-1}x(n)e^{-j\omega_kn} = \sum_{n=0}^{L-1}x(n)z_k^{-n} && &&
-\end{flalign*}
-\begin{flalign*}
-&\Delta\omega_{bin}=\frac{2\pi}{N} && \text{or} && \Delta f_{bin}=\frac{f_s}{N} && \omega_{k+N}=\omega_k+2\pi
-\end{flalign*}
+The $N$-point DFT of a length-$L$ signal is defined as the DTFT evaluated
+at $N$ equally spaced frequencies over the full Nyquist interval,
+$0 \leq \omega \leq 2 \pi$. These frequencies are 
+\begin{equation*}
+	\omega_k = \frac{2 \pi k}{N}\:, \qquad f_k = \frac{k f_s}{N} \:,\qquad k=0,1,\ldots,N-1
+\end{equation*}
+
+Thus, the DFT is
+\begin{equation*}
+	X(\omega_k) = \sum\limits_{n=0}^{L-1} x(n) e^{-j\omega_kn} = \sum\limits_{n=0}^{L-1} x(n)z_k^{-n}
+\end{equation*}
+where $z_k$ are the $N$ths roots of unity
+\begin{equation*}
+	z_k = e^{j\omega_k} = e^{2\pi j k / N}
+\end{equation*}
+which leads to
+\begin{equation*}
+	\omega_{k+N} = \omega_k + 2 \pi \qquad \text{and} \qquad X(k+N) = X(k)
+\end{equation*}
+
+The bin width is then
+\begin{equation*}
+	\Delta\omega_{bin}=\frac{2\pi}{N} \qquad \text{or} \qquad \Delta f_{bin}=\frac{f_s}{N}
+\end{equation*}
+
 
 \subsubsection{Zero Padding\buchSeite{482}}
-Alle an das Signal angehängten '0' ändern die DTFT nicht 
+Note that $L$ is the number of time moments and $N$ is the number of
+frequency points. Mostly $L=N$ is used. For $L<N$, zero padding can be used
+to make the time sequence longer. For $L>N$, a modulo-N wrapping can be
+used to make the time sequence shorter. \\
+
+Adding any number of zeros to the end of a signal does \emph{not} change its DFT!
 \begin{align*}
-x= [x_0,x_1,\ldots,x_{L-1}] && x_D=[x_0,x_1,\ldots,x_{L-1},\underbrace{0,0,\ldots,0}_{D zeros}] && X_D(\omega_k)=X(\omega_k)\\
+	x &= [x_0,x_1,\ldots,x_{L-1}] \\
+	x_D &= [x_0,x_1,\ldots,x_{L-1},\underbrace{0,0,\ldots,0}_{D \text{ zeros}}] \\
+	x_D(\omega_k) &= X(\omega_k)
 \end{align*}
 
-Alle vor das Signal angehängten '0' verschieben das Original Signal zurück
+Adding zeros in front adds a linear phase term.
 \begin{align*}
-x= [x_0,x_1,\ldots,x_{L-1}] && x_D=[\underbrace{0,0,\ldots,0}_{D zeros},x_0,x_1,\ldots,x_{L-1}] \\
-X_D(\omega)=e^{-j\omega D}X(\omega) && X_D(\omega_k)=e^{-j\omega_k D}X(\omega_k) && k=0,1,\ldots,N-1
+	x &= [x_0,x_1,\ldots,x_{L-1}] \\
+	x_D &= [\underbrace{0,0,\ldots,0}_{D \text{ zeros}},x_0,x_1,\ldots,x_{L-1}] \\
+	x_D(\omega_k) &= e^{-j \omega_k D} X(\omega_k)
 \end{align*}
 
-\subsection{Physical versus Computional Resolution\buchSeite{482-485}}
-Eine künstliche Frequenzauflösung mittels Vergrösserung des N kann keine peaks die mit zu kleinem L verpasst wurden wieder rekonstruieren. \\
+\subsection{Physical vs Computional Resolution\buchSeite{482-485}}
 
-at frequency $f_0$, the DTFT will exhibit a mainlobe peak arising
-from the shifted window $W(f - f_0)$. When we evaluate the N-point DFT, we would like
-the peak at $f_0$ to coincide with one of the N DFT frequencies (9.2.7). This will happen if
-there is an integer $0 \leq k_0 \leq N - 1$, such that
+\emph{Physical} frequency resolution is defined as
+\begin{equation*}
+	\Delta f_w = c \cdot \frac{f_s}{L}
+\end{equation*}
+whereas the \emph{computational} frequency resolution is
+\begin{equation*}
+	\Delta f_{\text{bin}} = \frac{f_s}{N}
+\end{equation*}
 
-\begin{flalign*}
-& f_0 = f_{k_0}=\frac{k_0f_s}{N} && k_0=N\frac{f_0}{k_s} && k=N\frac{f}{f_s} && 0 \leq f \leq f_s && 0 \leq k \leq N
-\end{flalign*}
+The DFT index $k$ is proportional to the frequency $f$ via
+\begin{equation*}
+	k = N\:\frac{f}{f_s}\:, \qquad 0\leq k \leq N \text{ and } 0 \leq f \leq f_s
+\end{equation*}
 
-Similarly, the peak at the negative frequency, $-f_0$, or at the equivalent shifted one,
-$f_s - f_0$, will correspond to the integer, $-k_0$, or to the shifted one $N - k_0$:
+Ideally, each frequency $f_0$ in the original signal coincides with one
+of the $N$ DFT frequencies $f_s k / N$. This is so if $k_0$ is an integer.
+\begin{equation*}
+	k_0 = N \frac{f_0}{f_s}
+\end{equation*}
+Usually, this is not the case and the DFT will miss the peak. If $N$ is large
+enough, the \emph{rounding error} $= f_s / 2N$ will stay small enough. \\
 
-\begin{flalign*}
-& -f_0 = -f_{k_0}=-k_0\frac{f_s}{N} && \Rightarrow && f_s-f_0=f_s-k_0\frac{f_s}{N}=(N-k_0)\frac{f_s}{N}&&
-\end{flalign*}
-In summary, for each sinusoid with peaks at $\pm f_0$, we would like our DFT to show
-these peaks at the integers:
-
-\begin{flalign*}
-& \{f_0, -f_0\} && \Rightarrow && \{f_0, f_s - f_0\} && \Rightarrow && \{k_0, N - k_0\}&&
-\end{flalign*}
-
-
-
-
+The \emph{biasing error}, on the other hand, can only be decreased by
+increasing the data length $L$, because the DFT is only a sampled version
+of the DTFT.
 
 
 \subsection{Matrix Form of DFT\buchSeite{486-488}}
+The DFT can be defined as linear matrix transformation
+
+\begin{equation*}
+	\mathbf{X} = \DFT(\mathbf{x}) = A \mathbf{x}
+\end{equation*}
+
+The matrix $A$ for a $N$-point DFT can be built using the so-called
+\emph{twiddle factor}.
+\begin{equation*}
+	W_N = e^{-2 \pi j / N}
+\end{equation*}
+
+The matrix elements $A_{kn}$ are found using the definition
+\begin{equation*}
+	A_{kn} = W_N^kn
+\end{equation*}
+
+The powers of the twiddle factors are the $N$-th roots of unity:
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{images/DFT_FFT_WN.jpg}
+\end{center}
+
+Some examples of twiddle factors and DFT matrices:
+
 \begin{align*}
-X=DFT(x)=Ax && X_k=\sum_{n=0}^{L-1}A_{kn}x_n && k=0,1,\ldots,N-1
+	W_2 &= e^{-2\pi j / 2} = -1 \\
+	W_4 &= e^{-2\pi j / 4} = \cos(\pi/2) - j\sin(\pi/2) = -j \\ 
+	W_8 &= e^{-2\pi j / 8} = \cos(\pi/4) - j\sin(\pi/4) = \frac{1-j}{\sqrt{2}}
 \end{align*}
-\begin{flalign*}
-& \text{2-point} && W_2=e^{-2\pi j/2}=-1 &&
- A=
-\begin{bmatrix}
-1 & 1  \\
-1 & W_2 
-\end{bmatrix}
-=
-\begin{bmatrix}
-1 & 1  \\
-1 & -1 
-\end{bmatrix}\\
-& \text{4-point}&& W_4=e^{-2\pi j/4}=-j &&
-A=
-\begin{bmatrix}
-1 & 1 & 1 & 1  \\
-1 & W_4 & W_4^2 & W_4^3 \\
-1 & W_4^2 & W_4^4 & W_4^6 \\
-1 & W_4^3 & W_4^6 & W_4^9
-\end{bmatrix}
-=
-\begin{bmatrix}
-1 & 1 & 1 & 1  \\
-1 & -j & -1 & j  \\
-1 & -1 & 1 & -1 \\
-1 & j & -1 & -j
-\end{bmatrix}\\
-&\text{8-point} && W_8=e^{-2\pi j/8}=\frac{1-j}{\sqrt{2}} &&
-A=\begin{bmatrix}
- \ldots\\
- \ddots\\
- \ldots
- \end{bmatrix}
-\end{flalign*}
 
-\subsection{Module-N reduction\buchSeite{489-496}}
-\begin{itemize}
-	\item Opposite of zero padding
-\end{itemize}
-\begin{flalign*}
-&\tilde{x}=x_0+x_1+\ldots+x_n &&
-\end{flalign*}
-\begin{flalign*}
-& X=Ax=[\tilde{A},\tilde{A},\ldots,\tilde{A}]\begin{bmatrix}
-x_0\\x_1\\ \vdots\\ x_n
-\end{bmatrix}=\tilde{A}(x_0+x_1+\ldots + x_n)=\tilde{A}\tilde{x}=\tilde{X} &&
-\end{flalign*}
-\begin{flalign*}
-& x=[\underbrace{a_1,a_2,a_3}_{x_0},\underbrace{a_4,a_5,a_6}_{x_1},\underbrace{a_7,a_8,a_9}_{x_2},\underbrace{a_{10},a_{11} , \text{fehlende Stelle} }_{x_3}]&&\\
-& \tilde{x}=x_0^T+x_1^T+x_2^T+x_3^T=
-\begin{bmatrix}a_1\\a_2\\a_3\end{bmatrix}+\begin{bmatrix}a_4\\a_5\\a_6\end{bmatrix}+\begin{bmatrix}a_7\\a_8\\a_9\end{bmatrix}+\begin{bmatrix}a_{10}\\a_{11}\\0\end{bmatrix}&&\\ 
-& \text{fehlende Stelle mit '0' auffüllen}&&
-\end{flalign*}
+\begin{align*}
+	A_2 &= 
+		\begin{bmatrix}
+			1& 1 \\
+			1& W_2 \\
+		\end{bmatrix}
+		&&= 
+		\begin{bmatrix}
+			1& 1 \\
+			1& -1 \\
+		\end{bmatrix}	 \\
+	A_4 &= 
+		\begin{bmatrix}
+			1& 1& 1& 1 \\
+			1& W_4& W_4^2& W_4^3 \\
+			1& W_4^2& W_4^4& W_4^6 \\
+			1& W_4^3& W_4^6& W_4^9 \\
+		\end{bmatrix}
+		&&=
+		\begin{bmatrix}
+			1& 1& 1& 1 \\
+			1& -j& -1& j \\
+			1& -1& 1& -1 \\
+			1& j& -1& -j \\
+		\end{bmatrix}
+\end{align*}
 
-\subsection{IDFT\buchSeite{496-499}}
-\begin{flalign*}
-&\tilde{x}=IDFT(X)=\tilde{A}^{-1} X && \tilde{x}=IDFT(X)=\frac{1}{N}\tilde{A}^{*} X && IDFT(X) = \frac{1}{N}\left[DFT(X^*)\right]^* \label{eq:IDFT}\\
-&\tilde{x}=x && \text{nur wenn} && N \geq L\notag\\
-&\tilde{x}\neq x && \text{wenn} && N < L\notag
-\end{flalign*}
+\subsection{Modulo-N reduction\buchSeite{489-496}}
+Modulo-N reduction is applied if $L>N$.  The input signal is divided into
+non-overlapping blocks of length $N$ and added up.
 
-\subsection{Sampling of Periodic Signals and the DFT\buchSeite{499-501}}
-\begin{flalign*}
-& x(n)=\frac{1}{N}\sum_{k=0}^{N-1}X(\omega_k)e^{j\omega_k n} && \text{discrete Fourier series (DFS)} &&\\
-& X(\omega_k)=\sum_{k=0}^{N-1}x(n)e^{-j\omega_k n} && \text{(DFS coefficients)}&&
-\end{flalign*}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{images/DFT_FFT_ModuloN.jpg}
+\end{center}
+
+\begin{equation*}
+	\tilde{\mathbf{x}} = \mathbf{x}_0 + \mathbf{x}_1 + \mathbf{x}_2 + \mathbf{x}_3
+		\quad \text{or} \quad
+	\tilde{x}(n) = \sum\limits_{m=0}^{\infty} x(mN + n)
+\end{equation*}
+
+The proof that $\mathbf{X} = \tilde{\mathbf{X}}$ is that
+
+\begin{align*}
+	\mathbf{X} &= Ax = [\tilde{A},\tilde{A},\ldots,\tilde{A}]
+		\begin{bmatrix}
+			\mathbf{x}_0 \\ \mathbf{x}_1 \\ \vdots \\ \mathbf{x}_n
+		\end{bmatrix}
+		= \tilde{A} \mathbf{x}_0 + \tilde{A} \mathbf{x}_0 + \ldots \\
+	&= \tilde{A}(\mathbf{x}_0 + \mathbf{x}_1 + \ldots + \mathbf{x}_n) = \tilde{A}\tilde{\mathbf{x}} = \tilde{\mathbf{X}}
+\end{align*}
+
+Similarly, a Matrix $A$ can be created to transform e.g. a length-8 time signal
+into a 4-point DFT:
+\begin{equation*}
+	A = \left[\tilde{A},\tilde{A}\right] = \left[ \begin{array}{cccc|cccc}
+		1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+		1& W_4& W_4^2& W_4^3 & 1& W_4& W_4^2& W_4^3 \\
+		1& W_4^2& W_4^4& W_4^6 & 1& W_4^2& W_4^4& W_4^6 \\
+		1& W_4^3& W_4^6& W_4^9 & 1& W_4^3& W_4^6& W_4^9 \\
+	\end{array} \right]
+\end{equation*}
+
+\subsection{Inverse DFT\buchSeite{496-499}}
+The problem of inverting an $N$-point DFT is that all signals $\mathbf{x}$
+with the same modulo-$N$ reduction $\tilde{\mathbf{x}}$ have the same
+$N$-point DFT.
+
+\begin{equation*}
+	\mathbf{X} = A \mathbf{x} = \tilde{A} \tilde{\mathbf{x}}
+\end{equation*}
+
+which means that only the modulo-$N$ reduction of the input signal $\mathbf{x}$
+can be reconstructed. Thus
+\begin{align*}
+	\tilde{\mathbf{x}} = \mathbf{x} \qquad & \text{if} \quad N \geq L \\
+	\tilde{\mathbf{x}} \neq \mathbf{x} \qquad & \text{if} \quad N < L
+\end{align*}
+
+The inverse DFT is thus defined as
+\begin{equation*}
+	\tilde{\mathbf{x}} = \text{IDFT}(\mathbf{X}) = \tilde{A}^{-1} \mathbf{X}
+\end{equation*}
+
+As $\frac{1}{N} \tilde{A} \tilde{A^*} = I_N$, the inverse of the matrix 
+$\tilde{A}$ can be obtained by $\tilde{A}^{-1} = \frac{1}{N} \tilde{A}^*$, 
+which leads to the definition
+\begin{equation*}
+	\tilde{\mathbf{x}} = \text{IDFT}(\mathbf{X}) = \frac{1}{N} \tilde{A}^* \mathbf{X} = \frac{1}{N}\left[ \DFT(\mathbf{X}^*) \right]
+\end{equation*}
+
 \subsection{FFT\buchSeite{504-511}}
-Decimation-in-time radix-2 FFT
-\begin{flalign*}
-&\text{Radix 2 means} && N=2^B&&
-\end{flalign*}
-\begin{flalign*}
-& X(k)=G(k)+W_N^kH(k) && X(k+N/2)=G(k)-W_N^kH(k) && k=0,1,\ldots,\frac{N}{2}-1 &&\\
-& G(k)=\sum_{n=0}^{\frac{N}{2}-1}W_{\frac{N}{2}}^{kn}g(n) &&  H(k)=\sum_{n=0}^{\frac{N}{2}-1}W_{\frac{N}{2}}^{kn}h(n) && g(n)=x(2n)&& h(n)=x(2n+1)
-\end{flalign*}
+The fast Fourier transform (FFT) is a fast implementation of the DFT.
+Not an approximation! \\
+
+The FFT calculates the DFT using a divide-and-conquer strategy. It is based
+dividing the dimensions of the DFT in half until it becomes one. Hence
+the dimension $N$ of the FFT is usually a power of 2: $N = 2^B$. \\
+
+The computational cost can be reduced from $N^2$ for the DFT to $\frac{1}{2} N \log_2 (N)$ for the FFT. \\
+
+A length-$N$ sequence $x(n)$ can be divided into two length-$(N/2)$ subsequences:
 \begin{align*}
-\begin{bmatrix}
-X_0\\X_1\\ \vdots\\ X_{\frac{N}{2}-1}
-\end{bmatrix}
-=
-\begin{bmatrix}
-G_0\\G_1\\ \vdots\\ G_{\frac{N}{2}-1}
-\end{bmatrix}
-+
-\begin{bmatrix}
-H_0\\H_1\\ \vdots\\ H_{\frac{N}{2}-1}
-\end{bmatrix}
-\times
-\begin{bmatrix}
-W_N^0\\W_N^1\\ \vdots\\ X_N^{\frac{N}{2}-1}
-\end{bmatrix}
+	\begin{array}{ll}
+		g(n) &= x(2n) \\
+		h(n) &= x(2n+1)
+	\end{array}
+	\:,\qquad n = 0,1,\ldots \frac{N}{2}-1
 \end{align*}
-% Todo Tikz
+with their corresponding DFTs
+\begin{align*}
+	\begin{array}{ll}
+		G(k) &= \sum\limits_{n=0}^{N/2-1} W_{N/2}^{kn} \: g(n) \\
+		H(k) &= \sum\limits_{n=0}^{N/2-1} W_{N/2}^{kn} \: h(n)
+	\end{array}
+	\:,\qquad k=0,1,\ldots \frac{N}{2}-1
+\end{align*}
+
+The DFT of the original sequence $x(n)$ is obtained by
+\begin{equation*}
+	X(k) = G(k) + W_N^k H(k) \:,\qquad k=0,1,\ldots,N-1
+\end{equation*}
+
+The \emph{butterfly merging} equations follow from the periodicity properties
+of the DFT and the fact that the twiddling factor $W_N^{N/2} = -1$:
+\begin{align*}
+	\begin{array}{rl}
+		X(k) = & G(k) + W_N^k H(k) \\
+		X(k+N/2) = & G(k) - W_n^k H(k)
+	\end{array} \\
+	\text{with}\qquad k=0,1,\ldots,\frac{N}{2}-1
+\end{align*}
+
+or more easily shown in a vector form:
+\begin{align*}
+	\begin{bmatrix}	X_0 \\ X_1 \\ \vdots \\ X_{N/2-1} \end{bmatrix} &= 
+	\begin{bmatrix}	G_0 \\ G_1 \\ \vdots \\ X_{G/2-1} \end{bmatrix} + 
+	\begin{bmatrix}	H_0 \\ H_1 \\ \vdots \\ X_{H/2-1} \end{bmatrix} \times
+	\begin{bmatrix}	W^0_N \\ W^1_N \\ \vdots \\ W^{N/2-1}_N \end{bmatrix}
+	\\
+	\begin{bmatrix}	X_{N/2} \\ X_{N/2+1} \\ \vdots \\ X_{N-1} \end{bmatrix} &= 
+	\begin{bmatrix}	G_0 \\ G_1 \\ \vdots \\ X_{G/2-1} \end{bmatrix} -
+	\begin{bmatrix}	H_0 \\ H_1 \\ \vdots \\ X_{H/2-1} \end{bmatrix} \times
+	\begin{bmatrix}	W^0_N \\ W^1_N \\ \vdots \\ W^{N/2-1}_N \end{bmatrix}	
+\end{align*}
+
+or even graphically:
+\begin{center}
+	\includegraphics[width=0.6\linewidth]{images/DFT_FFT_butterfly.jpg}
+\end{center}
+
+The FFT can easily be summarized by:
+\begin{center}
+	\includegraphics[width=\linewidth]{images/DFT_FFT_step1.jpg}
+	\includegraphics[width=\linewidth]{images/DFT_FFT_step2.jpg}
+\end{center}
+
+Note that the bit shuffling is also called bit reversal, because it has
+the same effect as binary reversing the input.
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{images/DFT_FFT_shuffling.jpg}
+\end{center}
+
+
 \subsection{Fast Convolution}
 \subsubsection{Circular Convolution\buchSeite{516-518}}
-\begin{flalign*}
-& \text{Grundlage:}&& y=h\ast x && \Leftrightarrow && Y(\omega)=H(\omega)X(\omega)&&
-\end{flalign*}
-\begin{flalign*}
-& \text{mittels DTFT:} && y=IDTFT(DTFT(h)DTFT(x))&&\\
-& \text{mittels DFT:} && \tilde{y}=\widetilde{h\ast x}=IDFT(DFT(h)DFT(x))&&\\
-&\text{Modulo-N-reduzierte Ergebnisse}&& \tilde{y}=\widetilde{h\ast x}= \widetilde{ {\widetilde{h}} \ast  x}=\widetilde{h\ast \tilde{x}}=\widetilde{\tilde{h}\ast \tilde{x}}&&\\ 
-% ToDo irgend ein problem mit der widetilde, geht auch mit anderen buchstaben die nicht hoch sind nicht z.b. a
-& \text{Bedingung, zirkuläre Faltung = Lineare Faltung} && \tilde{y}=y \text{ wenn } N\geq L_y=L+M&&
-\end{flalign*}
+
+The multiplication of two DTFTs results in a convolution
+\begin{equation*}
+	\mathbf{y} = \mathbf{h} \ast \mathbf{y} \quad\Leftrightarrow\quad Y(\omega) = H(\omega) X(\omega)
+\end{equation*}
+
+This can also be achieved by using the DFT:
+\begin{equation*}
+	\tilde{\mathbf{y}} = \text{IDFT}(\DFT(\mathbf{h}) \cdot \DFT(\mathbf{x}))
+\end{equation*}
+
+But: the length $L_y$ of the convolution of a length $L$ and a length $M$
+input is $L_y = L + M$. To prevent a \emph{circular convolution}, the
+input vectors have to be zero-padded to a length of 
+\begin{equation*}
+	N \geq L_y = L+M
+\end{equation*}
+
 \subsubsection{Overlap-Add and Overlap-Save Methods\buchSeite{520-522}}
 
+\paragraph{Overlap-Add}
+If the input signal $\mathbf{x}$ is of infinite length, no zero-padding
+is possible. Then the input is divided into blocks 
+$\mathbf{x}_0, \mathbf{x}_1, \ldots$ which are processed separately. 
+The FFT length $N$ is of course $N \geq L+M$. As $M$ is saved and added
+to the next result, no wraparound occurs.
 
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{images/DFT_FFT_overlapAdd.jpg}
+\end{center}
+
+The cost of the fast Overlap-Add method compared to the conventional, slow
+method is
+\begin{equation*}
+	\frac{\text{fast}}{\text{slow}} = \frac{N (\log_2 N + 1)}{(M+1)(N-M)} \backsimeq \frac{\log_2 N}{M}
+\end{equation*}
+
+\paragraph{Overlap-Save}
+Here, each block is of length $L=N$, but the blocks overlap by $M$. The output
+blocks will have $M$ samples wrapped around, but as only the last $N-M$
+samples are used, the $M$ wrapped around samples are not used at all.
+(Though, the very first $M$ samples will be incorrect.)
+\begin{center}
+	\includegraphics[width=\linewidth]{images/DFT_FFT_overlapSave.jpg}
+\end{center}
