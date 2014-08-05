@@ -267,7 +267,7 @@ A FIR bandpass filter is achieved by a resonator filter with poles at $z = R e^{
 	H(\z) &= \frac{G}{1 + a_1 \z^{-1} + a_2 \z^{-2}} \\ 
 	h_n &= \frac{G}{\sin \omega_0} R^n \sin\left(\omega_0 n + \omega_0\right) u(n)
 \end{align*}
-where $a_1 = -2R \cos\omega_0$ and $a_2 = R^2$.
+where $a_1 = -2R \cos\omega_0$ and $a_2 = R^2$. \\
 
 The $\NRR$ of this filter will be
 \begin{equation*}
@@ -359,14 +359,14 @@ In the time domain, the filter is given by the following I/O difference equation
 
 As the IIR comb filter is more efficient, it is mostly used for real time
 processing. The FIR averaging filter is used when measuring a finite number 
-$N$ of periods of the same noisy signal.
+$N$ of periods of the same noisy signal. \\
 
 For $N$ periods of $D$ samples, the total length will be $ND$. The $i$th period
 of the signal will then be
 \begin{equation*}
 	x_i(n) = x(iD+n)
 \end{equation*}
-where $i=0,1,\ldots,N-1$ for a total of $N$ periods.
+where $i=0,1,\ldots,N-1$ for a total of $N$ periods. \\
 
 The output will then be
 \begin{equation*}

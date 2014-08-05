@@ -347,7 +347,7 @@ or more easily shown in a vector form:
 
 or even graphically:
 \begin{center}
-	\includegraphics[width=0.6\linewidth]{images/DFT_FFT_butterfly.jpg}
+	\includegraphics[width=0.5\linewidth]{images/DFT_FFT_butterfly.jpg}
 \end{center}
 
 The FFT can easily be summarized by:
@@ -362,11 +362,9 @@ the same effect as binary reversing the input.
 	\includegraphics[width=0.8\linewidth]{images/DFT_FFT_shuffling.jpg}
 \end{center}
 
-
 \subsection{Fast Convolution}
 \subsubsection{Circular Convolution\buchSeite{516-518}}
 
-The multiplication of two DTFTs results in a convolution
 \begin{equation*}
 	\mathbf{y} = \mathbf{h} \ast \mathbf{y} \quad\Leftrightarrow\quad Y(\omega) = H(\omega) X(\omega)
 \end{equation*}
@@ -408,5 +406,5 @@ blocks will have $M$ samples wrapped around, but as only the last $N-M$
 samples are used, the $M$ wrapped around samples are not used at all.
 (Though, the very first $M$ samples will be incorrect.)
 \begin{center}
-	\includegraphics[width=\linewidth]{images/DFT_FFT_overlapSave.jpg}
+	\includegraphics[width=0.9\linewidth]{images/DFT_FFT_overlapSave.jpg}
 \end{center}
