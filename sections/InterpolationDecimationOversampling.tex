@@ -219,10 +219,19 @@ can therefore be obtained by
 \end{equation*}
 
 Since only every $L$th output sample is needed, the filter output does
-not need to be calculated for every fast rate sample, reducing the computational
-cost by a factor $L$ to $R = \frac{1}{L} N f_s' = N f_s$. \\
+not need to be calculated for every fast rate sample (like on the left image),
+reducing the computational cost by a factor $L$ to 
+$R = \frac{1}{L} N f_s' = N f_s$ (left image). \\
 
-%TODO bild!!!!
+\begin{multicols}{2}
+	\begin{center}
+		\adjustbox{max width=0.9\linewidth}{\input{tikz/decimation}} \\
+	\end{center}
+\vfill\columnbreak
+	\begin{center}
+		\adjustbox{max width=0.7\linewidth}{\input{tikz/decimation_polyphase}} \\
+	\end{center}
+\end{multicols}
 
 Multistage designs are very popular for decimation filters. The early filters will
 then be fast but simple, while later filters are slow but very precise. For fast
