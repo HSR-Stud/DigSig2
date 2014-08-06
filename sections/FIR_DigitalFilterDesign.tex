@@ -61,13 +61,25 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 \end{equation}
 
 \begin{align*}
-&\text{lowpass filter} && d(k) = \frac{sin(\omega_ck)}{\pi k} \\
-&\text{highpass filter} && d(k) = \delta(k) - \frac{sin(\omega_ck)}{\pi k} \\
-&\text{bandpass filter} && d(k) = \frac{sin(\omega_bk) -sin(\omega_ak)}{\pi k} \\
-&\text{bandstop filter} && d(k) = \delta(k) - \frac{sin(\omega_bk) -sin(\omega_ak)}{\pi k} \\
-&\text{differentiator} && d(k) = \frac{cos(\pi k)}{k}-\frac{sin(\pi k)}{\pi k^2}\\
-&\text{Hilber transformer} && d(k) = \frac{1-cos(\pi k)}{\pi k}
+&\text{lowpass filter} && d(k) = \frac{\sin(\omega_ck)}{\pi k} \\
+&\text{highpass filter} && d(k) = \delta(k) - \frac{\sin(\omega_ck)}{\pi k} \\
+&\text{bandpass filter} && d(k) = \frac{\sin(\omega_bk) - \sin(\omega_ak)}{\pi k} \\
+&\text{bandstop filter} && d(k) = \delta(k) - \frac{\sin(\omega_bk) - \sin(\omega_ak)}{\pi k} \\
+&\text{differentiator} && d(k) = \frac{\cos(\pi k)}{k}-\frac{\sin(\pi k)}{\pi k^2}\\
+&\text{Hilbert transformer} && d(k) = \frac{1-\cos(\pi k)}{\pi k}
 \end{align*}
+
+Note that the highpass / lowpass filters and the bandpass / bandstop 
+filters are complementary:
+\begin{align*}
+	d_{LP}(k) + d_{HP}(k) &= \delta(k) \qquad \Leftrightarrow \qquad D_{LP}(\omega) + D_{HP}(\omega) = 1 \\
+	d_{BP}(k) + d_{BS}(k) &= \delta(k) \qquad \Leftrightarrow \qquad D_{BP}(\omega) + D_{BS}(\omega) = 1
+\end{align*}
+
+The frequency responses of the differentiator and the Hilbert transformers
+are both imaginary and odd, while the other frequency responses were real
+and even. The impulse responses of the differentiator and the Hilbert
+transformer are therefore real and odd.
 
 \subsubsection{Window comparison}
 \begin{tabular}{|l|c|c|c|c|c|c|}
@@ -76,7 +88,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 	\hline
 	Rectangular & 8.9\% & $-21$ dB & $1.55$ dB & 0.92 & $-13$ dB & 1\\
 	Hamming & 0.2\% & $-54$ dB & $0.03$ dB & 3.21 & $-40$ dB & 2\\
-	Kaiser & variable $\delta$ & $-20log_{10}\delta$ & $17.372\delta$ & $D = \left\{
+	Kaiser & variable $\delta$ & $-20\log_{10}\delta$ & $17.372\delta$ & $D = \left\{
 						\begin{array}{l l}
 							\frac{A-7.95}{14.36}& \quad \text{if } A>21\\
 							0.922 & \quad \text{if } A \leq 21
@@ -99,7 +111,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 	\item Improved passband and stopband ripple suppression at the cost of a wider transition width.
 	\item Hamming window impulse response:
 	\begin{align*}
-		w(n) = 0.54 -0.46cos\left(\frac{2\pi n}{N-1}\right),&&n= 0,1,\dots,N-1
+		w(n) = 0.54 -0.46\cos\left(\frac{2\pi n}{N-1}\right),&&n= 0,1,\dots,N-1
 	\end{align*}
 	\item Filter impuls response:
 	\begin{align*}
@@ -107,12 +119,19 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 	\end{align*}
 	\item e.g. lowpass filter
 	\begin{align*}
-		h(n) = \left[0.54 -0.46cos\left(\frac{2\pi n}{N-1}\right)\right]\cdot\frac{sin(\omega_c(n-M))}{\pi (n-M)}
+		h(n) = \left[0.54 -0.46\cos\left(\frac{2\pi n}{N-1}\right)\right]\cdot\frac{\sin(\omega_c(n-M))}{\pi (n-M)}
 	\end{align*}
 \end{itemize}
 
-
+\newpage
 \subsubsection{Kaiser Window\buchSeite{541}}
+The Kaiser window is a window family, where the overshoot and the steepness
+are controlled by two parameters. \\
+
+\begin{center}
+	\includegraphics[width=10cm]{images/FIR_KaiserSpecs.jpg}
+\end{center}
+
 \begin{tabular}{|l|l|}
 	\hline
 	cutoff frequency & $f_c=\frac{1}{2}(f_{pass}+f_{stop})$ \\ \hline
@@ -120,7 +139,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 	passband/stopband frequency & $f_{pass} = f_c - \frac{1}{2}\Delta f,\quad f_{stop}= fc+\frac{1}{2}\Delta f$\\ \hline
 	digital frequencies & $\omega_{pass}=\frac{2\pi f_{pass}}{f_s},\quad \omega_{stop}=\frac{2\pi f_{stop}}{f_s},\quad
 						  \omega_{c}=\frac{2\pi f_c}{f_s},\quad \Delta\omega=\frac{2\pi \Delta f}{f_s}$\\ \hline
-	passband/stopband overshoot & $A_{pass}=20log_{10}\left(\frac{1+\delta_{pass}}{1-\delta_{pass}}\right),\quad A_{stop}=-20log_{10}\delta_{stop}$\\
+	passband/stopband overshoot & $A_{pass}=20\log_{10}\left(\frac{1+\delta_{pass}}{1-\delta_{pass}}\right),\quad A_{stop}=-20\log_{10}\delta_{stop}$\\
 								& $\delta_{pass}=\frac{10^{A_{pass}/20}-1}{10^{A_{pass}/20}+1},\quad \delta_{stop} = 10^{-A_{stop}/20}$ \\ \hline
 	window parameters &
 		$\alpha = \left\{
@@ -142,7 +161,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 \begin{enumerate}
 \item Calculate $f_c$, $\Delta f$ and $\omega_c$.
 \item Calculate $\delta_{pass}$ and $\delta_{stop}$.
-\item Calculate $\delta=min(\delta_{pass},\delta_{stop})$ and $A=-20log_{10}\delta$ in dB. \newline
+\item Calculate $\delta=\min(\delta_{pass},\delta_{stop})$ and $A=-20log_{10}\delta$ in dB. \newline
 	  The filter will have equal passband and stopband ripples. Therefore the design must be based on the smaller of the two ripples.
 \item Calculate $\alpha$ and $D$.
 \item Calculate the filter length $N=\frac{Df_s}{\Delta f}+1$ and round it up to the next \textbf{odd} number. Calculate $M=(N-1)/2$.
@@ -153,12 +172,57 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 \subsubsection{Rules for different filter types}
 \paragraph{Highpass filter}~\\
 The role of $f_{pass}$ and $f_{stop}$ are interchanged, therefore $\Delta f = f_{pass}-f_{stop}$
+
 \paragraph{Bandpass filter}~\\
-The final filter design will have equal transition widths, therefore $\Delta f = min(\Delta f_a, \Delta f_b)$ with $\Delta f_a=f_{pa}-f_{sa}$ and $\Delta f_b=f_{pb}-f_{sb}$.
+\begin{center}
+	\includegraphics[width=8cm]{images/FIR_KaiserBP.jpg}
+\end{center}
+The final filter design will have equal transition widths, therefore 
+$\Delta f = \min(\Delta f_a, \Delta f_b)$ with $\Delta f_a=f_{pa}-f_{sa}$ 
+and $\Delta f_b=f_{pb}-f_{sb}$.
+Since the transition widths are different, one can select $f_a$ and $f_b$ either
+with focus on the passband (standard), or with focus on the stop band:
+\begin{align*}
+	f_a &= f_{pa} - \frac{1}{2} \Delta f \:, \qquad f_b = f_{pb} + \frac{1}{2} \Delta f \qquad \text{focus on pass band}\\
+	f_a &= f_{sa} + \frac{1}{2} \Delta f \:, \qquad f_b = f_{sb} - \frac{1}{2} \Delta f \qquad \text{focus on stop band}
+\end{align*}
 
 \subsubsection{Kaiser Window for Spectral Analysis\buchSeite{555ff}}
+The Kaiser window can of course be used for spectral analysis (DFT, FFT). As it
+has a variable shape, the factor $c$ can be varied. For a given side lobe level
+$R$, the factor $c$ can be calculated as
+\begin{equation*}
+	c = \frac{6 \left(R + 12\right)}{155}
+\end{equation*} 
+The shape parameter $\alpha$ of the Kaiser window is calculated by
+\begin{equation*}
+	\alpha = \begin{cases}
+		0\:, & R < 13.26 \\
+		0.76609(R-13.26)^{0.4}+0.09834(R-13.26)\:, & 13.26 < R < 60 \\
+		0.12438 (R+6.3)\:, & 60 < R < 120
+	\end{cases}
+\end{equation*}
 
 \subsection{Frequency Sampling Method\buchSeite{558}}
+For an arbitrary frequency response $D(\omega)$, the inverse DTFT cannot
+be given by the integral 
+$d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi}$ 
+from equ. \ref{eq:impresp}. Therefore this integral is approximated by the
+following sum
+\begin{equation*}
+	\tilde{d}(k) = \frac{1}{N} \sum\limits_{i=-M}^M D(\omega_i) e^{j \omega_i k} \:, \qquad -M \leq k \leq M
+\end{equation*}
 
-\subsection{Other FIR Design Methods}
+If $N = 2M+1$, then this is basically an inverse $N$-point DFT with discrete
+frequencies from $-\pi \ldots \pi$. Any length-$N$ window discussed in this
+section can be used to create a delayed and windowed version of $\tilde{d}$:
+\begin{equation*}
+	h(n) = w(n) \tilde{d}(n-M) \:, \qquad n = 0,1,\ldots,N-1
+\end{equation*}
 
+\subsection{Other FIR Design Methods\buchSeite{558}}
+Though the Kaiser window is simple and flexible, sometimes there are methods
+which are better suited. The Parks-McClellan method is based on the so-called
+\emph{equiripple Chebyshev approximation}, which often leads to smaller filters.
+The main difference is that the ripples do not decrease, but always stay the
+same height.
