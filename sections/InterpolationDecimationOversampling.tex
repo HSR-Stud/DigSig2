@@ -54,7 +54,23 @@ convolution of the upsampled signal with the filter
 
 
 \subsubsection{Polyphase Form\buchSeite{640ff}}
-%TODO: bild zeichnen, einfügen, beschriften
+
+\begin{multicols}{2}
+	The direct form is
+	\begin{center}
+		\adjustbox{max width=0.7\linewidth}{\input{tikz/interpolation_direct}}
+	\end{center}
+\vfill\columnbreak
+	A more efficient way is using the polyphase form
+	\begin{center}
+		\adjustbox{max width=\linewidth}{\input{tikz/interpolation_polyphase}}
+	\end{center}
+\end{multicols}
+
+Note that the direct form does all multiplications at the high rate, while
+the polyphase form allows doing the multiplications at the low rate, which
+makes the system more efficient. \\
+
 Suppose the low-rate time instants are $n$, then the fast-rate time instants
 can be described as $n' = NL+i$ for $i=0,1,\ldots,L-1$. The output is therefore
 
