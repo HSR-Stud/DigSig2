@@ -3,7 +3,7 @@
 
 The goal is to design a filter $H(\z)$ with the impulse response $h(n)$.
 
-\begin{center} %TODO: Bild vertikzisieren
+\begin{center}
 	\includegraphics[width=6cm]{images/SignProcApp_DigWaveFormGenerator.jpg}
 \end{center}
 
@@ -13,7 +13,7 @@ A causal sinusoidal is implemented by
 	h(n) &= R^n \sin(\omega_0 n)u(n) \\
 	H(\z) &= \frac{R \sin \omega_0 \z^{-1}}{1-2R\cos \omega_0 \z^{-1} + R^2 \z^{-2}}
 \end{align*}
-with $\omega_0 = 2 \pi f_0 / f_s$ being the digital frequency. 
+with $\omega_0 = 2 \pi f_0 / f_s$ being the digital frequency. \\
 
 For $R=1$, $h(n)$ is a pure sine, for $0<R<1$, $h(n)$ is a geometrically declining sinusoidal wave. \\
 
@@ -25,7 +25,7 @@ A cosinusoidal signal is generated similarly with
 
 As the poles of the transfer functions are at conjugate complex locations, both generators can be combined to the \emph{coupled form}:
 
-\begin{center} %TODO: Bild vertikzisieren
+\begin{center}
 	\includegraphics[width=\linewidth]{images/SignProcApp_SinCoupledForm.jpg}
 \end{center}
 with
@@ -71,8 +71,8 @@ The canonical realization is the following:
 \end{center}
 
 %TODO: add spectrum of periodic waveform generators!
-\emph{TODO: add spectrum of periodic waveform generators!!!!!}
 
+\newpage
 \subsubsection{Wavetable Generators\buchSeite{330-349}}
 An alternative approach is to store the samples of a period in memory and
 play this sample over and over again. This is called a wavetable $w$. The readout
