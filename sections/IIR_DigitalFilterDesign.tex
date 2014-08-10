@@ -210,7 +210,7 @@ As before, the analog lowpass filter must be transformed into a digital
 filter using the bilinear transform
 
 \begin{equation*}
-	H_i(z) = \left.\frac{1}{1 - s \frac{s}{\Omega_0}\cos\theta_i + \frac{s^2}{\Omega_0^2}}\right|_{s = \frac{1-u^{-1}}{1+z^{-1}}} = 
+	H_i(z) = \left.\frac{1}{1 - 2 \frac{s}{\Omega_0}\cos\theta_i + \frac{s^2}{\Omega_0^2}}\right|_{s = \frac{1-u^{-1}}{1+z^{-1}}} = 
 	\frac{G_i (1+z^{-1})^2}{1 + a_{i1}z^{-1} + a_{i2}z^{-2}}
 \end{equation*}
 
