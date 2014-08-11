@@ -1,6 +1,48 @@
 
 \appendix
 
+\section{DFT Matrices}\label{app:DFT}
+
+\begin{align*}
+	W_2 = e^{-2\pi j / 2} = -1 \\
+	A_2 &= 
+		\begin{bmatrix}
+			1& 1 \\
+			1& W_2 \\
+		\end{bmatrix}
+		&&= 
+		\begin{bmatrix}
+			1& 1 \\
+			1& -1 \\
+		\end{bmatrix}	 \\
+	W_4 = e^{-2\pi j / 4} = \cos(\pi/2) - j\sin(\pi/2) = -j \\
+	A_4 &= 
+		\begin{bmatrix}
+			1& 1& 1& 1 \\
+			1& W_4& W_4^2& W_4^3 \\
+			1& W_4^2& W_4^4& W_4^6 \\
+			1& W_4^3& W_4^6& W_4^9 \\
+		\end{bmatrix}
+		&&=
+		\begin{bmatrix}
+			1& 1& 1& 1 \\
+			1& -j& -1& j \\
+			1& -1& 1& -1 \\
+			1& j& -1& -j \\
+		\end{bmatrix} \\
+	W_8 = e^{-2\pi j / 8} = \cos(\pi/4) - j\sin(\pi/4) = \frac{1-j}{\sqrt{2}} \\
+	A_8 &= 
+		\begin{bmatrix}
+			1 & 1 & 1 & \dots & 1 \\
+			1 & W_8 & W_8^2 & \dots & W_8^7 \\
+			1 & W_8^2 & W_8^4 & \dots & W_8^14 \\
+			1 & W_8^3 & W_8^6 & \dots & W_8^21 \\
+			\vdots & \vdots & \vdots & \ddots & \vdots \\
+			1 & W_8^7 & W_8^14 & \vdots & W_8^49 \\
+		\end{bmatrix}
+		%TODO wer lustich ist darf das gerne noch vervollständigen
+\end{align*}
+
 \section{Butterworth polynomials}\label{app:Butterworth}
 
 \begin{tabular}{|l|l|l|l|}
@@ -15,6 +57,7 @@
 	7 & 3 & $\frac{8\pi}{14}\:,\:\frac{10\pi}{14}\:,\:\frac{12\pi}{14}$ & $(1+s)(1+0.4450s+s^2)(1+1.2470s+s^2)(1+1.8019s+s^2)$ \\ \hline
 \end{tabular}
 
+\newpage
 \section{Idiotenseite}\label{app:Idiotenseite}
 \addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
 \input{idiotenseite/trigo/subsections/Winkelargumente}
