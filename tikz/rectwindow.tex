@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+\begin{axis}[axis lines=left,width=8cm,height=4cm,xmin=-3,xmax=3,ymin=0,ymax=3]
+\addplot+[ycomb] coordinates{
+		(-2,1)
+		(-1,2)
+		(0,3)
+		(1,2)
+		(2,1)
+
+	};
+\end{axis}
+
+\node at (1,-0.9) {$-M$};
+\node at (5.5,-0.9) {$+M$};
+
+\draw[decorate,decoration=brace,yshift=-0.2cm] (5.5,-1.0) -- node[below=0.3cm] {$N$} (1,-1.0);
+
+
+\end{tikzpicture}

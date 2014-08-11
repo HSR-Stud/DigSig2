@@ -97,14 +97,19 @@ transformer are therefore real and odd.
 \end{tabular}
 
 \subsubsection{Rectangular Window\buchSeite{535}}
-\begin{itemize}
-	\item Simplest window
-	\item truncate the infinite impulse response: $-M < k < M$
-	\item $\rightarrow d = [d_{-M}, ..., d_{-1}, d_0, d_1, ..., d_M]$
-	\item The resulting FIR Filter must be delayed by M samples \newline
-	$\rightarrow h = d = [h_0, h_{M-1}, h_M, h_{M+1}, ..., h_{2M}]$
-\end{itemize}
-
+\begin{multicols}{2}
+	\begin{itemize}
+		\item Simplest window, Length $N = 2M+1$
+		\item truncate the infinite impulse response: \\ $-M < k < M$
+		\item $\rightarrow d = [d_{-M}, ..., d_{-1}, d_0, d_1, ..., d_M]$
+		\item The resulting FIR Filter must be delayed by M samples \newline
+		$\rightarrow h = d = [h_0, h_{M-1}, h_M, h_{M+1}, ..., h_{2M}]$
+	\end{itemize}
+	
+	\begin{center}
+		\input{tikz/rectwindow.tex}
+	\end{center}
+\end{multicols}
 
 \subsubsection{Hamming Window\buchSeite{540}}
 \begin{itemize}
