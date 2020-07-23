@@ -1,3 +1,4 @@
+%!TEX root = ../DigSig2.tex
 \section{Digital Filter Realizations\buch{Chapter 7}}
 
 \subsection{Direct Form\buchSeite{265}}
@@ -5,12 +6,12 @@
 Also called \emph{direct form I}. Consider a second-order filter with
 transfer function
 \begin{equation*}
-	H(z) = \frac{N(z)}{D(z)} 
+	H(z) = \frac{N(z)}{D(z)}
 		 = \frac{b_0 + b_1z^{-1} + b_2z^{-2}}{1 + a_1z^{-1} + a_2z^{-2}}
 \end{equation*}
 with the I/O difference equation
 \begin{equation*}
-	y_n = -a_1 y_{n-1} - a_2 y_{n-2} + b_0 x_n + b_1 x_{n-1} b_2 x_{n-2}
+	y_n = -a_1 y_{n-1} - a_2 y_{n-2} + b_0 x_n + b_1 x_{n-1} + b_2 x_{n-2}
 \end{equation*}\\
 
 This results in the following block diagram: \\
@@ -18,6 +19,16 @@ This results in the following block diagram: \\
 \begin{center}
 	\input{tikz/DirectForm}
 \end{center}
+
+and following sample processing algorithm:
+\begin{lstlisting}[mathescape]
+for $\text{each input sample}$ x do:
+  v$_0$ = x
+  w$_0$ = -a$_1$w$_1$-a$_2$w$_2$+b$_0$v$_0$+b$_1$v$_1$+b$_2$v$_2$
+  y = w$_0$
+  v$_2$ = v$_1$, w$_2$ = w$_1$
+  v$_1$ = v$_0$, w$_1$ = w$_0$
+\end{lstlisting}
 
 \subsection{Canonical Form\buchSeite{271}}
 \label{sec:canonicalform}
@@ -34,6 +45,15 @@ the \nameref{sec:directform} by splitting it up, introducing an intermediate sig
 	\input{tikz/CanonicalForm}
 \end{center}
 
+\begin{lstlisting}[mathescape]
+for $\text{each input sample}$ x do:
+  w$_0$ = x - a$_1$w$_1$ - a$_2$w$_2$
+  y = b$_0$w$_0$ + b$_1$w$_1$ + b$_2$w$_2$
+  w$_2$ = w$_1$
+  w$_1$ = w$_0$
+\end{lstlisting}
+
+
 \subsection{Cascade Form\buchSeite{277}}
 \label{sec:cascadeform}
 For filters with real impulse responses (all $a_i$ and $b_i$ are real), the
@@ -46,12 +66,12 @@ transfer function can be written by cascaded 2nd order sections (SOS).
 \end{align*}
 
 Usually the SOS are implemented in the canonical form. A first order term is
-implemented by setting the $z^{-1}$ term to zero. The advantage of the cascade
+implemented by setting the $z^{-2}$ term to zero. The advantage of the cascade
 form is the efficient implementation of 2nd order sections in DSPs.
 
 \subsection{Cascade $\Leftrightarrow$ Canonical\buchSeite{284}}
 To find the \nameref{sec:cascadeform} of a filter, $D(z)$ and $N(z)$ are
-factored into 2nd order sections. 
+factored into 2nd order sections.
 
 \begin{align*}
 D(z) &= 1 + a_1 z^{-1} + a_2 z^{-2} + \dots + a_M z^{-M} &\\

@@ -7,64 +7,64 @@
 		\node[dspnodeopen,dsp/label=above] (m00) {$x(n)$};    &
 		\node[coordinate]                  (m01) {};          &
 		\node[dspmixer, dsp/label=below]   (m02) {$b_0$};     &
-		
+
 		\node[coordinate]                  (m025) {};          &
 		\node[dspadder]                    (m03) {};          &
 		\node[coordinate]                  (m035) {};          &
-		
+
 		\node[coordinate]                  (m04) {};          &
 		\node[coordinate]                  (m05) {};          &
 		\node[dspnodeopen,dsp/label=above] (m06) {$y(n)$};    \\
-		
+
 		\node[coordinate]                  (m10) {};          &
 		\node[dspsquare]                   (m11) {$\z^{-1}$}; &
 		\node[coordinate]                  (m12) {};          &
-		
+
 		\node[coordinate]                  (m125) {};          &
 		\node[coordinate]                  (m13) {};          &
 		\node[coordinate]                  (m135) {};          &
-		
+
 		\node[coordinate]                  (m14) {};          &
 		\node[dspsquare]                   (m15) {$\z^{-1}$}; &
 		\node[coordinate]                  (m16) {};          \\
-		
+
 		\node[coordinate]                  (m20) {};          &
 		\node[coordinate]                  (m21) {};          &
 		\node[dspmixer, dsp/label=below]   (m22) {$b_1$};     &
-		
+
 		\node[coordinate]                  (m225) {};          &
 		\node[coordinate]                  (m23) {};          &
 		\node[coordinate]                  (m235) {};          &
-		
+
 		\node[dspmixer, dsp/label=below]   (m24) {$-a_1$};     &
 		\node[coordinate]                  (m25) {};          &
 		\node[coordinate]                  (m26) {};          \\
-		
+
 		\node[coordinate]                  (m30) {};          &
 		\node[dspsquare]                   (m31) {$\z^{-1}$}; &
 		\node[coordinate]                  (m32) {};          &
-		
+
 		\node[coordinate]                  (m325) {};          &
 		\node[coordinate]                  (m33) {};          &
 		\node[coordinate]                  (m335) {};          &
-		
+
 		\node[coordinate]                  (m34) {};          &
 		\node[dspsquare]                   (m35) {$\z^{-1}$}; &
 		\node[coordinate]                  (m36) {};          \\
-		
+
 		\node[coordinate]                  (m40) {};          &
 		\node[coordinate]                  (m41) {};          &
 		\node[dspmixer, dsp/label=below]   (m42) {$b_2$};     &
-		
+
 		\node[coordinate]                  (m425) {};          &
 		\node[coordinate]                  (m43) {};          &
 		\node[coordinate]                  (m435) {};          &
-		
+
 		\node[dspmixer, dsp/label=below]   (m44) {$-a_2$};     &
 		\node[coordinate]                  (m45) {};          &
 		\node[coordinate]                  (m46) {};          \\
 		};
-		
+
 	% Draw connections
 	\begin{scope}[start chain]
 		\chainin (m00);
@@ -72,7 +72,7 @@
 		\chainin (m03) [join=by dspconn];
 		\chainin (m06) [join=by dspconn];
 	\end{scope}
-	
+
 	\begin{scope}[start chain]
 		\chainin (m01);
 		\chainin (m11) [join=by dspconn];
@@ -82,13 +82,13 @@
 		\chainin (m425) [join=by dspline];
 		\chainin (m03) [join=by dspconn];
 	\end{scope}
-	
+
 	\begin{scope}[start chain]
 		\chainin (m21);
 		\chainin (m22) [join=by dspconn];
 		\chainin (m03) [join=by dspconn];
 	\end{scope}
-	
+
 	\begin{scope}[start chain]
 		\chainin (m05);
 		\chainin (m15) [join=by dspconn];
@@ -98,17 +98,17 @@
 		\chainin (m435) [join=by dspline];
 		\chainin (m03) [join=by dspconn];
 	\end{scope}
-	
+
 	\begin{scope}[start chain]
 		\chainin (m25);
 		\chainin (m24) [join=by dspconn];
 		\chainin (m03) [join=by dspconn];
 	\end{scope}
-	
+
 	\draw[] (m01) -- node[midway,left] {$v_0$} (m11);
 	\draw[] (m11) -- node[midway,left] {$v_1$} (m31);
 	\draw[] (m31) -- node[midway,left] {$v_2$} (m41);
-			
+
 	\draw[] (m05) -- node[midway,right] {$w_0$} (m15);
 	\draw[] (m15) -- node[midway,right] {$w_1$} (m35);
 	\draw[] (m35) -- node[midway,right] {$w_2$} (m45);

@@ -1,15 +1,16 @@
+%!TEX root = ../DigSig2.tex
 \section{Interpolation, Decimation and Oversampling\buch{Chapter 12}}
-\subsection{Interpolation and Oversampling\buchSeite{532ff}}
+\subsection{Interpolation and Oversampling\buchSeite{632-637}}
 Oversampling is increasing the sample rate and requires some form of interpolation. New samples at a higher sampling rate are created. These are calculated using a FIR filter. The spectrum of the low-rate and the high-rate signal are identical, if the frequency axis is not normalized.
 
-\subsection{Interpolation Filter Design\buchSeite{638ff}}
-\subsubsection{Direct form}
+\subsection{Interpolation Filter Design\buchSeite{638-657}}
+\subsubsection{Direct form\buchSeite{638}}
 
 \begin{center}
 	\includegraphics[width=10cm]{images/IntDecOv_IncSamplingRate.jpg}
 \end{center}
 
-There are now two discrete times, a fast one $n'$ and a slow one called $n$. 
+There are now two discrete times, a fast one $n'$ and a slow one called $n$.
 The effect on the spectrum of a signal and the advantage in DA-Conversion is
 shown in the following figure (left: original spectrum, right: spectrum
 at high rate).
@@ -18,8 +19,8 @@ at high rate).
 	\includegraphics[width=16cm]{images/IntDecOv_Spectrum.jpg}
 \end{center}
 
-The Job of the FIR filter is to move the zeros to the appropriate values, 
-or to erase the spectral copies of the original spectrum in the new 
+The Job of the FIR filter is to move the zeros to the appropriate values,
+or to erase the spectral copies of the original spectrum in the new
 Nyquist band. \\
 
 \begin{center}
@@ -39,21 +40,21 @@ rate's Nyquist frequency $f_s/2$.
 \begin{tabularx}{\linewidth}{Xl}
 	FIR approximation to the ideal interpolator (non causal):
 	& $d(k')=\frac{\sin(\pi k'/L)}{\pi k'/L}$, with $-LM\leq k'\leq LM$\\
-	By delaying this filter by LM samples, it gets causal: 
-	& $d(k')=\frac{\sin(\pi (n'-LM)/L)}{\pi (n'-LM)/L}$ \\
+	By delaying this filter by $LM$ samples, it gets causal:
+	& $h(n')=d(n'-LM)=\frac{\sin(\pi (n'-LM)/L)}{\pi (n'-LM)/L}$ \\
 	Using a Hamming window: & $h(n')=w(n')d(n'-LM)$ \\
-	with & $w(n') = 0.54-0.46\cos(\frac{2\pi n'}{N-1})$ \\
+	Hamming window & $w(n') = 0.54-0.46\cos(\frac{2\pi n'}{N-1})$ \\
 \end{tabularx} \\
 
 The output of the non causal FIR interpolator filter is obtained as the
-convolution of the upsampled signal with the filter 
+convolution of the upsampled signal with the filter
 
 \begin{equation*}
 	y_{up}(n') = \sum\limits_{k'=-LM}^{LM}d(k')x_{up}(n'-k')
 \end{equation*}
 
 
-\subsubsection{Polyphase Form\buchSeite{640ff}}
+\subsubsection{Polyphase Form\buchSeite{640}}
 
 \begin{multicols}{2}
 	The direct form is
@@ -78,7 +79,7 @@ can be described as $n' = NL+i$ for $i=0,1,\ldots,L-1$. The output is therefore
 	y_{up}(nL+i) = \sum\limits_{k=-M}^{M-1}\sum\limits_{j=0}^{L-1} d(kL+j) x_{up}(nL+i-kL-j)
 \end{equation*}
 
-which allows us to split the output $y_{up}$ into $y_i(n)=y_{up}(nL+i)$. 
+which allows us to split the output $y_{up}$ into $y_i(n)=y_{up}(nL+i)$.
 We can also define the \emph{$i$th polyphase subfilter} as
 
 \begin{equation*}
@@ -93,12 +94,12 @@ The $i$th outputs can now be calculated in terms of the slow-rate samples
 
 The output $y_{up}$ is now only calculated in terms of the slow sampling rate,
 which decreases the computational rate in terms of multiplications per second by
-a factor of $L$, from $R = NLf_s$ (direct from) to $R = Nf_s$ (polyphase form). 
+a factor of $L$, from $R = NLf_s$ (direct from) to $R = Nf_s$ (polyphase form).
 
 
-\subsubsection{Frequency domain characteristics}
+\subsubsection{Frequency domain characteristics\buchSeite{645}}
 To discuss the interpolation in the frequency domain, we introduce the different
-unit delays $z$ (low sampling rate = long delay) and $\zeta$ 
+unit delays $z$ (low sampling rate = long delay) and $\zeta$
 (high sampling rate = short delay)
 
 \begin{equation*}
@@ -121,10 +122,10 @@ similarly is
 \end{equation*}
 
 The 0th polyphase subfilter $d_0(k)$ should of course return the same value as
-the input $x(n)$, so the impulse response must be a dirac: 
+the input $x(n)$, so the impulse response must be a dirac:
 $d_0(k) = d(kL) = \delta(k)$. \\
 
-The ideal filter which removes all spectral copies would generally have 
+The ideal filter which removes all spectral copies would generally have
 the following characteristics
 \begin{equation*}
 	D(f) = \begin{cases}
@@ -139,9 +140,9 @@ therefore be
 	d(k') = \frac{\sin(\pi k' / L)}{\pi k' / L}
 \end{equation*}
 
-This reconstructor is usually implemented using a Kaiser window design. 
+This reconstructor is usually implemented using a Kaiser window design.
 
-\subsection{Linear and Hold Interpolators\buchSeite{657ff}}
+\subsection{Linear and Hold Interpolators\buchSeite{657-661}}
 The reconstructor described above is the ideal interpolator. Nevertheless
 there exist simpler interpolators, such as the linear and the hold interpolators.
 Not surprising, these are not as good as the ideal interpolator, but especially
@@ -158,18 +159,18 @@ downsides.
 		y_{up}(nL+i) &= x(n) \\
 		D(f) &= \frac{\sin(\pi f/f_s)}{\sin(\pi f/Lf_s)}e^{-j\pi(L-1)f/(Lf_s)}
 	\end{align*}
-	
+
 	The polyphase subfilters $d_i(k)$ will then be
-	
+
 	\begin{equation*}
 		d_i(k) = \delta(k)
 	\end{equation*}
-	
+
 \vfill
 \columnbreak
 	\begin{center}
 		\includegraphics[width=5cm]{images/IntDecOv_Hold.jpg}
-	\end{center}	
+	\end{center}
 \vfill
 \end{multicols}
 
@@ -183,12 +184,12 @@ downsides.
 		y_{up}(nL+i) &= (1-\frac{i}{L})x(n)+\frac{i}{L}x(n+1) \\
 		D(f) &= \frac{1}{L}\left|\frac{\sin(\pi f/f_s)}{\sin(\pi f/Lf_s)}\right|^2
 	\end{align*}
-	
+
 	The polyphase subfilters $d_i(k)$ will then be
-	
+
 	\begin{equation*}
 		d_i(k) = (1-\frac{i}{L}) \delta(k) + \frac{i}{L} \delta(k+1)
-	\end{equation*}	
+	\end{equation*}
 \vfill
 \columnbreak
 	\begin{center}
@@ -197,13 +198,118 @@ downsides.
 \vfill
 \end{multicols}
 
-		
-\subsection{Design Examples\buchSeite{661ff}}
-%TODO!!!!
 
-\subsection{Decimation and Oversampling\buchSeite{686ff}}
+\subsection{Design Examples\buchSeite{661-686}}
+%TODO!!!!
+\subsubsection{4-fold interpolators\buchSeite{661}}
+\begin{equation*}
+  L = 4
+\end{equation*}
+with polyphase filter length $2M=4$ or $M=2$ which leads to a filter length $N=2LM+1=17$.
+The ideal impulse response is:
+\begin{equation*}
+  d(k')=\frac{sin(\pi k'/4)}{\pi k'/4}, \qquad -8 \leq k' \leq 8
+\end{equation*}
+or, numerically,
+\begin{equation*}
+  \mathbf{h} = \mathbf{d} = [0, -0.13, -0.21, -0.18, 0, 0.30, 0.64, 0.90, 1, 0.90, 0.64, 0.30, 0, -0.18, -0.21, -0.13, 0]
+\end{equation*}
+where $\mathbf{h}$ is the causal version, and $\mathbf{d}$ is the symmetric one with time origin at the middle of the vector.
+The resulting polyphase subfilters
+\begin{equation*}
+  d_i(k) = d(4k + i), \qquad -2 \leq k \leq 1
+\end{equation*}
+can now be calculated (high-rate filter subsampled by a factor of 4 and an increasing offset)
+\begin{align*}
+  \mathbf{h}_0 &= \mathbf{d}_0 = [0, 0, 1, 0] \\
+  \mathbf{h}_1 &= \mathbf{d}_1 = [-0.13, 0.30, 0.90, -0.18] \\
+  \mathbf{h}_2 &= \mathbf{d}_2 = [-0.21, 0.64, 0.64, -0.21] \\
+  \mathbf{h}_2 &= \mathbf{d}_3 = [-0.18, 0.90, 0.30, -0.13]
+\end{align*}
+\begin{center}
+  \includegraphics[width=6cm]{images/IntDecOv_DesignExample.png}
+\end{center}
+The interpolated samples $y_{\text{up}}(4n+i)$ between $x(n)=x_{\text{up}}(4n)$ and $x(n+1)=x_{\text{up}}(4[n+1])$ are now:
+\begin{equation*}
+  \begin{bmatrix}
+    y_{\text{up}}(4n) \\
+    y_{\text{up}}(4n+1) \\
+    y_{\text{up}}(4n+2) \\
+    y_{\text{up}}(4n+3)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+        0 &    0 &    1 &     0 \\
+    -0.13 & 0.30 & 0.90 & -0.18 \\
+    -0.21 & 0.64 & 0.64 & -0.21 \\
+    -0.18 & 0.90 & 0.30 & -0.13 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_{\text{up}}(4n+8) \\
+    x_{\text{up}}(4n+4) \\
+    x_{\text{up}}(4n) \\
+    x_{\text{up}}(4n-4)
+  \end{bmatrix}
+\end{equation*}
+\begin{center}
+  \includegraphics[width=8cm]{images/IntDecOv_DesignExampleSuperposition.png}
+\end{center}
+
+The 17 sample long FIR filter is very short ($M=2$).
+This and the rectangular window have the effect that the interpolated signal is of low quality.
+Rectangular windows should not be used, Hamming is much better and results in a reasonable interpolation even with $M=2$
+
+The Hamming windowed version is obtained by multiplying the high-rate 17 sample long filter with the appropriate Hamming window resulting in
+\begin{equation*}
+  \begin{bmatrix}
+    y_{\text{up}}(4n) \\
+    y_{\text{up}}(4n+1) \\
+    y_{\text{up}}(4n+2) \\
+    y_{\text{up}}(4n+3)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+        0 &    0 &    1 &     0 \\
+    -0.02 & 0.22 & 0.87 & -0.07 \\
+    -0.05 & 0.55 & 0.55 & -0.05 \\
+    -0.07 & 0.87 & 0.22 & -0.02 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_{\text{up}}(4n+8) \\
+    x_{\text{up}}(4n+4) \\
+    x_{\text{up}}(4n) \\
+    x_{\text{up}}(4n-4)
+  \end{bmatrix}
+\end{equation*}
+The resulting magnitude response shows, that the rectangular filter is steeper, at the high cost of 8.9\% overshoot, which the Hamming window version doesn't have.\\
+
+For a block diagram realization of the polyphase form , recall these two relationships:
+\begin{align*}
+  Y_{\text{up}}(\xi) &= \sum_{i=0}^{L-1}\xi^{-1}Y_i(\xi^L) = \sum_{i=0}^{L-1}z^{-i/L}Y_i(z) \\
+  D(\xi) &= \sum_{i=0}^{L-1}\xi^{-1}D_i(\xi^L) = \sum_{i=0}^{L-1}z^{-i/L}D_i(z)
+\end{align*}
+Therefore the transfer function of the high-rate interpolator filter can be written as the sum of the polyphase subfilters appropriately delayed:
+\begin{align*}
+  H(\xi) &= H_0(\xi^4) + \xi^{-1}H_1(\xi^4) + \xi^{-2}H_2(\xi^4) + \xi^{-3}H_3(\xi^4) \\
+  &= H_0(z) + z^{-1/4}H_1(z) + z^{-2/4}H_2(z) + z^{-3/4}H_3(z)
+\end{align*}
+The resulting block diagram clearly shows how the four polyphase filters create the four output values.
+Three of these values are interpolated while value $y_{\text{up}}(n') = y_{\text{up}}(4n) = y_0(n)$ is identical to the upsampled input value $x_{\text{up}}(n') = x_{\text{up}}(4n) = x(n)$, since $h_0=[0,0,1,0]$.
+Clearly, the four output samples can be calculated in parallel, allowing for a very fast implementation.
+\begin{center}
+  \begin{tikzpicture}
+    \node [inner sep=0pt,above right]
+    {\includegraphics[width=10cm]{images/IntDecOv_DesignExamplePolyphase.png}};
+    \draw[red,->] (9,7) node [right] {Missing upsampler by a factor of 4} -- (6,6.65) node {};
+    \draw[red,->] (9,7) node {} -- (6,4.7) {};
+    \draw[red,->] (9,7) node {} -- (6,2.75) {};
+    \draw[red,->] (9,7) node {} -- (6,0.85) {};
+  \end{tikzpicture}
+\end{center}
+
+\subsection{Decimation and Oversampling\buchSeite{686-691}}
 Decimation is the inverse of oversampling, thus the sampling rate is reduced
-from a high rate $f_s'$ to a low rate $f_s = f_s' / L$. 
+from a high rate $f_s'$ to a low rate $f_s = f_s' / L$.
 
 \begin{center}
 	\includegraphics[width=10cm]{images/IntDecOv_Downsampler.jpg}
@@ -218,7 +324,7 @@ Downsampling is simply the process of discarding $L-1$ samples:
 Caution: if the high rate spectrum occupies more than the low rate Nyquist rate
 there \emph{will} be aliasing. \\
 
-The ideal \emph{decimator} therefore contains a decimation filter, which 
+The ideal \emph{decimator} therefore contains a decimation filter, which
 operates at the high frequencies and cuts out the low rate Nyquist band.
 
 \begin{center}
@@ -230,13 +336,13 @@ it's DC gain is unity instead of $L$. A length-$N$ FIR decimation filter
 can therefore be obtained by
 
 \begin{equation*}
-	h(n') = w(n') d(n'-LM) \:,\qquad \text{where} \quad 
+	h(n') = w(n') d(n'-LM) \:,\qquad \text{where} \quad
 	d(k') = \frac{\sin(\pi k'/L)}{\pi k'}
 \end{equation*}
 
 Since only every $L$th output sample is needed, the filter output does
 not need to be calculated for every fast rate sample (like on the left image),
-reducing the computational cost by a factor $L$ to 
+reducing the computational cost by a factor $L$ to
 $R = \frac{1}{L} N f_s' = N f_s$ (left image). \\
 
 \begin{multicols}{2}
@@ -255,7 +361,7 @@ signals, often a simple FIR averaging filter is used. The last, slowest filter
 can then be designed to fix the overall frequency response.
 
 
-\subsection{Noise Shaping Quantizer\buchSeite{598ff}}
+\subsection{Noise Shaping Quantizer\buchSeite{698-705}}
 
 \paragraph{First-order delta-sigma A/D converters}
 For first order delta-sigma A/D converters, only one bit is used: $B'=1$. For
@@ -297,7 +403,7 @@ Similarly, noise shaping and oversampling can be used for D/A conversion.
 \end{center}
 
 Again, using a discrete time model and a linear stochastic quantization
-noise source, one gets to the following transfer functions for first-order 
+noise source, one gets to the following transfer functions for first-order
 or higher-order noise shaping filters
 
 \begin{align*}

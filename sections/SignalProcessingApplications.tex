@@ -1,11 +1,14 @@
+%!TEX root = ../DigSig2.tex
 \section{Signal Processing Applications\buch{Chapter 8}}
-\subsection{Digital Waveform Generators}
+\subsection{Digital Waveform Generators\buchSeite{316}}
 
-The goal is to design a filter $H(\z)$ with the impulse response $h(n)$.
+The goal is to design a filter $H(\z)$ with a desired impulse response $h(n)$.
 
 \begin{center}
 	\includegraphics[width=6cm]{images/SignProcApp_DigWaveFormGenerator.jpg}
 \end{center}
+This waveform can be sample-by-sample computed as the impulse response of the filter $H(\z)$ or it can be pre-computed and stored in memory (wavetable).
+If the waveform is periodic (often) then the fundamental frequency can be controlled by the speed the wavetable is read out.
 
 \subsubsection{Sinusodial Generators\buchSeite{316-320}}
 A causal sinusoidal is implemented by
@@ -39,9 +42,9 @@ or in the $z$-domain:
 \end{align*}
 
 \subsubsection{Periodic Waveform Generators\buchSeite{321-329}}
-A sampled version of a periodic signal is not necessarily periodic. 
+A sampled version of a periodic signal is not necessarily periodic.
 In order for $x(n)$ to be periodic in $n$ with a period of $D$ samples,
-one whole period of the signal must fit within the $D$ samples. 
+one whole period of the signal must fit within the $D$ samples.
 Therefore at $n = D$ the signal must cycle by one whole period. \\
 
 This requires that $x(D) = x(0)$, which requires
@@ -70,13 +73,30 @@ The canonical realization is the following:
 	\includegraphics[width=\linewidth]{images/SignProcApp_PeriodicWaveFormGen.jpg}
 \end{center}
 
-%TODO: add spectrum of periodic waveform generators!
+The common delay line of the canonical form can be split up into two identical delay lines.
+The first recursive filter creates a periodic impulse train as impulse response, which in turn creates a periodic waveform which consists of the finite impulse response of the FIR filter excited over and over again
+\begin{center}
+  \includegraphics[width=\linewidth]{images/SignProcApp_ImpulseTrain.png}
+\end{center}
 
-\newpage
+These sequences are causal, therefore they have a comb-like spectra, with dominant peaks (poles) at the harmonics.
+The spectrum can be obtained by setting $z=e^{jw}$ in the transfer function:
+\begin{align*}
+  1 - z^{-D} = ... &= 2je^{j\omega D/2}\text{sin}(\frac{\omega D}{2}) \\
+  |H(\omega)| = \frac{|N(\omega)|}{|1-e^{-j\omega D}|} &= \frac{|N(\omega)|}{2|\text{sin}(\frac{\omega D}{2})|} \\
+  \omega &= 2\pi f/f_s \\
+  |H(f)| &= \frac{|N(f)|}{2|\underbrace{\text{sin}(\frac{\pi fD}{f_s})}_{=0}|} \\
+  \Rightarrow \frac{\pi fD}{f_s} &= \pi m \\
+  \Leftrightarrow f_m = m\frac{f_s}{D} = mf_1 &\quad f_1 \text{: fundamental frequency}
+\end{align*}
+\begin{center}
+  \includegraphics[width=\linewidth]{images/SignProcApp_Spectrum.png}
+\end{center}
+
+
 \subsubsection{Wavetable Generators\buchSeite{330-349}}
 An alternative approach is to store the samples of a period in memory and
-play this sample over and over again. This is called a wavetable $w$. The readout
-accomplished using a circular pointer $p$ and, if needed, an offset index $q$.
+play this sample over and over again. This is called a wavetable $\mathbf{w}$. The readout is accomplished using a circular pointer $p$ and, if needed, an offset index $q$.
 
 \begin{center}
 	\includegraphics[width=\linewidth]{images/SignProcApp_Wavetable.jpg}
@@ -86,7 +106,7 @@ The wave can easily be delayed by $m$ time units by setting
 \begin{equation*}
 	y(n) = b(n-m)
 \end{equation*}
-This is achieved by initializing $p$ and $q$ with 
+This is achieved by initializing $p$ and $q$ with
 \begin{equation*}
 	p = w+m \quad q=m
 \end{equation*}
@@ -101,12 +121,12 @@ This leads to the following sequences for different $m$'s
 \end{align*}
 
 The wavetable information can be manipulated in many possible ways to achieve
-particular effects. A wavetable of length $D$ has a fundamental frequency $f$ 
-of $f = \frac{f_s}{D}$. A shorter period $d \leq D$, meaning a higher frequency 
-$f = \frac{f_s}{d}$ can easily achieved by skipping samples. \\
+particular effects. A wavetable of length $D$ has a fundamental frequency $f$
+of $f = \frac{f_s}{D}$. A shorter period $d \leq D$, meaning a higher frequency
+$f = \frac{f_s}{d}$ can easily be achieved by skipping samples. \\
 
 The constant $c = \frac{D}{d}$ describes, how often the sub-period $d$ fits into the original period $D$. To keep $f$ within the symmetric Nyquist interval, $c$ has to be inside the range
- 
+
 \begin{equation*}
 	-\frac{D}{2} \leq c \leq \frac{D}{2}
 \end{equation*}.
@@ -116,10 +136,10 @@ The update of the offset $q$ is
 	q_{n+1} = \left( q_n - c \right) \% D
 \end{equation*}
 
-Non-integer offsets can be truncated, rounded or, if higher quality is needed, interpolated. 
+Non-integer offsets can be truncated, rounded or, if higher quality is needed, interpolated.
 
 
-\subsection{Noise Reduction and Signal Enhancement}
+\subsection{Noise Reduction and Signal Enhancement\buchSeite{382}}
 Goal: extracting a signal from a noisy measurement. \\
 
 \begin{tabularx}{\linewidth}{lX}
@@ -128,7 +148,7 @@ Goal: extracting a signal from a noisy measurement. \\
 	Undesired noise & $\nu(n)$ \\
 \end{tabularx} \\
 
-\subsubsection{Noise Reduction Filters\buchSeite{382-385}}
+\subsubsection{Noise Reduction Filters\buchSeite{382-386}}
 
 The ideal noise reduction filter creates the output
 \begin{equation*}
@@ -149,7 +169,7 @@ with
 	\left| H(\omega) \right|^2 = H(\omega) \cdot H^*(\omega)
 \end{equation*}
 
-or with white noise with $S_{xx} = \sigma_x^2$
+and with white noise as the input $S_{xx} = \sigma_x^2$
 \begin{equation*}
 	S_{yy}(\omega) = \left| H(\omega) \right|^2 \sigma_x^2
 \end{equation*}
@@ -157,10 +177,10 @@ or with white noise with $S_{xx} = \sigma_x^2$
 Not that the output noise is not white anymore and is therefore colored noise. \\
 
 The \emph{noise reduction ratio} $\NRR$ measures the noise power at the output
-compared to the noise power at the input. Note that a small NRR means 
+compared to the noise power at the input. Note that a small NRR means
 large noise reduction.
 \begin{equation*}
-	\NRR = \frac{\sigma_y^2}{\sigma_x^2} 
+	\NRR = \frac{\sigma_y^2}{\sigma_x^2}
 		 = \int\limits_{-\pi}^{\pi} \left| H(\omega) \right|^2 \frac{d\omega}{2\pi}
 		 = \sum\limits_{n} h(n)^2
 \end{equation*}
@@ -183,14 +203,19 @@ The best possible $\NRR$ is achieved by using ideal filters:
 	Ideal bandpass filter & $\NRR = \frac{\omega_b - \omega_a}{\pi}$ \\
 \end{tabularx} \\
 
-\paragraph{First-order IIR Smoother}
-To remove zero-mean white Gaussian noise of variance $\sigma_v^2$, an 
+Most real noise reduction filters are linear phase filters, where each frequency is delayed by the same number of samples and implies constant phase delay:
+\begin{align*}
+  y_s(n) = s(n-D)
+\end{align*}
+
+\paragraph{First-order IIR Smoother\buchSeite{386}}
+To remove zero-mean white Gaussian noise of variance $\sigma_v^2$, an
 IIR lowpass filter is used:
 \begin{equation*}
 	H(\z) = \frac{b}{1-a\z^{-1}}
 \end{equation*}
 
-With $0 < a < 1$ and $H(1)=1$, $b$ can be fixed to $b=1-a$. In that 
+With $0 < a < 1$ and $H(1)=1$, $b$ can be fixed to $b=1-a$. In that
 case the $\NRR$ is
 \begin{equation*}
 	\NRR = \frac{b^2}{1-a^2} = \frac{1-a}{1+a}
@@ -203,13 +228,13 @@ The transient time constant will be
 The one-percent time constant is of course
  $n_{\text{eff}}=\frac{\ln(0.01)}{\ln(a)}$ \\
 
-The 3-DB cutoff frequency $\omega_c$ is calculated at 
+The 3-DB cutoff frequency $\omega_c$ is calculated at
 $\left| H(\omega_c) \right|^2 = \frac{1}{2}$, leading to
 \begin{equation*}
 	\omega_c = 1 - \frac{(1-a)^2}{2 a} \stackrel{\text{for } a \lesssim 1}{\backsimeq} 1-a
 \end{equation*}
 
-\paragraph{Highpass signal extraction filter}
+\paragraph{Highpass signal extraction filter\buchSeite{389}}
 The $\NRR$, $n_{\text{eff}}$ and $\omega_c$ for a highpass IIR filter with
 \begin{equation*}
 	H(\z) = \frac{b}{1+a\z^{-1}}
@@ -219,8 +244,8 @@ can be calculated similarly, leading to the same results:
 	\NRR = \frac{1-a}{1+a} \qquad n_{\text{eff}} = \frac{\ln \epsilon}{\ln a} \qquad \omega_c \lesssim 1-a
 \end{equation*}
 
-\paragraph{First-order IIR smoother with prescribed cutoff frequency}
-By adding a zero at $\z=-1$, the $\NRR$ can slightly be improved. 
+\paragraph{First-order IIR smoother with prescribed cutoff frequency\buchSeite{390}}
+By adding a zero at $\z=-1$, the $\NRR$ can be slightly improved.
 The filter will be
 \begin{equation*}
 	H(\z) = \frac{b \left( 1 + \z^{-1} \right)}{1 - a \z^{-1}}
@@ -231,10 +256,10 @@ with $b = \frac{1-a}{2}$ for unity gain at DC. The NRR of this filter will be
 \end{equation*}
 The following equations are used to determine $\omega_c$ or $a$.
 \begin{equation*}
-	\cos \omega_c = \frac{2 a}{1+a^2} \quad a = \frac{1-\tan(\omega_c/2)}{1+\tan(\omega_c/2)}
+	\cos \omega_c = \frac{2 a}{1+a^2} \Leftrightarrow a = \frac{1-\tan(\omega_c/2)}{1+\tan(\omega_c/2)}
 \end{equation*}
 
-\paragraph{FIR averaging filters}
+\paragraph{FIR averaging filters\buchSeite{391}}
 For a FIR filter, the $\NRR$ will always be
 \begin{equation*}
 	\NRR = \sum\limits_n h_n^2
@@ -244,7 +269,7 @@ A filter minimizing the $\NRR$ is obtained by setting $h_n = \frac{1}{N}$, which
 	\NRR = \frac{1}{N}
 \end{equation*}
 The length $N$ of a FIR filter should be chosen like the time constant
-$n_{\text{eff}}$ for an IIR filter: 
+$n_{\text{eff}}$ for an IIR filter:
 $N = n_{\text{eff}} = \frac{\ln \epsilon}{\ln a}$ \\
 
 The cutoff frequency of an FIR averaging filter is
@@ -252,7 +277,7 @@ The cutoff frequency of an FIR averaging filter is
 	\omega_c = \frac{\pi}{N}
 \end{equation*}
 
-\paragraph{Highpass FIR signal extraction}
+\paragraph{Highpass FIR signal extraction\buchSeite{396}}
 The lowpass filter is changed to a highpass filter by substituting $\z \to -\z$,
 changing the impulse response to $h_n \to (-1)^n h_n$, leading to
 a highpass FIR filter with the impulse response
@@ -261,10 +286,10 @@ a highpass FIR filter with the impulse response
 \end{equation*}
 The noise reduction ratio stays the same.
 
-\paragraph{Bandpass signal extraction}
+\paragraph{Bandpass signal extraction\buchSeite{397}}
 A FIR bandpass filter is achieved by a resonator filter with poles at $z = R e^{\pm j \omega_0}$.
 \begin{align*}
-	H(\z) &= \frac{G}{1 + a_1 \z^{-1} + a_2 \z^{-2}} \\ 
+	H(\z) &= \frac{G}{1 + a_1 \z^{-1} + a_2 \z^{-2}} \\
 	h_n &= \frac{G}{\sin \omega_0} R^n \sin\left(\omega_0 n + \omega_0\right) u(n)
 \end{align*}
 where $a_1 = -2R \cos\omega_0$ and $a_2 = R^2$. \\
@@ -279,21 +304,19 @@ The recovered sinusoid will be shifted by the phase delay $d$ of
 	d(\omega_0) = - \frac{\arg H(\omega_0)}{\omega_0}
 \end{equation*}
 
-%TODO: achtung, newpage hier
-\newpage
+
 \subsubsection{Notch and Comb Filters\buchSeite{398-406}}
 
 Two special cases of the signal enhancement/noise reduction problem arise when:
 \begin{enumerate}
-	\item The noise signal $\nu(n)$ is periodic. The ideal filter will then 
+	\item The noise signal $\nu(n)$ is periodic. The ideal filter will then
 	be a notch filter.
 	\item The desired signal $s(n)$ is periodic. The ideal filter will then
 	be a comb filter.
-\end{enumerate} 
+\end{enumerate}
 
-Usually all the harmonics of a frequency $f_1$ must be canceled.
-The sampling rate $f_s$ is then chosen to be a multiple of the fundamental
-frequency $f_1$: 
+Usually all the harmonics of the fundamental frequency $f_1$ must be canceled.
+The sampling rate $f_s$ is then chosen to be a multiple $f_1$:
 \begin{equation*}
 	f_s = D f_1
 \end{equation*}
@@ -315,7 +338,7 @@ For a given $\Delta\omega$ of the notch dips, $a$ and $b$  are obtained by
 \end{equation*}
 
 \paragraph{Comb filters}
-As a notch filter can be obtained from a single notch filter using the
+As a multi-notch filter can be obtained from a single notch filter using the
 substitution $\z \to \z^D$, which creates $D$ replicas in the Nyquist band,
 any narrow lowpass filter can be transformed into a comb filter.
 \begin{equation*}
@@ -325,7 +348,7 @@ any narrow lowpass filter can be transformed into a comb filter.
 
 Given a 3-dB width for the peaks, the parameters can be calculated by
 \begin{equation*}
-	\beta = \tan\left(\frac{D\Delta\omega}{4}\right) \qquad 
+	\beta = \tan\left(\frac{D\Delta\omega}{4}\right) \qquad
 	a = \frac{1-\beta}{1+\beta} \qquad b = \frac{\beta}{1+\beta}
 \end{equation*}
 
@@ -334,19 +357,19 @@ Note that the presented notch and comb filters are complementary, i.e.
 	\left|H_{\text{comb}}(\omega)\right|^2 + \left|H_{\text{notch}}(\omega)\right|^2 = 1
 \end{equation*}
 
-The $\NRR$ are the same as the $\NRR$s for the simple smoothers, as the
-transform $\z \to \z^{-1}$ simply inserts $D-1$ zeros in the original
+The $\NRR$s are the same as the $\NRR$s for the simple smoothers, as the
+transform $\z \to \z^{D}$ simply inserts $D-1$ zeros in the original
 impulse response. Hence the sum does not change and the $\NRR$s don't change.
 
 
-\subsubsection{Signal Averaging\buchSeite{421-425}}
+\subsubsection{Signal Averaging\buchSeite{421-427}}
 Signal averaging is equivalent to comb filtering, but with an FIR filter
-instead of an IIR one. It is derived by taking the transform $\z \to \z^{-1}$
+instead of an IIR one. It is derived by applying the transform $\z \to \z^{-1}$
 to the FIR averaging filter of length $N$:
 
 \begin{align*}
 	H(\z)&=\frac{1}{N}\left( 1+ \z^{-D}+\z^{-2D}+\ldots + \z^{-(N-1)D} \right) \\
-	&= \frac{1}{N}\frac{\z^{-ND}}{1-\z^{-D}}
+	&= \frac{1}{N}\frac{1-\z^{-ND}}{1-\z^{-D}}
 \end{align*}
 
 Again, the $\NRR$ stays the same: $\NRR = \frac{1}{N}$. \\
@@ -358,7 +381,7 @@ In the time domain, the filter is given by the following I/O difference equation
 \end{equation*}
 
 As the IIR comb filter is more efficient, it is mostly used for real time
-processing. The FIR averaging filter is used when measuring a finite number 
+processing. The FIR averaging filter is used when measuring a finite number
 $N$ of periods of the same noisy signal. \\
 
 For $N$ periods of $D$ samples, the total length will be $ND$. The $i$th period
@@ -381,11 +404,11 @@ and the noise will, of course, be reduced by a factor of the $\NRR$, i.e.
 
 \subsubsection{Savitzky-Golay Smoothing Filters\buchSeite{427-451}}
 
-The Savitziky-Golay smoothing filters (also: polynomial smoothing or 
+The Savitzky-Golay smoothing filters (also: polynomial smoothing or
 least-squares smoothing filters) are an elegant generalization of the
 simple FIR averaging filter. \\
 
-It optimally fits a set of data points to a polynomial of a specified 
+It optimally fits a set of data points to a polynomial of a specified
 degree in least-squares sense.
 
 \begin{center}
@@ -401,14 +424,14 @@ with the free variable $m = -2,-1,0,1,2$. \\
 The coefficients $c_i$ now have to be
 optimally found in a least-squares sense, using linear algebra. \\
 
-We  therefore introduce \emph{basis vectors} 
-$\mathbf{s}_0, \mathbf{s}_1, \mathbf{s}_2$, whose components are:
+We  therefore introduce \emph{basis vectors}
+$\mathbf{s}_0, \mathbf{s}_1, \mathbf{s}_2$, whose components are (quadratic approx.):
 \begin{equation*}
 	\mathbf{s}_0(m) = 1 \qquad \mathbf{s}_1(m) = m \qquad \mathbf{s}_2(m) = m^2 \\
 \end{equation*}
 Therefore
 \begin{equation*}
-	\hat{\mathbf{x}} = \left[\mathbf{s}_0,\mathbf{s}_1,\mathbf{s}_2\right] 
+	\hat{\mathbf{x}} = \left[\mathbf{s}_0,\mathbf{s}_1,\mathbf{s}_2\right]
 	\begin{bmatrix}c_0\\c_1\\c_2\end{bmatrix} = S\mathbf{c}
 \end{equation*}
 with the optimal coefficients
@@ -433,7 +456,7 @@ polynomial
 
 The $\NRR$ of Savitzky-Golay filters is the middle coefficient:
 \begin{equation*}
-	\NRR = \mathbf{b}_0^T \mathbf{b}_0 = \frac{17}{35} = 0.49
+	\NRR = \mathbf{b}_0^T \mathbf{b}_0 = b_0(0) = \frac{17}{35} = 0.49
 \end{equation*}
 
 \paragraph{Savitzky-Golay for derivatives}
@@ -449,7 +472,7 @@ Clearly the derivatives are
 and can be written as FIR filters
 \begin{align*}
 	\dot{y}_n &= \frac{1}{35} \left( -7 x_{n-2} - 3.5 x_{n-1} + 3.5 x_{n+1} + 7 x_{n+2}\right) \\
-	\ddot{y}_n &= \frac{2}{35} \left( 5 x_{n-2} - 2.5 x_{n-1} - 5 x_n - 2.5 x_{n+1} + + x_{n+2}\right)
+	\ddot{y}_n &= \frac{2}{35} \left( 5 x_{n-2} - 2.5 x_{n-1} - 5 x_n - 2.5 x_{n+1} + 5 x_{n+2}\right)
 \end{align*}
 
 \paragraph{Savitzky-Golay for integrals}
@@ -460,10 +483,15 @@ The same concepts of course also apply to  the integral $i$:
 \end{align*}
 which leads to
 \begin{align*}
-	\dot{y} = & \left(-0.0738 x_{n-2} + 0.3369 x_{n-1} + \right. \\ 
+	\dot{y} = & \left(-0.0738 x_{n-2} + 0.3369 x_{n-1} + \right. \\
 	& \left. 0.4738 x_n + 0.3369 x_{n+1} - 0.0738 x_{n+2}  \right) \\
 \end{align*}
 
 \paragraph{Generalization}
-So far, the length was $N=5$ and the degree $d=2$. Of course this can easily be 
-generalized to any odd $N \geq d+1$. 
+So far, the length was $N=5$ and the degree $d=2$. Of course this can easily be
+generalized to any odd $N \geq d+1$.
+\begin{align*}
+  N &= 2M + 1 \\
+  \mathbf{x} &= [x_{-M},\ldots,x_{-1},x_0,x_1,\ldots,x_M]^T \\
+  \hat{x}_m &= c_0 + c_1m + \ldots + c_dm^d, \quad -M \leq m \leq M
+\end{align*}
