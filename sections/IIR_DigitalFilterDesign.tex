@@ -1,3 +1,4 @@
+%!TEX root = ../DigSig2.tex
 \section{IIR Digital Filter Design\buch{Chapter 11}}
 \subsection{Bilinear Transformation\buchSeite{563-565}}
 Designflow:
@@ -11,21 +12,21 @@ frequency)
 	\hline
 	\textbf{Filter} & \textbf{bilinear transformation} & \textbf{frequency map}
 	\\ \hline
-	lowpass & 
+	lowpass &
 	$s = f(z) = \frac{1 - z^{-1}}{1 + z^{-1}}$ &
 	$ \Omega = g(\omega) = \tan(\frac{\omega}{2})$
 	\\ \hline
-	highpass & 
+	highpass &
 	$s = f(z) = \frac{1 + z^{-1}}{1 - z^{-1}}$ &
 	$ \Omega = g(\omega) = - \cot(\frac{\omega}{2})$
 	\\ \hline
-	bandpass & 
+	bandpass &
 	$s = f(z) = \frac{1 - 2cz^{-1} +z^{-2}}{1 - z^{-2}}$ &
 	$ \Omega = g(\omega) = \frac{c - \cos(\omega)}{\sin(\omega)}$
 	\\ \hline
-	bandstop & 
+	bandstop &
 	$s = f(z) = \frac{1 - z^{-2}}{1 - 2cz^{-1} + z^{-2}}$ &
-	$ \Omega = g(\omega) = \frac{\sin(\omega)}{\cos(\omega) - c}$ 
+	$ \Omega = g(\omega) = \frac{\sin(\omega)}{\cos(\omega) - c}$
 	\\ \hline
 \end{tabularx}
 
@@ -58,7 +59,7 @@ frequency)
 	$ \frac{G_c}{\sqrt{1-G_c^2}}\tan\left(\frac{\omega_c}{2}\right)
 	= \tan\left(\frac{\omega_c}{2}\right)\vert_{G_c^2 = \frac{1}{2}}$&
 	$\frac{1 - \alpha}{1 + \alpha}$ &
-	$\frac{\alpha}{1 + \alpha} = \frac{1 - a}{2}$	
+	$\frac{\alpha}{1 + \alpha} = \frac{1 - a}{2}$
 	\\ \hline
 	high-pass &
 	$b\frac{1 - z^{-1}}{1 - a z^{-1}}$ &
@@ -102,12 +103,12 @@ They can be written in the equivalent forms:
 	A_{stop}&= 10\log_{10}(1 + \epsilon_{stop}^2)
 \end{align*}
 
-The specifications of the equivalent analog filter are $\{\Omega_{pass}, \Omega_{stop}, A_{pass}, A_{stop} \}$, or, $\{\Omega_{pass}, \Omega_{stop}, \epsilon_{pass}, \epsilon_{stop} \}$, where the analog frequencies are obtained by prewraping the digital frequencies.
+The specifications of the equivalent analog filter are $\{\Omega_{pass}, \Omega_{stop}, A_{pass}, A_{stop} \}$, or, $\{\Omega_{pass}, \Omega_{stop}, \epsilon_{pass}, \epsilon_{stop} \}$, where the analog frequencies are obtained by pre-warping the digital frequencies.
 \begin{align*}
-	\Omega_{pass} &= \tan\left(\frac{\omega_{pass}}{2}\right) & 
+	\Omega_{pass} &= \tan\left(\frac{\omega_{pass}}{2}\right) &
 	\Omega_{stop} &= \tan\left(\frac{\omega_{stop}}{2}\right) \\
 	\omega_{pass} &= \frac{2\pi f_{pass}}{f_s} &
-	\omega_{stop} &= \frac{2\pi f_{stop}}{f_s} 
+	\omega_{stop} &= \frac{2\pi f_{stop}}{f_s}
 \end{align*}
 
 \subsubsection{Analog Lowpass Butterworth Filters\buchSeite{594-599}}
@@ -125,10 +126,10 @@ With the given information, we can calculate the two parameters:
 		}{
 			\ln(\Omega_{stop} / \Omega_{pass})
 		}
-	= \frac{\ln(e)}{\ln(w)} &	
+	= \frac{\ln(e)}{\ln(w)} &
 	e &= \frac{\epsilon_{stop}}{\epsilon_{pass}}
 	   = \sqrt{\frac{10^{A_{stop}/10} -1}{10^{A_{pass}/10} -1}}&
-	w &= \frac{\Omega_{stop}}{\Omega_{pass}}&	
+	w &= \frac{\Omega_{stop}}{\Omega_{pass}}&
 \end{align*}
 
 $N$ must be an integer, we round $N_{exact}$ up to the nearest integer: $N = \lceil N_{exact} \rceil$
@@ -146,12 +147,12 @@ $N$ must be an integer, we round $N_{exact}$ up to the nearest integer: $N = \lc
 \]
 
 Of course , $\Omega_0$ can be calculated in terms of the stopband. Then the
-passband attenuation will be a bit smaller than necessary. 
+passband attenuation will be a bit smaller than necessary.
 
 \paragraph{Spectral factorization}
 The amplitude response $\left|H(\Omega)\right|^2$ now has to be transformed
 into a transfer function $H(\Omega)$. With $s = j \Omega$, the fact that
-$\left|H(\Omega)\right|^2 = H(\Omega) H(\Omega)^*$ and setting 
+$\left|H(\Omega)\right|^2 = H(\Omega) H(\Omega)^*$ and setting
 $H(s) = \frac{1}{D(s)}$, we have
 \begin{equation*}
 	D(s) D(-s)^* = 1 + (-1)^N \left( \frac{s}{\Omega_0} \right)^{2N}
@@ -164,14 +165,14 @@ $H(s) = \frac{1}{D(s)}$, we have
 \vfill
 \columnbreak
 
-	To find a $H(s)$ that is causal and stable, we have to find all the roots
+	To find an $H(s)$ that is causal and stable, we have to find all the roots
 	in the left hand side of the s-plane of the following polynomial:
 	\begin{equation*}
 		1 + (-1)^N \left(\frac{s}{\Omega_0}\right)^{2N} = 0 \qquad \Rightarrow \qquad s^{2N} = (-1)^{N-1} \Omega_0^{2N}
 	\end{equation*}
-	
+
 	The $2N$ roots are equally spaced on a circle in the s-plane with the radius
-	of $\Omega_0$. 
+	of $\Omega_0$.
 	\begin{equation*}
 		s_i = \Omega_0 e^{j \theta_i} \:, \quad \theta_i = \frac{\pi}{2N} (N - 1 + 2i) \:, \quad  i = 1,2,\ldots,2N
 	\end{equation*}
@@ -197,20 +198,20 @@ A list of Butterworth polynomials can be found in appendix \ref{app:Butterworth}
 
 \paragraph{Design steps}
 \begin{enumerate}
-	\item Calculate the digital frequencies $\{\omega_{pass}, \omega_{stop}\}$ 
+	\item Calculate the digital frequencies $\{\omega_{pass}, \omega_{stop}\}$
 	and the corresponding prewarped version $\{\Omega_{pass}, \Omega_{stop}\}$.
-	\item Calculate the order-$N$ and the 3-dB frequency $\Omega_0$ of the
+	\item Calculate the order $N$ and the 3-dB frequency $\Omega_0$ of the
 	 equivalent analog Butterworth filter based on the transformed specifications
 	 $\{\Omega_{pass}, \Omega_{stop}, A_{pass}, A_{stop} \}$
 	\item Calculate the coefficients for all second-order sections and the transfer function.
 \end{enumerate}
 
-\subsubsection{Digital Lowpass Filters\buchSeite{599ff}}
+\subsubsection{Digital Lowpass Filters\buchSeite{599}}
 As before, the analog lowpass filter must be transformed into a digital
 filter using the bilinear transform
 
 \begin{equation*}
-	H_i(z) = \left.\frac{1}{1 - 2 \frac{s}{\Omega_0}\cos\theta_i + \frac{s^2}{\Omega_0^2}}\right|_{s = \frac{1-u^{-1}}{1+z^{-1}}} = 
+	H_i(z) = \left.\frac{1}{1 - 2 \frac{s}{\Omega_0}\cos\theta_i + \frac{s^2}{\Omega_0^2}}\right|_{s = \frac{1-z^{-1}}{1+z^{-1}}} =
 	\frac{G_i (1+z^{-1})^2}{1 + a_{i1}z^{-1} + a_{i2}z^{-2}}
 \end{equation*}
 
@@ -228,11 +229,11 @@ If $N$ is odd, there is of course a first-order section
 	H_0(z) = \left.\frac{1}{1+\frac{s}{\Omega_0}}\right|_{s = \frac{1-z^{-1}}{1+z^{-1}}}
 	= \frac{G_0 (1+z^{-1})}{1 + a_{01} z^{-1}}
 	\qquad \text{with} \qquad
-	G_0 = \frac{\Omega_0}{\Omega_0 + 1} \:,\quad 
+	G_0 = \frac{\Omega_0}{\Omega_0 + 1} \:,\quad
 	a_{01}=\frac{\Omega_0 - 1}{\Omega_0 + 1}
 \end{equation*}
 
-This results in the overall digital transfer function 
+This results in the overall digital transfer function
 $H(z) = H_0(z) H_1(z) H_2(z) \ldots H_K(z)$. The 3dB frequency
 $f_0$ in Hz is related to the Butterworth parameter $\Omega_0$ over the
 bilinear transform:
@@ -240,11 +241,11 @@ bilinear transform:
 	f_0 = \frac{f_s}{\pi} \arctan(\Omega_0)
 \end{equation*}
 
-\subsubsection{Digital Highpass Filters\buchSeite{603ff}}
+\subsubsection{Digital Highpass Filters\buchSeite{603}}
 The highpass version of the bilinear transform is used to map the given
 highpass specifications onto equivalent analog lowpass specifications. \\
 
-For a highpass filter, the passband and stopband frequencies are calulated
+For a highpass filter, the passband and stopband frequencies are calculated
 by
 
 \begin{align*}
@@ -266,7 +267,7 @@ The highpass bilinear transform is then used to find $H(z)$
 Again, if $N$ is odd, then there is a first-order section
 \begin{equation*}
 	H_0(z) = \frac{G_0(1-z^{-1})}{1 + a_{01} z^{-1}} \qquad \text{where} \quad
-	G_0 = \frac{\Omega_0}{\Omega_0 + 1} \:,\quad 
+	G_0 = \frac{\Omega_0}{\Omega_0 + 1} \:,\quad
 	a_{01} = -\frac{\Omega_0 - 1}{\Omega_0 + 1}
 \end{equation*}
 
@@ -280,12 +281,12 @@ case: The coefficients $G_i$ and $a_{i2}$ are the same, but $a_{i1}$ has
 reverse sign. The numerator of the second order sections is now $(1-z^{-1})^2$
 instead of $(1+z^{-1})^2$, resulting in a zero at $z=1$ or $\omega=0$.
 
-\subsubsection{Digital Bandpass Filters\buchSeite{606ff}}
+\subsubsection{Digital Bandpass Filters\buchSeite{606}}
 The bandpass filter design works similarly. This design will result in the
 same attenuation in both stopbands. Hence one must focus on the stopband
 with the more stringent specification. \\
 
-The bandpass specifications are mapped onto the entire passband 
+The bandpass specifications are mapped onto the entire passband
 $[-\Omega_{pass}\:,\:\Omega_{pass}]$ of the analog filter by
 
 \begin{equation*}
@@ -296,7 +297,7 @@ $[-\Omega_{pass}\:,\:\Omega_{pass}]$ of the analog filter by
 
 Note that $c=\cos\omega_c$ where $\omega_c$ can be thought of as the center
 frequency of the bandpass filter. In general $\omega_c$ is \emph{not} exactly
-the the center of the passband! \\
+the center of the passband! \\
 
 This results in
 \begin{equation*}
@@ -319,12 +320,12 @@ Again, $H_i(z)$ and, if $N$ is odd also $H_0(z)$ are calculated as
 	a_{i4} = \frac{1+2\Omega_0\cos\theta_i+\Omega_0^2}{1-2\Omega_0\cos\theta_i+\Omega_0^2} \\
 	\text{and} \\
 	H_0(z) &= \frac{G_0(1-z^{-2})}{1+a_{01}z^{-1}+a_{02}z^{-2}} \qquad \text{where} \\
-	G_0 &= \frac{\Omega_0}{1+\Omega_0} \:,\qquad 
-	a_{01} = -\frac{2c}{1+\Omega_0} \:,\qquad 
+	G_0 &= \frac{\Omega_0}{1+\Omega_0} \:,\qquad
+	a_{01} = -\frac{2c}{1+\Omega_0} \:,\qquad
 	a_{02} = \frac{1-\Omega_0}{1+\Omega_0}
 \end{align*}
 
-Each filter section has zeros at $z=\pm 1$, i.e. $\omega=0$ and $\omega=\pi$. 
+Each filter section has zeros at $z=\pm 1$, i.e. $\omega=0$ and $\omega=\pi$.
 The left and the right 3dB frequencies $\omega_{0a}$ and $\omega_{0b}$ can be
 calculated by
 \begin{equation*}
@@ -333,7 +334,7 @@ calculated by
 	\tan\left(\frac{\omega_{0b}}{2}\right) = \frac{\sqrt{\Omega_0^2+1-c^2}+\Omega_0}{1+c}
 \end{equation*}
 
-\subsubsection{Digital Bandstop Filters\buchSeite{611ff}}
+\subsubsection{Digital Bandstop Filters\buchSeite{611}}
 The design of digital bandstop filters is similar to that of digital
 bandpass filters.
 
@@ -357,7 +358,7 @@ The bilinear transform of the second order sections is then
 	a_{i3} &= \frac{4c\Omega_0(\cos\theta_i+\Omega_0)}{1-2\Omega_0\cos\theta_i+\Omega_0^2} \qquad
 	a_{i4} = \frac{1+2\Omega_0\cos\theta_i+\Omega_0^2}{1-2\Omega_0\cos\theta_i+\Omega_0^2} \\
 	\text{and} \\
-	H_0(z) &= \frac{g_0(1-2cz^{-1}+z^{-2})}{1+a_{01}z^{-1}+a_{02}z^{-2}} \qquad \text{where} \\
+	H_0(z) &= \frac{G_0(1-2cz^{-1}+z^{-2})}{1+a_{01}z^{-1}+a_{02}z^{-2}} \qquad \text{where} \\
 	G_0 &= \frac{\Omega_0}{1+\Omega_0}\:,\qquad
 	a_{01} = -\frac{2c\Omega_0}{1+\Omega_0} \:,\qquad
 	a_{02} = -\frac{1-\Omega_0}{1+\Omega_0}
@@ -367,5 +368,6 @@ Each second order section has zeros at $\omega = \pm \omega_c$,  which makes
 sense for a bandstop filter. The 3dB frequencies are now
 \begin{equation*}
 	\tan\left(\frac{\omega_{0a}}{2}\right) = \frac{\sqrt{1+\Omega_0^2(1-c^2)}-1}{\Omega_0(1+c)}
+  \qquad \text{and} \qquad
 	\tan\left(\frac{\omega_{0b}}{2}\right) = \frac{\sqrt{1+\Omega_0^2(1-c^2)}+1}{\Omega_0(1+c)}
 \end{equation*}

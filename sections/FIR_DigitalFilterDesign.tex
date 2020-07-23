@@ -1,7 +1,8 @@
+%!TEX root = ../DigSig2.tex
 \section{FIR Digital Filter Design\buch{Chapter 10}}
 
-\subsection{Windowing Methods}
-\subsubsection{Ideal Filters}
+\subsection{Window Method\buchSeite{532-541}}
+\subsubsection{Ideal Filters\buchSeite{532-534}}
 Ideal frequency responses (Fig. \ref{fig:freqresp}) are transformed into infinite impulse responses $d(k)$ (eq: \ref{eq:impresp}), which are then made finite using a particular window.
 
 \begin{figure}[htp]
@@ -27,7 +28,7 @@ Ideal frequency responses (Fig. \ref{fig:freqresp}) are transformed into infinit
 (-3.14,1) (-2.001,1) (-1.999,0) (-1.001,0) (-0.999,1)
 (0.999,1) ( 1.001,0) ( 1.999,0) ( 2.001,1) ( 3.14,1)};}
 \input{tikz/bpbs.tex}
-\caption{Bandpass}
+\caption{Bandstop}
 \end{subfigure}
 \begin{subfigure}{0.49\textwidth}
 \centering
@@ -35,7 +36,7 @@ Ideal frequency responses (Fig. \ref{fig:freqresp}) are transformed into infinit
 (-3.14,0) (-2.001,0) (-1.999,1) (-1.001,1) (-0.999,0)
 (0.999,0) (1.001,1) (1.999,1) (2.001,0) ( 3.14,0)};}
 \input{tikz/bpbs.tex}
-\caption{Bandstop}
+\caption{Bandpass}
 \end{subfigure}
 
 \begin{subfigure}{0.49\textwidth}
@@ -51,7 +52,7 @@ Ideal frequency responses (Fig. \ref{fig:freqresp}) are transformed into infinit
 \caption{Hilbert transformer}
 \end{subfigure}
 
-\caption{Ideal frequency responses\buchSeite{532}}
+\caption{Ideal frequency responses\buchSeite{533}}
 \label{fig:freqresp}
 \end{figure}
 
@@ -69,7 +70,7 @@ d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi} \label{eq:im
 &\text{Hilbert transformer} && d(k) = \frac{1-\cos(\pi k)}{\pi k}
 \end{align*}
 
-Note that the highpass / lowpass filters and the bandpass / bandstop 
+Note that the highpass / lowpass filters and the bandpass / bandstop
 filters are complementary:
 \begin{align*}
 	d_{LP}(k) + d_{HP}(k) &= \delta(k) \qquad \Leftrightarrow \qquad D_{LP}(\omega) + D_{HP}(\omega) = 1 \\
@@ -77,7 +78,7 @@ filters are complementary:
 \end{align*}
 
 The frequency responses of the differentiator and the Hilbert transformers
-are both imaginary and odd, while the other frequency responses were real
+are both imaginary and odd, while the other frequency responses are real
 and even. The impulse responses of the differentiator and the Hilbert
 transformer are therefore real and odd.
 
@@ -100,12 +101,12 @@ transformer are therefore real and odd.
 \begin{multicols}{2}
 	\begin{itemize}
 		\item Simplest window, Length $N = 2M+1$
-		\item truncate the infinite impulse response: \\ $-M < k < M$
-		\item $\rightarrow d = [d_{-M}, ..., d_{-1}, d_0, d_1, ..., d_M]$
-		\item The resulting FIR Filter must be delayed by M samples \newline
-		$\rightarrow h = d = [h_0, h_{M-1}, h_M, h_{M+1}, ..., h_{2M}]$
+		\item truncate the infinite impulse response: \\ $-M \leq k \leq M$
+		\item $\rightarrow \mathbf{d} = [d_{-M}, ..., d_{-1}, d_0, d_1, ..., d_M]$
+		\item The resulting causal FIR Filter must be delayed by M samples \newline
+		$\rightarrow \mathbf{h} = \mathbf{d} = [h_0, h_{M-1}, h_M, h_{M+1}, ..., h_{2M}]$
 	\end{itemize}
-	
+
 	\begin{center}
 		\input{tikz/rectwindow.tex}
 	\end{center}
@@ -158,11 +159,12 @@ are controlled by two parameters. \\
 						\frac{A-7.95}{14.36}& \quad \text{if } A>21\\
 						0.922 & \quad \text{if } A \leq 21
 					\end{array} \right. $\\ \hline
-	window function & $w(n)=\frac{I_0(\alpha\sqrt{1-(n-M)^2/M2})}{I_0(\alpha)}=\frac{I_0(\alpha\sqrt{n(2M-n)}/M)}{I_0(\alpha)},$ \\
+	window function & $w(n)=\frac{I_0(\alpha\sqrt{1-(n-M)^2/M^2})}{I_0(\alpha)}=\frac{I_0(\alpha\sqrt{n(2M-n)}/M)}{I_0(\alpha)},$ \\
 	& $I_0=\text{modified Bessel function of the first kind and 0th order.}$\\
-	\hline						  
+	\hline
 \end{tabular}
-\subsubsection{Design steps for a lowpass filter with Kaiser Window\buchSeite{545}}
+
+\paragraph{Design steps for a lowpass filter with Kaiser Window\buchSeite{544}}
 \begin{enumerate}
 \item Calculate $f_c$, $\Delta f$ and $\omega_c$.
 \item Calculate $\delta_{pass}$ and $\delta_{stop}$.
@@ -182,9 +184,9 @@ The role of $f_{pass}$ and $f_{stop}$ are interchanged, therefore $\Delta f = f_
 \begin{center}
 	\includegraphics[width=8cm]{images/FIR_KaiserBP.jpg}
 \end{center}
-The final filter design will have equal transition widths, therefore 
-$\Delta f = \min(\Delta f_a, \Delta f_b)$ with $\Delta f_a=f_{pa}-f_{sa}$ 
-and $\Delta f_b=f_{pb}-f_{sb}$.
+The final filter design will have equal transition widths, therefore
+$\Delta f = \min(\Delta f_a, \Delta f_b)$ with $\Delta f_a=f_{pa}-f_{sa}$
+and $\Delta f_b=f_{sb}-f_{pb}$.
 Since the transition widths are different, one can select $f_a$ and $f_b$ either
 with focus on the passband (standard), or with focus on the stop band:
 \begin{align*}
@@ -192,13 +194,13 @@ with focus on the passband (standard), or with focus on the stop band:
 	f_a &= f_{sa} + \frac{1}{2} \Delta f \:, \qquad f_b = f_{sb} - \frac{1}{2} \Delta f \qquad \text{focus on stop band}
 \end{align*}
 
-\subsubsection{Kaiser Window for Spectral Analysis\buchSeite{555ff}}
+\subsubsection{Kaiser Window for Spectral Analysis\buchSeite{555}}
 The Kaiser window can of course be used for spectral analysis (DFT, FFT). As it
 has a variable shape, the factor $c$ can be varied. For a given side lobe level
 $R$, the factor $c$ can be calculated as
 \begin{equation*}
 	c = \frac{6 \left(R + 12\right)}{155}
-\end{equation*} 
+\end{equation*}
 The shape parameter $\alpha$ of the Kaiser window is calculated by
 \begin{equation*}
 	\alpha = \begin{cases}
@@ -210,8 +212,8 @@ The shape parameter $\alpha$ of the Kaiser window is calculated by
 
 \subsection{Frequency Sampling Method\buchSeite{558}}
 For an arbitrary frequency response $D(\omega)$, the inverse DTFT cannot
-be given by the integral 
-$d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi}$ 
+be given by the integral
+$d(k) = \int_{-\pi}^{\pi}D(\omega) e^{j\omega k}\frac{d\omega}{2\pi}$
 from equ. \ref{eq:impresp}. Therefore this integral is approximated by the
 following sum
 \begin{equation*}

@@ -1,3 +1,4 @@
+%!TEX root = ../DigSig2.tex
 \section{DFT/FFT Algorithms\buch{Chapter 9}}
 
 \subsection{Basics}
@@ -14,8 +15,8 @@
 \subsection{Frequency Resolution and Windowing\buchSeite{464-472}}
 
 Given an infinite sampled sequence $x(nT)$, to calculate its spectrum a finite
-number of samples $L$ has to be cut out using a window function $w(n)$. 
-At the sampling time interval $T = 1/f_s$, the duration of the data record 
+number of samples $L$ has to be cut out using a window function $w(n)$.
+At the sampling time interval $T = 1/f_s$, the duration of the data record
 is $T_L = LT$. \\
 
 The finite signal $x_L$ is achieved by
@@ -30,7 +31,7 @@ using one of the below defined window functions. \\
 			1, & \text{if} \: 0 \leq n \leq L-1 \\
 			0, & \text{otherwise}
 		\end{cases}
-	\end{equation*}	
+	\end{equation*}
 
 \paragraph{Hamming Window}
 	\begin{equation*}
@@ -68,7 +69,7 @@ For a given frequency resolution, the window length is therefore
 	L \geq c \cdot \frac{f_s}{\Delta f} = c \cdot \frac{2 \pi}{\Delta \omega}
 \end{equation*}
 
-\subsection{DTFT Computation}
+\subsection{DTFT Computation\buchSeite{475-482}}
 
 \subsubsection{DTFT at a Single Frequency\buchSeite{475-477}}
 \begin{align*}
@@ -78,10 +79,11 @@ X(\omega) & = \sum_{n=0}^{L-1}x(n)e^{-j\omega n}
 \end{align*}
 
 This polynom can be evaluated using \emph{Hörner's rule}:
-\begin{lstlisting}[style=C,frame=none,numbers=none]	
+\begin{lstlisting}[mathescape]
+for $\text{each complex}$ z do:
 	X = 0
-	for n=L-1 down to n=0 do:
-	  X = x_n + z^-1 X	
+	for n = L-1 down to n = 0 do:
+	  X = x$_n$ + z$^{-1}$X
 \end{lstlisting}
 for example, let $L=4$:
 \begin{align*}
@@ -95,7 +97,7 @@ for example, let $L=4$:
 \subsubsection{DFT\buchSeite{479-481}}
 The $N$-point DFT of a length-$L$ signal is defined as the DTFT evaluated
 at $N$ equally spaced frequencies over the full Nyquist interval,
-$0 \leq \omega \leq 2 \pi$. These frequencies are 
+$0 \leq \omega \leq 2 \pi$. These frequencies are
 \begin{equation*}
 	\omega_k = \frac{2 \pi k}{N}\:, \qquad f_k = \frac{k f_s}{N} \:,\qquad k=0,1,\ldots,N-1
 \end{equation*}
@@ -119,27 +121,27 @@ The bin width is then
 \end{equation*}
 
 
-\subsubsection{Zero Padding\buchSeite{482}}
+\subsubsection{Zero Padding\buchSeite{481}}
 Note that $L$ is the number of time moments and $N$ is the number of
 frequency points. Mostly $L=N$ is used. For $L<N$, zero padding can be used
 to make the time sequence longer. For $L>N$, a modulo-N wrapping can be
 used to make the time sequence shorter. \\
 
-Adding any number of zeros to the end of a signal does \emph{not} change its DFT!
+Adding any number of zeros to the end of a signal does \emph{not} change its DTFT!
 \begin{align*}
-	x &= [x_0,x_1,\ldots,x_{L-1}] \\
-	x_D &= [x_0,x_1,\ldots,x_{L-1},\underbrace{0,0,\ldots,0}_{D \text{ zeros}}] \\
-	x_D(\omega_k) &= X(\omega_k)
+	\mathbf{x} &= [x_0,x_1,\ldots,x_{L-1}] \\
+	\mathbf{x}_D &= [x_0,x_1,\ldots,x_{L-1},\underbrace{0,0,\ldots,0}_{D \text{ zeros}}] \\
+	X_D(\omega_k) &= X(\omega_k)
 \end{align*}
 
 Adding zeros in front adds a linear phase term.
 \begin{align*}
-	x &= [x_0,x_1,\ldots,x_{L-1}] \\
-	x_D &= [\underbrace{0,0,\ldots,0}_{D \text{ zeros}},x_0,x_1,\ldots,x_{L-1}] \\
-	x_D(\omega_k) &= e^{-j \omega_k D} X(\omega_k)
+	\mathbf{x} &= [x_0,x_1,\ldots,x_{L-1}] \\
+	\mathbf{x}_D &= [\underbrace{0,0,\ldots,0}_{D \text{ zeros}},x_0,x_1,\ldots,x_{L-1}] \\
+	X_D(\omega_k) &= e^{-j \omega_k D} X(\omega_k)
 \end{align*}
 
-\subsection{Physical vs Computional Resolution\buchSeite{482-485}}
+\subsection{Physical vs Computational Resolution\buchSeite{482-485}}
 
 \emph{Physical} frequency resolution is defined as
 \begin{equation*}
@@ -169,7 +171,7 @@ of the DTFT.
 
 
 \subsection{Matrix Form of DFT\buchSeite{486-488}}
-The DFT can be defined as linear matrix transformation
+The DFT can be defined as a linear matrix transformation
 
 \begin{equation*}
 	\mathbf{X} = \DFT(\mathbf{x}) = A \mathbf{x}
@@ -183,7 +185,7 @@ The matrix $A$ for a $N$-point DFT can be built using the so-called
 
 The matrix elements $A_{kn}$ are found using the definition
 \begin{equation*}
-	A_{kn} = W_N^kn
+	A_{kn} = W_N^{kn}
 \end{equation*}
 
 The powers of the twiddle factors are the $N$-th roots of unity:
@@ -196,22 +198,22 @@ Some examples of twiddle factors and DFT matrices (see appendix
 
 \begin{align*}
 	W_2 &= e^{-2\pi j / 2} = -1 \\
-	W_4 &= e^{-2\pi j / 4} = \cos(\pi/2) - j\sin(\pi/2) = -j \\ 
+	W_4 &= e^{-2\pi j / 4} = \cos(\pi/2) - j\sin(\pi/2) = -j \\
 	W_8 &= e^{-2\pi j / 8} = \cos(\pi/4) - j\sin(\pi/4) = \frac{1-j}{\sqrt{2}}
 \end{align*}
 
 \begin{align*}
-	A_2 &= 
+	A_2 &=
 		\begin{bmatrix}
 			1& 1 \\
 			1& W_2 \\
 		\end{bmatrix}
-		&&= 
+		&&=
 		\begin{bmatrix}
 			1& 1 \\
 			1& -1 \\
 		\end{bmatrix}	 \\
-	A_4 &= 
+	A_4 &=
 		\begin{bmatrix}
 			1& 1& 1& 1 \\
 			1& W_4& W_4^2& W_4^3 \\
@@ -284,14 +286,14 @@ The inverse DFT is thus defined as
 	\tilde{\mathbf{x}} = \text{IDFT}(\mathbf{X}) = \tilde{A}^{-1} \mathbf{X}
 \end{equation*}
 
-As $\frac{1}{N} \tilde{A} \tilde{A^*} = I_N$, the inverse of the matrix 
-$\tilde{A}$ can be obtained by $\tilde{A}^{-1} = \frac{1}{N} \tilde{A}^*$, 
+As $\frac{1}{N} \tilde{A} \tilde{A^*} = I_N$, the inverse of the matrix
+$\tilde{A}$ can be obtained by $\tilde{A}^{-1} = \frac{1}{N} \tilde{A}^*$,
 which leads to the definition
 \begin{equation*}
 	\tilde{\mathbf{x}} = \text{IDFT}(\mathbf{X}) = \frac{1}{N} \tilde{A}^* \mathbf{X} = \frac{1}{N}\left[ \DFT(\mathbf{X}^*) \right] ^*
 \end{equation*}
 
-\subsection{FFT\buchSeite{504-511}}
+\subsection{FFT\buchSeite{504-515}}
 The fast Fourier transform (FFT) is a fast implementation of the DFT.
 Not an approximation! \\
 
@@ -335,15 +337,15 @@ of the DFT and the fact that the twiddling factor $W_N^{N/2} = -1$:
 
 or more easily shown in a vector form:
 \begin{align*}
-	\begin{bmatrix}	X_0 \\ X_1 \\ \vdots \\ X_{N/2-1} \end{bmatrix} &= 
-	\begin{bmatrix}	G_0 \\ G_1 \\ \vdots \\ X_{G/2-1} \end{bmatrix} + 
-	\begin{bmatrix}	H_0 \\ H_1 \\ \vdots \\ X_{H/2-1} \end{bmatrix} \times
+	\begin{bmatrix}	X_0 \\ X_1 \\ \vdots \\ X_{N/2-1} \end{bmatrix} &=
+	\begin{bmatrix}	G_0 \\ G_1 \\ \vdots \\ G_{N/2-1} \end{bmatrix} +
+	\begin{bmatrix}	H_0 \\ H_1 \\ \vdots \\ H_{N/2-1} \end{bmatrix} \times
 	\begin{bmatrix}	W^0_N \\ W^1_N \\ \vdots \\ W^{N/2-1}_N \end{bmatrix}
 	\\
-	\begin{bmatrix}	X_{N/2} \\ X_{N/2+1} \\ \vdots \\ X_{N-1} \end{bmatrix} &= 
-	\begin{bmatrix}	G_0 \\ G_1 \\ \vdots \\ X_{G/2-1} \end{bmatrix} -
-	\begin{bmatrix}	H_0 \\ H_1 \\ \vdots \\ X_{H/2-1} \end{bmatrix} \times
-	\begin{bmatrix}	W^0_N \\ W^1_N \\ \vdots \\ W^{N/2-1}_N \end{bmatrix}	
+	\begin{bmatrix}	X_{N/2} \\ X_{N/2+1} \\ \vdots \\ X_{N-1} \end{bmatrix} &=
+	\begin{bmatrix}	G_0 \\ G_1 \\ \vdots \\ G_{N/2-1} \end{bmatrix} -
+	\begin{bmatrix}	H_0 \\ H_1 \\ \vdots \\ H_{N/2-1} \end{bmatrix} \times
+	\begin{bmatrix}	W^0_N \\ W^1_N \\ \vdots \\ W^{N/2-1}_N \end{bmatrix}
 \end{align*}
 
 or even graphically:
@@ -363,11 +365,11 @@ the same effect as binary reversing the input.
 	\includegraphics[width=0.8\linewidth]{images/DFT_FFT_shuffling.jpg}
 \end{center}
 
-\subsection{Fast Convolution}
-\subsubsection{Circular Convolution\buchSeite{516-518}}
+\subsection{Fast Convolution\buchSeite{515-523}}
+\subsubsection{Circular Convolution\buchSeite{515-520}}
 
 \begin{equation*}
-	\mathbf{y} = \mathbf{h} \ast \mathbf{y} \quad\Leftrightarrow\quad Y(\omega) = H(\omega) X(\omega)
+	\mathbf{y} = \mathbf{h} \ast \mathbf{x} \quad\Leftrightarrow\quad Y(\omega) = H(\omega) X(\omega)
 \end{equation*}
 
 This can also be achieved by using the DFT:
@@ -377,17 +379,17 @@ This can also be achieved by using the DFT:
 
 But: the length $L_y$ of the convolution of a length $L$ and a length $M$
 input is $L_y = L + M$. To prevent a \emph{circular convolution}, the
-input vectors have to be zero-padded to a length of 
+input vectors have to be zero-padded to a length of
 \begin{equation*}
 	N \geq L_y = L+M
 \end{equation*}
 
-\subsubsection{Overlap-Add and Overlap-Save Methods\buchSeite{520-522}}
+\subsubsection{Overlap-Add and Overlap-Save Methods\buchSeite{520-523}}
 
 \paragraph{Overlap-Add}
 If the input signal $\mathbf{x}$ is of infinite length, no zero-padding
-is possible. Then the input is divided into blocks 
-$\mathbf{x}_0, \mathbf{x}_1, \ldots$ which are processed separately. 
+is possible. Then the input is divided into blocks
+$\mathbf{x}_0, \mathbf{x}_1, \ldots$ which are processed separately.
 The FFT length $N$ is of course $N \geq L+M$. As $M$ is saved and added
 to the next result, no wraparound occurs.
 
