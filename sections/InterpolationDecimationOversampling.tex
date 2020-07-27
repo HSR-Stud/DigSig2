@@ -332,7 +332,7 @@ operates at the high frequencies and cuts out the low rate Nyquist band.
 \end{center}
 
 The decimation filter is similar to the interpolation filter, except that
-it's DC gain is unity instead of $L$. A length-$N$ FIR decimation filter
+its DC gain is unity instead of $L$. A length-$N$ FIR decimation filter
 can therefore be obtained by
 
 \begin{equation*}
@@ -387,6 +387,15 @@ The transfer functions for the input $X$ and the noise $NS$ will then be
 \end{equation*}
 
 or for higher orders $p$: $H_{NS}(\zeta) = (1-\zeta^{-1})^p$. \\
+
+The MSE is obtained by
+\begin{equation*}
+  \sigma_e^2 = \sigma_{e'}^2 \frac{1}{f_s^{'}} \int_{-f_s/2}^{f_s/2} |H_{NS}(f)|^2 df
+\end{equation*}
+with $f_s^{'} = L f_s$ and
+\begin{equation*}
+  |H_{NS}(f)|^2 = |2 \sin(\frac{\pi f}{f_s^{'}})|^{2p}
+\end{equation*}
 
 This leads to the known relationship of
 
