@@ -283,7 +283,7 @@ The Hamming windowed version is obtained by multiplying the high-rate 17 sample 
 \end{equation*}
 The resulting magnitude response shows, that the rectangular filter is steeper, at the high cost of 8.9\% overshoot, which the Hamming window version doesn't have.\\
 
-For a block diagram realization of the polyphase form , recall these two relationships:
+For a block diagram realization of the polyphase form, recall these two relationships:
 \begin{align*}
   Y_{\text{up}}(\xi) &= \sum_{i=0}^{L-1}\xi^{-1}Y_i(\xi^L) = \sum_{i=0}^{L-1}z^{-i/L}Y_i(z) \\
   D(\xi) &= \sum_{i=0}^{L-1}\xi^{-1}D_i(\xi^L) = \sum_{i=0}^{L-1}z^{-i/L}D_i(z)
